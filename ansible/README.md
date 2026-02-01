@@ -12,6 +12,8 @@ Some actions require sudo (`become: true`), so you may need to setup a
 privileged user that is not prompted a password when using sudo
 (modify the `/etc/sudoers` file).
 
+You should be able to install ansible via your packet manager.
+
 To run a playbook:
 
 ```bash
