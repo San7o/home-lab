@@ -1,12 +1,14 @@
-This is a quick reference to show you the commands
-for setting a static ip on two computers connected
-via ethernet so that they can communicate.
+static ip over ethernet
+=======================
 
-First we need to add an ip to both machines. You need
-to know the name of your ethernet interface, you can
-use a command line `ifconfig`. Here we use `eno1` as
-the ethernet interface name. Note that both machine
-need to use the same network (same netid and netmask).
+This is a quick reference to show you the commands for setting a
+static ip on two computers connected via ethernet so that they can
+communicate.
+
+First we need to add an ip to both machines. You need to know the name
+of your ethernet interface, you can use a command line `ifconfig`;
+here we use `eno1` as the ethernet interface name. Note that both
+machine need to use the same network (same netid and netmask).
 
 Machine1:
 

@@ -1,0 +1,14 @@
+docker commands
+===============
+
+Delete all containers, including their volumes:
+
+   docker rm -vf $(docker ps -aq)
+
+Remove all images (after removing the containers):
+
+   docker rmi -f $(docker images -aq)
+
+Disable automatic restart of a container:
+
+   docker update --restart=no <MY-CONTAINER-ID>
