@@ -1,0 +1,25 @@
+- name: Set some services up
+  hosts: lab
+  become: true
+  tasks:
+    - name: Ensure Prometheus is running
+      systemd:
+        name: prometheus
+        state: started
+        enabled: yes
+      tags:
+        - prometheus
+    - name: Ensure Node Exporter is running
+      systemd:
+        name: node_exporter
+        state: started
+        enabled: yes
+      tags:
+        - node-exporter
+    - name: Ensure Grafana is running
+      systemd:
+        name: grafana-server
+        state: started
+        enabled: yes
+      tags:
+        - grafana

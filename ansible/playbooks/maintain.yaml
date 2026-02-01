@@ -1,0 +1,10 @@
+- name: Maintain nodes
+  hosts: lab
+  become: true
+  tasks:
+    - name: Update and upgrade all packages
+      package:
+        name: "*"
+        state: latest
+      tags:
+        - update

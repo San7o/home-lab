@@ -1,9 +1,10 @@
-- name: My first play
+- name: Ping test
   hosts: lab
   tasks:
     - name: Ping my hosts
       ansible.builtin.ping:
+      tags: ping
 
     - name: Print message
       ansible.builtin.debug:
-        msg: Hello WOrld
+        msg: Hello World
