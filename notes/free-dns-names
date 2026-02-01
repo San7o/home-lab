@@ -1,0 +1,9 @@
+free DNS names
+==============
+
+To reduce the likelihood of conflict and confusion, a few top level
+domain names are reserved for use in private testing, as examples in
+documentation, and the like.  In addition, a few second level domain
+names reserved for use as examples are documented.
+
+https://datatracker.ietf.org/doc/html/rfc2606
