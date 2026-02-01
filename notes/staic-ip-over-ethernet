@@ -1,0 +1,38 @@
+This is a quick reference to show you the commands
+for setting a static ip on two computers connected
+via ethernet so that they can communicate.
+
+First we need to add an ip to both machines. You need
+to know the name of your ethernet interface, you can
+use a command line `ifconfig`. Here we use `eno1` as
+the ethernet interface name. Note that both machine
+need to use the same network (same netid and netmask).
+
+Machine1:
+
+    sudo ip addr add 192.168.0.2/16 dev eno1
+
+Machine2:
+
+    sudo ip addr add 192.168.0.3/16 dev eno1
+
+If you run `ifconfig` you should see the ip address
+assigned to the ethernet interface.
+
+Next we create a route from Machine 1 to Machine 2
+
+    sudo ip route add 192.168.0.3 dev eno1 via 0.0.0.0
+
+This way we can can ping Machine 3:
+
+    ping -I eno1 192.168.0.3
+
+That's it. You can see a list of the configured routes
+with:
+
+    ip route
+
+Here is an example on how to use scp to copy files over ssh:
+
+  scp machine1@localhost:/some/path/ machine2@192.168.0.3:/your/path/
+
