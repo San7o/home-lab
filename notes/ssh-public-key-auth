@@ -1,8 +1,5 @@
-ssh-notes
-=========
-
-public key authentication
--------------------------
+ssh public key authentication
+=============================
 
 Generate a public/private key pair for ssh:
 

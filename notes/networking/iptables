@@ -1,0 +1,72 @@
+iptables
+========
+
+Note that iptables is now largely considered legacy, in favour
+of nftables. 
+
+iptables works with the following concepts:
+
+- tables: goup of similar rules, a table consists of several
+  rule chains.
+- chains: a chain is a list of rules. When a packet is received,
+  iptables finds the appropriate table and filters it through
+  the rule chain until a match is found.
+- rules: a rule is a statement that defines the conditions for
+  matching a packet, which is then sent to a target
+- targets: a decision of what to do with a packet. The packet
+  is either accepted, dropped, or rejected.
+
+
+Tables
+------
+
+Iptables has four default tables that manage different rule chains:
+
+- filter: default packet filtering table. It acts as a gatekeeper
+  that decides which packets enter and leave a network.
+- NAT: network address translation rules for routing packets to
+  remote networks.
+- mangle: adjust the IP header properties of packets
+- raw: exempts packets from connection tracking
+
+
+Chains
+------
+
+There are different chains, each with a specific purpose:
+
+- INPUT: handles incoming packets destined for a local pllication
+  service.
+- OUTPUT: manages outgoing packets generated on a local application
+  or service.
+- FORWARD: works with packets that pass through the system between
+  network interfaces.
+- PREROUTING: alters packets before they are routed. The NAT, mangle
+  and raw tables contain this chain.
+- POSTROUTING: alters packets after they are routed. The NAT and
+  mangle tables contain this chain.
+
+
+Targets
+-------
+
+Common targets include ACCEPT, DROP, REJECT, LOG, SNAT, DNAT,
+MASQUERADE.
+
+
+For example, here is how to allow traffic over port 22 and disable
+all the rest:
+
+```
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -j DROP
+```
+
+For ipv6, we use the utility `ip6tables` instead.
+
+To clear all rules:
+
+```
+iptables -F
+ip6tables -F
+```
