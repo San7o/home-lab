@@ -1,0 +1,180 @@
+SELinux
+=======
+
+SELinux is a Linux Security Module that implements fine-grained
+Mandatory Access Control (MAC) on top of UNIX permisisons.
+
+
+SELinux state
+-------------
+
+SELinux can be enabled or disabled; when enabled, it can either be in
+enforcing or permissive mode. When in permissive mode, the system acts
+as if SELinux is enforcing the loaded security policty, but does not
+actually deny any operations.
+
+Use `getenforce` or `sestatus` to check if SELinux is being enforced.
+
+```
+sestatus
+```
+
+Disable / Enable SELinux:
+
+```
+sudo setenforce 0
+sudo setenforce 1
+```
+
+You can also set this on boot with the kernel parameter `enforcing=0`
+or `enforcing=1`.
+
+On docker volumes, you may have to add :z or :Z after each module
+to make them accessible from inside the container when SELinux is
+enforcing.
+
+The configuration file is located in `/etc/selinux/config`
+
+When enabling SELinux on systems that previously had it disabled,
+SELinux automatically relables file systems when changing to
+enforcing mode. To ensure this, run:
+
+```
+fixfiles -F onboot
+```
+
+
+Users, roles and types
+----------------------
+
+SELinux contexts have several fields: user, role, type and security
+level.
+
+Types end with `_t`, for example the type name for the web
+server is `httpd_t`, the type context for file and directories
+normally found in `/var/www/html` is `httpd_sys_content_t` and the
+type contexts for files and directories normally found in `/tmp`
+and `/var/tmp` is `tmp_t`. The tye context for web server ports
+is `http_port_t`.
+
+To list the available SELinux users:
+
+```
+sudo seinfo -u
+```
+
+To list the available SELinux roles
+
+```
+sudo seinfo -r
+```
+
+For example:
+
+- `guest_r`: has very limited permissions. Users assigned to this role
+  cannot access the network, but can execute files in the `/tmp` and
+  `/home` directories.
+- `xguest_r`: has limited permissions. Users assigned to this role can
+  log into X Window, access web pages by using network browsers, and
+  access media. They can also execute files in the `/tmp` and `/home`
+  directories.
+- `user_r`: Had non-root privileged access with full user permissions.
+- `staff_r`: Similar to `user_r` ad additional privileges. In particular,
+  users assigned to this role are allowed to run `sudo`.
+
+The following are "confined administrator" roles:
+
+- `auditadm_r`: Allows managing processes related to the Audit sybsystem.
+- `dbadm_r`: Allows managing MariaDB and PostgreSQL databases.
+- `logadm_r`: allows managing logs (Rsyslog and Audit)
+- `webadm_r`: allows managing the Apache HTTP server
+- `secadm_r`: security administrator, allows managing the SELinux database
+- `sysadmin_r`: do basically everything of the above and more.
+
+
+Creatign a new user
+-------------------
+
+To add a role to a new user, create it like this:
+
+```
+useradd -Z staff_u <example_user>
+passwd <example_user>
+sud <example_user>
+id -Z
+```
+
+To see the SELinux user mapping on your system, use:
+
+```
+$ sudo semanage login -l
+Login Name           SELinux User         MLS/MCS Range        Service
+ 
+__default__          unconfined_u         s0-s0:c0.c1023       *
+root                 unconfined_u         s0-s0:c0.c1023       *
+```
+
+In general, you can use the `semanage` tool to interact with the
+policies. Check the man pages for usage.
+
+
+Policies
+--------
+
+You can change parts of SELinux policy at runtime using booleans.
+
+To list all the boolean options, run:
+
+```
+semanage boolean -l
+```
+
+To list the current state of the boolean:
+
+```
+getsebool -a
+```
+
+
+After making changes, you need to relable a directory (optionally
+recursively).
+
+```
+restorecon -Rv <dir>
+```
+
+
+Writing a policy
+----------------
+
+
+An SELinux security policy is a collection of SELinux rules.
+For example:
+
+```
+ALLOW apache_process apache_log:FILE READ;
+```
+
+Meaning: The Apache process can read its logging file.
+
+
+Debug
+-----
+
+Read SELinux logs:
+
+```
+sudo ausearch -m AVC -ts today
+```
+
+For more detauled information:
+
+```
+sealert -l "*"
+```
+
+If auditd is running:
+
+```
+journalctl -t setroubleshoot
+```

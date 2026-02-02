@@ -1,0 +1,5 @@
+mydaemon
+mydaemon.pp
+mydaemon_selinux*
+noarch
+tmp

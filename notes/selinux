@@ -1,9 +1,0 @@
-SELinux
-=======
-
-Disable / Enable SELinux:
-
-sudo setenforce 0
-sudo setenforce 1
-
-On docker volumes, you may have to add :z or :Z after each module

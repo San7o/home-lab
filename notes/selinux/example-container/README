@@ -1,0 +1,39 @@
+Container example
+=================
+
+In this example we will use `udica` to generate a security policy
+tailored to a specific container based on its configuration.
+
+Run a container with podman:
+
+```
+podman run --env container=podman -v /home:/home:ro -v /var/spool:/var/spool:rw -p 21:21 -it ubi8 bash
+```
+
+Pass the container information to udica:
+
+```
+podman ps
+podman inspect 37a3635afb8f > container.json
+udica -j container.json my_container
+```
+
+The output will tell you precisely your next instructions.
+For this example, load the policy module with this command:
+
+```
+semodule -i my_container.cil /usr/share/udica/templates/{base_container.cil,net_container.cil,home_container.cil}
+```
+
+Restart podman and run it with the right security label:
+
+```
+podman stop 37a3635afb8f
+podman run --security-opt label=type:my_container.process -v /home:/home:ro -v /var/spool:/var/spool:rw -p 21:21 -it ubi8 bash
+```
+
+Check that the container is running with the label:
+
+```
+ps -efZ | grep my_container.process
+```
