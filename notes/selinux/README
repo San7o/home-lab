@@ -4,6 +4,9 @@ SELinux
 SELinux is a Linux Security Module that implements fine-grained
 Mandatory Access Control (MAC) on top of UNIX permisisons.
 
+The RedHat wiki has good documentation for SELinux, here is a
+summary edited by me.
+
 
 SELinux state
 -------------
@@ -156,6 +159,16 @@ ALLOW apache_process apache_log:FILE READ;
 ```
 
 Meaning: The Apache process can read its logging file.
+
+The Gentoo wiki has nice documentation for writing a policy,
+you can also see the `example-*` directories under this one,
+which use various types of generators to help with boilerplate.
+
+Broadly, policies are written in `.te` files, with optional
+`.fc` and `.if` files. They are built using a makefile provided
+by some distribution and can be loaded with the `seamodule`
+utility, generating a loadable `.pp` file. While developing
+a policy, you usually use interefaces provided by other modules.
 
 
 Debug
