@@ -84,3 +84,44 @@ Reload the firewall after making changes:
 ```
 sudo firewall-cmd --reload
 ```
+
+
+Rich rules
+----------
+
+You can have more control on the firewall with rich rules.
+
+For example. here is a rule to block an IP and log the attempts:
+
+```
+sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="203.0.113.5" drop'
+```
+
+Allow ssh, but if someone tries to connect more than 3 times per minute,
+stop listening to them:
+
+```
+sudo firewall-cmd --permanent --add-rich-rule='rule service name="ssh" nickname="stop_brute" limit value="3/m" accept'
+```
+
+Drop packets silently:
+
+```
+sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.0.2.1" drop'
+```
+
+
+IP-set
+------
+
+An IP set is a "bucket" of IP addresses, subnets or MAC addresses that
+firewalld treats as a single object.
+
+Example:
+
+```
+sudo firewall-cmd --permanent --new-ipset=denylist --type=hash:net
+firewall-cmd --permanent --ipset=denylist --add-entries-from-file=blocked_ips.txt
+sudo firewall-cmd --permanent --zone=public --add-rich-rule='rule source ipset="denylist" drop'
+sudo firewall-cmd --reload
+```
