@@ -89,6 +89,9 @@ winver
 # Powershell examples
 # -------------------
 
+# Command help
+Get-Help dir -detailed
+
 # Install latest Powershell (the one that is pre-installed is very old)
 winget install --id Microsoft.PowerShell --source winget
 
