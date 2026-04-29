@@ -34,9 +34,9 @@ font pango:monospace 8
 #font pango:DejaVu Sans Mono 8
 
 # Focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+i focus up
 bindsym $mod+l focus right
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
@@ -44,10 +44,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # Movement
-bindsym $mod+Ctrl+h move left
-bindsym $mod+Ctrl+j move down
-bindsym $mod+Ctrl+k move up
-bindsym $mod+Ctrl+l move right
+bindsym $mod+h move left
+bindsym $mod+u move down
+bindsym $mod+o move up
+bindsym $mod+Semicolon move right
 
 bindsym $mod+Ctrl+Left move left
 bindsym $mod+Ctrl+Down move down
@@ -55,10 +55,10 @@ bindsym $mod+Ctrl+Up move up
 bindsym $mod+Ctrl+Right move right
 
 # Resize
-bindsym $mod+Shift+j resize shrink height 10 px or 10 ppt
-bindsym $mod+Shift+k resize grow height 10 px or 10 ppt
-bindsym $mod+Shift+l resize shrink width 10 px or 10 ppt
-bindsym $mod+Shift+h resize grow width 10 px or 10 ppt
+bindsym $mod+Shift+k resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+i resize grow height 10 px or 10 ppt
+bindsym $mod+Shift+j resize shrink width 10 px or 10 ppt
+bindsym $mod+Shift+l resize grow width 10 px or 10 ppt
 
 bindsym $mod+Shift+Down resize shrink height 10 px or 10 ppt
 bindsym $mod+Shift+Up resize grow height 10 px or 10 ppt
