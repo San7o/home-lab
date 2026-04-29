@@ -1,0 +1,47 @@
+Linux Audio
+===========
+
+The Linux audio landscape is quite complex to navigate. You have
+multiple APIs that were created over the years. Notably:
+
+- ALSA: this is the lowest level API which the kernel exposes. It
+  is the least common denominator so it should be used as a last
+  fallback. It is both the kernel framework and a user-space library
+  (libasound). Its low level nature makes it difficult to use, for
+  example you can't have multiple applications playing at one
+  without a complex dmix setup.
+  
+- Jack: this API was made specifically for professionals in audio. It
+  provides low latency scheduling for both audio and MIDI data
+  between applications, so basically routing inputs to output. It
+  can be used with other APIs like ALSA, and it is implemented by
+  Pipewire for backwords compatibility.
+
+- Pulse: this is used to manage the desktop audio. For example, it
+  changes the output when you plug in headphones, or lowers the music
+  when a call comes is. This is the standard for Linux desktops.
+
+- Pipewire: its goal is to replace and be compatible with other sound
+  systems. You should use this now, it is compatible with both JACK
+  and PulseAudio.
+
+- PortAudio: a cross platform audio API
+
+- GStreamer: an advanced multimedia framework, built on top of the
+  other low level APIs.
+
+- Open Sound System: legacy Linux sound system, replaced by ALSA.
+
+- SDL3: another cross platform sound API
+
+
+Useful Commands
+---------------
+
+Manage pipewire inputs and outputs with:
+
+     pavucontrol
+
+Graph-based multimedia management:
+
+     qpwgraph
