@@ -15,7 +15,7 @@ CORE="git curl gcc clang"
 BROWSER=firefox-esr
 EDITOR="emacs neovim"
 WM="sway kitty dmenu"
-UTILS="gh brightnessctl xwayland network-manager pipewire pipewire-pulse pipewire-alsa wireplumber"
+UTILS="gh brightnessctl xwayland network-manager pipewire pipewire-pulse pipewire-alsa wireplumber alsa-utils pavucontrol"
 
 set -e
 
@@ -25,7 +25,11 @@ if [ "$USER" == "root" ]; then
 fi
 
 sudo usermod -aG sudo $USER
-sudo apt --fix-broken install $CORE $UTILS $WM $EDITOR $BROWSER
+sudo apt update
+sudo apt --fix-broken install
+sudo apt install $CORE $UTILS $WM $EDITOR $BROWSER
+
+sudo systemctl enable NetworkManager
 
 # Copy config files
 
@@ -35,4 +39,19 @@ cp -r * /home/$USER/.config
 # Install vimplug
 curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# Enable pipewire
+systemctl --user enable --now pipewire pipewire-pulse wireplumber
+
 echo "Done"
+
+# You should also add the following sources in /ets/apt/sources.list
+#
+#   deb http://deb.debian.org/debian/ trixie main
+#   deb-src http://deb.debian.org/debian/ trixie main
+#
+#   deb https://security.debian.org/debian-security trixie-security main
+#   deb-src https://security.debian.org/debian-security trixie-security main
+#
+#   deb https://deb.debian.org/debian trixie-updates main
+#   deb-src https://deb.debian.org/debian trixie-updates main
+#
