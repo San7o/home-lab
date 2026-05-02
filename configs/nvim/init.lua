@@ -26,7 +26,7 @@ vim.call('plug#begin')
 -- Modus themes from Prot
 Plug('miikanissi/modus-themes.nvim')
 Plug('nvim-lua/plenary.nvim')          -- dependency for telescope
-Plug('nvim-telescope/telescope.nvim')  -- fuzz strings
+Plug('nvim-telescope/telescope.nvim', { ['commit'] = '3333a52'})  -- fuzz strings
 Plug('nvim-tree/nvim-web-devicons')    -- some icons
 Plug('nvim-tree/nvim-tree.lua')        -- directory tree
 -- From orgmode release 0.7.1, support for Neovim < 0.11.0 was dropped
@@ -39,7 +39,7 @@ vim.call('plug#end')
 
 require('modus-themes').setup({
     style = "modus_vivendi",  -- modus_vivendi or modus_operandi (dark and light)
-    variant = "default",      -- default, tinted, deuteranopia, and tritanopia
+    variants = "default",      -- default, tinted, deuteranopia, and tritanopia
 })
 vim.cmd([[colorscheme modus]])
 
