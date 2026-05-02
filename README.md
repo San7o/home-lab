@@ -2,6 +2,14 @@
 
 Play, and learn.
 
+## Directories
+
+- config: configuration files and script
+- notes: useful documentation and explainations
+- qemu: scripts for managing and running virtual machines with qemu
+- services: docker-compose based services
+- terraform / ansible: automation
+
 ## Setup
 
 - VPN: [tailscale](https://san7o.github.io/giovanni-diary/programming/linux/setting-up-a-vpn.html)
