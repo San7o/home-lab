@@ -11,7 +11,7 @@
 # dhcpd which are not present in the non-root path.
 # 
 
-CORE="git curl gcc clang"
+CORE="git curl gcc clang rustc"
 BROWSER=firefox-esr
 EDITOR="emacs neovim"
 WM="sway kitty dmenu i3status"

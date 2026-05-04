@@ -1,0 +1,46 @@
+seL4
+====
+
+seL4 is a microkernel, it is known because its behaviour is formally verified.
+Being a microkernel, the core of the OS implements small things like Tasks
+and IPC. All the rest is implemented externally.
+
+What is cool is that for each external module, you need to define its
+capabilities. This means that your driver will be able to access only some
+resources with a good level of control. For example:
+
+
+  <system>
+
+    <memory_region name="uart" size="4096" phys_addr="0x9000000" />
+    <memory_region name="shared_buff" size="0x1000" />
+
+    <protection_domain name="serial_server" priority="1">
+        <program_image path="serial_server.elf" />
+        <map mr="uart" vaddr="0x4000000" perms="rw" cached="false" setvar_vaddr="uart_base_vaddr" />
+        <map mr="shared_buff" vaddr="0x4001000" perms="rw" cached="false" setvar_vaddr="shared_buff"/>
+        <irq  irq="33" id="33" />
+    </protection_domain>
+
+    <protection_domain name="client" priority="0">
+        <program_image path="client.elf" />
+        <map mr="shared_buff" vaddr="0x4001000" perms="rw" cached="false" setvar_vaddr="shared_buff"/>
+    </protection_domain>
+
+    <protected_domain name="wordle_server" priority="2">
+        <program_image path="wordle_server.elf" />
+    </protected_domain>
+
+    <!-- Channel for async notifications -->
+    <channel>
+        <end pd="serial_server" id="1" />
+        <end pd="client" id="2" />
+    </channel>
+
+    <!-- Channel to invoke a protected procedure -->
+    <channel>
+        <end pd="serial_server" id="3" />
+        <end pd="client" id="4" pp="true" />
+    </channel>
+
+  </system>
