@@ -8,7 +8,7 @@
 
 |Subsystem             |Percentage  |Info |
 |----------------------|------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-|Drivers (General)     | ~55% - 60%	| This includes GPU, Network, Multimedia, and Sound. It’s the "hardware enablement" tax. If it doesn't have a driver, the silicon is dead.|
+|Drivers (General)     | ~55% - 60%	| This includes GPU (about 30% of all drivers), Network, Multimedia, and Sound. It’s the "hardware enablement" tax. If it doesn't have a driver, the silicon is dead.|
 |Networking (net/)     | 8% - 10%	| Massive corporate focus from Meta, Google, and Mellanox/Nvidia. This is the core of the cloud.|
 |Filesystems (fs/)     | ~7% - 8%	| This is the "Data Integrity" tier. Recent spikes come from Bcachefs (Kent Overstreet) and cloud-scale optimizations for NVMe.|
 |Core Kernel (kernel/, mm/)| ~5%	| The "Priesthood." This is the smallest group of developers, but they have the highest gatekeeping standards. It includes scheduling and memory management.|
