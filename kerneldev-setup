@@ -1,0 +1,114 @@
+Kernel Dev Setup
+================
+
+Some notes about setting up the development environment for Linux
+kernel development.
+
+
+Yocto
+-----
+
+Yocto is a collection of tools and configurations for building Linux
+images.
+
+The goal of yocto is to build a full Linux distribution. This includes
+the toolchain, bootloader, kernel and emulator. Keep in mind that
+Yocto is not a particular tool, it is more of an umbrella project
+under the Linux Fundation. It uses the "OpenEmbedded" framework which
+provides tools and configurations to build Linux. The tool you use for
+building is called `BitBake`, and the reference base distribution you
+start with is called "poky".
+
+What makes yocto different from other build systems is the use of
+"layers". Layers are directories that contain build instructions
+(which are "recipes", "classes", "configuration" and "fragments"). You
+can create, add, remove and modify layers in your build. Openembedded
+already provides a lot of these for you, such as BSP (Board Support
+Package), UI (frameworks like qt), and distro layers (systemd..).
+
+
+Yocto Getting started
+---------------------
+
+Do this to start a new project:
+
+    # Setup
+    mkdir yocto && cd yocto
+    # Install build dependencies
+    sudo apt-get install build-essential chrpath cpio debianutils \
+                         diffstat file gawk gcc git iputils-ping  \
+                         libacl1 locales python3 python3-git      \
+                         python3-jinja2 python3-pexpect python3-pip \
+                         python3-subunit socat texinfo unzip wget \
+                         xz-utils zstd
+    # Get bitbake
+    git clone https://git.openembedded.org/bitbake
+
+    # Configure
+    ./bitbake/bin/bitbake-setup init
+    source bitbake-builds/poky-wrynose/build/init-build-env 
+    bitbake-config-build enable-fragment core/yocto/root-login-with-empty-password
+    bitbake-config-build enable-fragment core/yocto/sstate-mirror-cdn
+
+    # Build
+    # You can build different images:
+    # - core-image-minimal: bare essentials
+    # - core-image-base: console only with drivers and firmware
+    # - core-image-sato: includes X11 and some UI applications
+    # - core-image-full-cmdlike: no GUI but lots of cli tools
+    bitbake core-image-minimal
+    
+    runqemu snapshot nographic
+
+Now that you have a linux image, to actually develop an out-of-tree
+kernel module, you can use bitbake to generate the cross compilationm
+environment for you:
+
+    bitbake core-image-minimal -c populate_sdk
+
+You then develop the module "normally", using a Makefile. To test it,
+you run a virtual machine and `scp` the module inside it, or mount a
+network filesystem, or something similar. With this you can avoid
+restarting the image each time.
+
+Once you are done developing, you can integrate it to the image by
+adding the module inside the bitbake build system. You do this by
+creating a new recipe that uses the module.bbclass. Then to build
+it with the bitbake toolchain:
+
+    bitbake my-driver
+
+
+Devtool
+-------
+
+We have seen that you can create the toolchain with yocto, and develop
+the module with make. To connect these two systems, you can use
+`devtool`. It does some setting up for you and it links the module
+with the yocto toolchain.
+
+    devtool modify my-driver
+    devtool build my-driver
+    devtool deploy-target my-driver root@<target-ip>
+    devtool finish my-driver meta-custom-project
+
+TODO: play with this
+
+
+Kas
+---
+
+To setup the entire yocto project in a repeatable way, you can (and
+should) use a tool like Kas. It is not only really useful for CI, but
+also for local development. You can create a single `project.yml`
+file that describes your yocto setup, then enter it with:
+
+    kas shell project.yml
+
+TODO: play with this
+
+
+Useful commands
+---------------
+
+  bitbake-config-build list-fragments
