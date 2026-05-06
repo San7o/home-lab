@@ -4,15 +4,6 @@ home-lab
 Experiment, play, and learn.
 
 
-Directories
------------
-
-- config: configuration files and script
-- qemu: scripts for managing and running virtual machines with qemu
-- services: docker-compose based services
-- terraform / ansible: automation
-
-
 Setup
 -----
 
