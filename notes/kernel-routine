@@ -1,0 +1,29 @@
+Kernel Routine
+==============
+
+I do this everyday to stay up to date with kernel changes and learn
+new things.
+
+
+Morning routine
+---------------
+
+- Read latest RSS feeds (phoronix, LWD, lots of blogs from kernel devs)
+- Inspect latest patches from the subsystems I follow:
+
+    cd linux-next
+    git fetch origin
+    git log -p drivers/net/ethernet/intel/ \
+          net/core/ \
+          include/linux/netdevice.h \
+          kernel/bpf/ \
+          net/core/filter.c
+
+- Skim over eBPF and mm mailing lists (I focus on RFCs and PATCH 0/X).
+
+
+Night routine
+-------------
+
+Work on the project I am currently working on (a driver, my OS,
+learning a tool like yocto, write a compiler....).
