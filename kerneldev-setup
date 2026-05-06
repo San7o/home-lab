@@ -14,7 +14,7 @@ images.
 The goal of yocto is to build a full Linux distribution. This includes
 the toolchain, bootloader, kernel and emulator. Keep in mind that
 Yocto is not a particular tool, it is more of an umbrella project
-under the Linux Fundation. It uses the "OpenEmbedded" framework which
+under the Linux Foundation. It uses the "OpenEmbedded" framework which
 provides tools and configurations to build Linux. The tool you use for
 building is called `BitBake`, and the reference base distribution you
 start with is called "poky".
