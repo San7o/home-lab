@@ -8,16 +8,22 @@ new things.
 Morning routine
 ---------------
 
-- Read latest RSS feeds (phoronix, LWD, lots of blogs from kernel devs)
+- Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel
+  devs...)
 - Inspect latest patches from the subsystems I follow:
 
+    Setup:
+    git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+    git remote add netdev https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+    git remote add bpf https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+  
     cd linux-next
-    git fetch origin
-    git log -p drivers/net/ethernet/intel/ \
-          net/core/ \
-          include/linux/netdevice.h \
-          kernel/bpf/ \
-          net/core/filter.c
+    git fetch origin && git fetch netdev && git fetch bpf
+    # Netdev changes
+    # use "log -p" to see the full patch 
+    git log netdev/main -- drivers/net/ethernet/intel/ net/core/ include/linux/netdevice.h
+    # bpf changes
+    git log bpf/master -- kernel/bpf/ net/core/filter.c
 
 - Skim over eBPF and mm mailing lists (I focus on RFCs and PATCH 0/X).
 
