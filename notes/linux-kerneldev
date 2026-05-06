@@ -1,0 +1,11 @@
+Linux Kernel Dev Notes
+======================
+
+The Kernel Commandments:
+
+- Thou shalt not sleep in interrupt context.
+- Thou shalt use rmb() and wmb() before or after iowrite() or ioread() to
+  instruct o'slave compiler to produce the side effects, when you need them.
+- Dereferencing a __user pointer is strictly forbidden, even to the bravest
+  and enlighnened kernel developer.
+- A good C developer always cleans up its garbage.
