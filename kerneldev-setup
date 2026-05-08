@@ -4,7 +4,6 @@ Kernel Dev Setup
 Some notes about setting up the development environment for Linux
 kernel development.
 
-
 Yocto
 -----
 
@@ -25,7 +24,6 @@ What makes yocto different from other build systems is the use of
 can create, add, remove and modify layers in your build. Openembedded
 already provides a lot of these for you, such as BSP (Board Support
 Package), UI (frameworks like qt), and distro layers (systemd..).
-
 
 Yocto Getting started
 ---------------------
@@ -62,9 +60,14 @@ Do this to start a new project:
 
 Now that you have a linux image, to actually develop an out-of-tree
 kernel module, you can use bitbake to generate the cross compilationm
-environment for you:
+environment for you (or use `devtool`, more on this later):
 
     bitbake core-image-minimal -c populate_sdk
+
+This generates a shell script in build/tmp/deploy/sdk/ that you can
+execute to generate the sdk.
+
+    . <sdk_dir>/environment-setup-x86-64-v3-poky-linux
 
 You then develop the module "normally", using a Makefile. To test it,
 you run a virtual machine and `scp` the module inside it, or mount a
@@ -78,7 +81,6 @@ it with the bitbake toolchain:
 
     bitbake my-driver
 
-
 Devtool
 -------
 
@@ -87,13 +89,33 @@ the module with make. To connect these two systems, you can use
 `devtool`. It does some setting up for you and it links the module
 with the yocto toolchain.
 
-    devtool modify my-driver
-    devtool build my-driver
-    devtool deploy-target my-driver root@<target-ip>
-    devtool finish my-driver meta-custom-project
+To run the following commands you need to have sourced the bitbake
+environment.
 
-TODO: play with this
+    # Generate new recipes of the driver
+    devtool add <recipe-name> /path/to/driver
+    # Or modify existing ones
+    devtool modify <recipe-name>
 
+    # Now you can go to the new workspace directory to modify the
+    # sources
+    cd build/workspace/<recipe-name>/sources
+
+    # Iterative development
+
+    devtool build <recipe-name>
+    devtool deploy-target <recipe-name> root@<target-ip>
+
+    # Commit changes
+    git add .
+    git commit -m "commit message"
+    # Update, keep the workspace active
+    devtool update-recipe <recipe-name> -a <path to custom layer>
+    
+    # Cleanup
+
+    # Close the workspace
+    devtool finish <recipe-name> meta-custom-project
 
 Kas
 ---
@@ -103,10 +125,11 @@ should) use a tool like Kas. It is not only really useful for CI, but
 also for local development. You can create a single `project.yml`
 file that describes your yocto setup, then enter it with:
 
+    kas build project.yml
+    # or ugse bitbake or build
     kas shell project.yml
 
 TODO: play with this
-
 
 Useful commands
 ---------------
