@@ -4,7 +4,6 @@ Kernel Routine
 I do this everyday to stay up to date with kernel changes and learn
 new things.
 
-
 Morning routine
 ---------------
 
@@ -26,7 +25,6 @@ Morning routine
     git log bpf/master -- kernel/bpf/ net/core/filter.c
 
 - Skim over eBPF and mm mailing lists (I focus on RFCs and PATCH 0/X).
-
 
 Night routine
 -------------

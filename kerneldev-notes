@@ -9,3 +9,10 @@ The Kernel Commandments:
 - Dereferencing a __user pointer is strictly forbidden, even to the bravest
   and enlighnened kernel developer.
 - A good C developer always cleans up its garbage.
+
+Useful commands
+---------------
+
+Get who owns what in the kernel:
+
+    ./scripts/get_maintainer.pl -f <path>

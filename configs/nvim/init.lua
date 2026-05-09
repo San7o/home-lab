@@ -15,6 +15,7 @@ vim.opt.expandtab      = true
 vim.opt.shiftwidth     = 4
 vim.opt.tabstop        = 4
 vim.opt.colorcolumn    = '80'
+vim.opt.tags           = "./tags;,tags"
 vim.g.loaded_netrw       = 1  -- Disable default tree view for nvim-tree
 vim.g.loaded_netrwPlugin = 1
 
@@ -55,7 +56,7 @@ vim.keymap.set('n', '<leader>fh', telescope.help_tags,
 
 require('nvim-web-devicons').setup()
 local tree = require('nvim-tree.api')
-vim.keymap.set('n', '<C-t>', function() tree.tree.toggle() end,
+vim.keymap.set('n', '<C-n>', function() tree.tree.toggle() end,
                 { desc = 'Toggle nvim-tree' })
 require('nvim-tree').setup()
 vim.cmd [[
