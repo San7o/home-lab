@@ -1,29 +1,27 @@
 Kernel Dev Setup
 ================
 
-Some notes about setting up the development environment for Linux
-kernel development.
+Some notes about setting up the development environment for Linux kernel
+development.
 
 Yocto
 -----
 
-Yocto is a collection of tools and configurations for building Linux
-images.
+Yocto is a collection of tools and configurations for building Linux images.
 
-The goal of yocto is to build a full Linux distribution. This includes
-the toolchain, bootloader, kernel and emulator. Keep in mind that
-Yocto is not a particular tool, it is more of an umbrella project
-under the Linux Foundation. It uses the "OpenEmbedded" framework which
-provides tools and configurations to build Linux. The tool you use for
-building is called `BitBake`, and the reference base distribution you
-start with is called "poky".
+The goal of yocto is to build a full Linux distribution. This includes the
+toolchain, bootloader, and kernel. Keep in mind that Yocto is not a particular
+tool, it is more of an umbrella project under the Linux Foundation. It uses the
+"OpenEmbedded" framework which provides tools and configurations to build Linux.
+The tool you use for building is called `BitBake`, and the reference base
+distribution you start with is called "poky".
 
-What makes yocto different from other build systems is the use of
-"layers". Layers are directories that contain build instructions
-(which are "recipes", "classes", "configuration" and "fragments"). You
-can create, add, remove and modify layers in your build. Openembedded
-already provides a lot of these for you, such as BSP (Board Support
-Package), UI (frameworks like qt), and distro layers (systemd..).
+What makes yocto different from other build systems is the use of "layers".
+Layers are directories that contain build instructions (which are "recipes",
+"classes", "configuration" and "fragments"). You can create, add, remove and
+modify layers in your build. Openembedded already provides a lot of these for
+you, such as BSP (Board Support Package), UI (frameworks like qt), and distro
+layers (systemd..).
 
 Yocto Getting started
 ---------------------
@@ -58,39 +56,39 @@ Do this to start a new project:
     
     runqemu snapshot nographic
 
-Now that you have a linux image, to actually develop an out-of-tree
-kernel module, you can use bitbake to generate the cross compilationm
-environment for you (or use `devtool`, more on this later):
+Now that you have a linux image, to actually develop an out-of-tree kernel
+module, you can use bitbake to generate the cross compilationm environment for
+you (or use `devtool`, more on this later):
 
     bitbake core-image-minimal -c populate_sdk
 
-This generates a shell script in build/tmp/deploy/sdk/ that you can
-execute to generate the sdk.
+This generates a shell script in build/tmp/deploy/sdk/ that you can execute to
+generate the sdk.
 
     . <sdk_dir>/environment-setup-x86-64-v3-poky-linux
 
-You then develop the module "normally", using a Makefile. To test it,
-you run a virtual machine and `scp` the module inside it, or mount a
-network filesystem, or something similar. With this you can avoid
-restarting the image each time.
+You then develop the module "normally", using a Makefile. To test it, you run a
+virtual machine and `scp` the module inside it, or mount a network filesystem,
+or something similar. With this you can avoid restarting the image each time.
 
-Once you are done developing, you can integrate it to the image by
-adding the module inside the bitbake build system. You do this by
-creating a new recipe that uses the module.bbclass. Then to build
-it with the bitbake toolchain:
+Once you are done developing, you can integrate it to the image by adding the
+module inside the bitbake build system. You do this by creating a new recipe
+that uses the module.bbclass. Then to build it with the bitbake toolchain:
 
     bitbake my-driver
+
+Here is an index of many yocto layers:
+
+   https://layers.openembedded.org/layerindex/branch/master/layers/ 
 
 Devtool
 -------
 
-We have seen that you can create the toolchain with yocto, and develop
-the module with make. To connect these two systems, you can use
-`devtool`. It does some setting up for you and it links the module
-with the yocto toolchain.
+We have seen that you can create the toolchain with yocto, and develop the
+module with make. To connect these two systems, you can use `devtool`. It does
+some setting up for you and it links the module with the yocto toolchain.
 
-To run the following commands you need to have sourced the bitbake
-environment.
+To run the following commands you need to have sourced the bitbake environment.
 
     # Generate new recipes of the driver
     devtool add <recipe-name> /path/to/driver
@@ -120,10 +118,10 @@ environment.
 Kas
 ---
 
-To setup the entire yocto project in a repeatable way, you can (and
-should) use a tool like Kas. It is not only really useful for CI, but
-also for local development. You can create a single `project.yml`
-file that describes your yocto setup, then enter it with:
+To setup the entire yocto project in a repeatable way, you can (and should) use
+a tool like Kas. It is not only really useful for CI, but also for local
+development. You can create a single `project.yml` file that describes your
+yocto setup, then enter it with:
 
     kas build project.yml
     # or ugse bitbake or build
@@ -137,10 +135,10 @@ Tuxmake
 If you just want to build the kernel and you don't want to deal with
 dependencies, tuxmake is a great tool for this.
 
-You can go yo the kernel root directory and simply run `tuxmake` to
-build it. You can specify some ocnfiguration flags. Tuxmake will
-download a docker container for the build and configure the toolchain
-and .config based on the falgs.
+You can go yo the kernel root directory and simply run `tuxmake` to build it.
+You can specify some ocnfiguration flags. Tuxmake will download a docker
+container for the build and configure the toolchain and .config based on the
+falgs.
 
 Useful commands
 ---------------

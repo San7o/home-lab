@@ -15,6 +15,7 @@ vim.opt.expandtab      = true
 vim.opt.shiftwidth     = 4
 vim.opt.tabstop        = 4
 vim.opt.colorcolumn    = '80'
+vim.opt.textwidth      = 80   -- use 'gqip' to format a paragraph
 vim.opt.tags           = "./tags;,tags"
 vim.g.loaded_netrw       = 1  -- Disable default tree view for nvim-tree
 vim.g.loaded_netrwPlugin = 1
@@ -46,8 +47,7 @@ vim.cmd([[colorscheme modus]])
 
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', telescope.find_files,
-                { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', telescope.live_grep,
+                { desc = 'Telescope find files' }) vim.keymap.set('n', '<leader>fg', telescope.live_grep,
                 { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', telescope.buffers,
                 { desc = 'Telescope buffers' })
