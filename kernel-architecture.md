@@ -16,3 +16,7 @@
 |Arch Specific (arch/) | ~10%	    | Mostly ARM64 and RISC-V churn. RISC-V is currently seeing a "gold rush" of first-time contributors. |
 
 Source: gemini.
+
+## Build systems
+
+![linux-build-systems](linux-build-systems.png)
