@@ -17,13 +17,13 @@
 
 ![linux-storage-stack](linux-storage-stack.png)
 
-In order to not issue many commands to the storage device, the kernel manages
-a page cache. This is essentually a copy-on-write cache which gets checked
-before accessing a page. If data gets written to a page, the cache gets dirty,
-and it can be flushed to the device.
-
 To manage read and writes to the storage device, the Linux kernel uses the `bio`
 structure which connects the filesystem to a particular storage device.
+
+In order to not issue many commands to the storage device, the `bio` manages a
+page cache. This is a copy-on-write cache which gets checked before accessing a
+page. If data gets written to a page, the cache gets dirty, and it can be
+flushed to the device.
 
 - [Storage Performance Development Kit](https://spdk.io/): fast and modern API
   to interact with NVMe devices
