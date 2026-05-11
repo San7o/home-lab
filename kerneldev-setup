@@ -160,6 +160,15 @@ You can specify some ocnfiguration flags. Tuxmake will download a docker
 container for the build and configure the toolchain and .config based on the
 falgs.
 
+Devicetree
+----------
+
+To tell the kernel which hardware is available and where to find it, you need
+to write a Device Tree Structure (.dts file). You use the interface from the
+SoC manifacturer (.dtsi file) as a base class that defines specific connectors.
+Ideally the kernel should be aware only of the minimum possible in order to
+save power.
+
 Useful commands
 ---------------
 
