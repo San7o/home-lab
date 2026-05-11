@@ -8,6 +8,26 @@
 
 ![linux-networking-stack](linux-networking-stack.png)
 
+- [NAPI (New API)](https://docs.kernel.org/networking/napi.html): poll packets
+  from the NIC in bulk so that it does not interrupt the CPU too much
+- [Netlink](https://www.kernel.org/doc/html/next/userspace-api/netlink/intro.html):
+  we use this to communicate with the kernel and configure the network stack
+
+## Storage Stack
+
+![linux-storage-stack](linux-storage-stack.png)
+
+In order to not issue many commands to the storage device, the kernel manages
+a page cache. This is essentually a copy-on-write cache which gets checked
+before accessing a page. If data gets written to a page, the cache gets dirty,
+and it can be flushed to the device.
+
+To manage read and writes to the storage device, the Linux kernel uses the `bio`
+structure which connects the filesystem to a particular storage device.
+
+- [Storage Performance Development Kit](https://spdk.io/): fast and modern API
+  to interact with NVMe devices
+
 ## Unique Kernel Contributors per Subsystem
 
 |Subsystem             |Percentage  |Info |
@@ -24,3 +44,10 @@ Source: gemini.
 ## Build systems
 
 ![linux-build-systems](linux-build-systems.png)
+
+- [Linux Kernel Module](https://github.com/San7o/linux-kernel-module): raw
+  kernel development quickstart
+- [LKDE](https://github.com/San7o/lkde-tool): light kernel dev framework
+- [tmp105-driver](https://github.com/San7o/tmp105-driver/): buildroot based
+  driver
+- yocto: TODO
