@@ -17,11 +17,31 @@ The tool you use for building is called `BitBake`, and the reference base
 distribution you start with is called "poky".
 
 What makes yocto different from other build systems is the use of "layers".
-Layers are directories that contain build instructions (which are "recipes",
+Layers are directories that contain build instructions (like "recipes",
 "classes", "configuration" and "fragments"). You can create, add, remove and
 modify layers in your build. Openembedded already provides a lot of these for
 you, such as BSP (Board Support Package), UI (frameworks like qt), and distro
 layers (systemd..).
+
+This allows different teams / projects to share layers on the web. You can
+use an official layer from the raspberry pi team for example, or set up your
+custom one.
+
+By convention, a layer's directory starts with `meta-`. Here is an example
+layout.
+
+     meta-my-layer/
+       conf/
+         layer.conf
+         machine/
+           raspberrypi.conf
+       meta-bsp/
+         recipes-bsp/
+         recipes-core/
+         recipes-graphics/
+         recipes-kernel/
+           linux-raspberrypi.inc
+           linux-raspberrypi-dev.bb
 
 Yocto Getting started
 ---------------------

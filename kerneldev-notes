@@ -16,3 +16,7 @@ Useful commands
 Get who owns what in the kernel:
 
     ./scripts/get_maintainer.pl -f <path>
+
+When building your module, ensure you have warnings enabled (1, 2 or 3):
+
+    make W=1
