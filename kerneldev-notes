@@ -13,9 +13,10 @@ The Kernel Commandments:
 Useful commands
 ---------------
 
-Get who owns what in the kernel:
+Get who owns what in the kernel. `--nogit-fallback` will not output developers
+who modified the file:
 
-    ./scripts/get_maintainer.pl -f <path>
+    ./scripts/get_maintainer.pl -f <path> --nogit-fallback
 
 When building your module, ensure you have warnings enabled (1, 2 or 3):
 

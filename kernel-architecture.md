@@ -4,6 +4,10 @@
 
 ![linux-rendering-stack](linux-rendering-stack.png)
 
+## Networking Stack
+
+![linux-networking-stack](linux-networking-stack.png)
+
 ## Unique Kernel Contributors per Subsystem
 
 |Subsystem             |Percentage  |Info |
