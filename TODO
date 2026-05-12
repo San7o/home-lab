@@ -6,6 +6,8 @@ Server:
 - document security response workflow (sources, actions, automation...)
 - try out Trivy
 - install proxmox + fedora server VM
+- investigate periodic backup
+- investigave Restic for backup
 
 Kernel dev:
 
