@@ -1,7 +1,16 @@
 TODO
 ====
 
+Server:
+
+- document security response workflow (sources, actions, automation...)
+- try out Trivy
+- install proxmox + fedora server VM
+
+Kernel dev:
+
 - understand the yocto+devtool+kas workflow
 - play with fastpath
 - work on tmp105
 - complete edu-driver
+
