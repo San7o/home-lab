@@ -6,6 +6,8 @@ Experiment, play, and learn.
 Setup
 -----
 
+- Host system: Proxmox
+
 - VPN: tailscale / netbird
 
     https://san7o.github.io/giovanni-diary/programming/linux/setting-up-a-vpn.html
@@ -23,11 +25,11 @@ Setup
     https://san7o.github.io/giovanni-diary/programming/notes/local-llms-guide.html
     
 - Virtualization: qemu, libvirt
-- Contianers: dockerd, Dockhand
-- Firewall: firewalld + firewall-cmd
+- Contianers: dockerd, Dockhand dashboard
+- Firewall: firewalld, firewall-cmd
 - Service manager: systemd
 
 Other programs:
 
 - Identity management: Authentikit, FreeIPA (fedora only)
-- music: navidrome
+- Music: navidrome
