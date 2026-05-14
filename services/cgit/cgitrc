@@ -1,0 +1,27 @@
+# Global Settings
+root-title=Projects
+root-desc=Projects cgit web interface
+css=/cgit.css
+logo=/cgit.png
+
+# Performance & Features
+cache-size=1000
+enable-commit-graph=1
+enable-log-filecount=1
+enable-log-linecount=1
+enable-index-owner=0
+
+# Snapshots (allows downloading zip/tar.gz)
+snapshots=tar.gz zip
+
+# Repository Scanning
+scan-path=/home/git/repositories
+
+# Syntax Highlighting (Optional - requires python-pygments in the image)
+# source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
+source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
+about-filter=/usr/lib/cgit/filters/about-formatting.sh
+
+# File Extension Mapping
+section=Repositories
+scan-path=/srv/git

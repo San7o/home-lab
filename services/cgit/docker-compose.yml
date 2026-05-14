@@ -1,0 +1,13 @@
+services:
+  cgit:
+    image: woahbase/alpine-cgit:latest
+    container_name: cgit
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - CGIT_HOSTNAME=localhost
+      - CGIT_SUBPATH=  # Leave empty to serve at root
+    volumes:
+      - ./cgitrc:/etc/cgitrc:ro
+      - /home/santo/projects:/srv/git:ro
