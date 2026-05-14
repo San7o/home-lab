@@ -8,15 +8,21 @@ Morning routine
 ---------------
 
 - Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel
-  devs...)
+  devs, securtiy mailing lists and news...)
 - Inspect latest patches from the subsystems I follow:
 
-    Setup:
-    git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+Setup:
+    
+    # Clone mainline tree
+    git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git kernel-mainline
+    # Add the origins you follow
+    git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
     git remote add netdev https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
     git remote add bpf https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+    git remote add staging git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
   
     cd linux-next
+    # git fetch --all
     git fetch origin && git fetch netdev && git fetch bpf
     # Netdev changes
     # use "log -p" to see the full patch 
@@ -25,6 +31,11 @@ Morning routine
     git log bpf/master -- kernel/bpf/ net/core/filter.c
 
 - Skim over eBPF and mm mailing lists (I focus on RFCs and PATCH 0/X).
+
+When you are working on a tree, like staging:
+
+    git fetch staging
+    git rebase staging/staging-next
 
 Night routine
 -------------

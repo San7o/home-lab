@@ -41,3 +41,6 @@ Here is an example on how to use scp to copy files over ssh:
 
 You can delete routes and addresses via `ip addr del` and `ip route del`.
 
+To flush all settings of an interface:
+
+    sudo ip addr flush eth0
