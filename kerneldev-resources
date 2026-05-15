@@ -1,0 +1,44 @@
+Kernel Dev Resources
+====================
+
+Important
+---------
+
+- archive of all mails from the mailing lists:
+  
+    https://lore.kernel.org/
+
+- git trees:
+
+    https://git.kernel.org/
+
+- patchwork
+
+    https://patchwork.kernel.org/
+
+Secondary but important
+-----------------------
+
+- syzkaller fuzzer:
+
+    https://syzkaller.appspot.com/upstream
+
+- bugzilla:
+
+    https://bugzilla.kernel.org/
+
+Good documentation
+------------------
+
+- `Documentation/` directory
+
+- Kernel Internals
+
+    https://kernel-internals.org/
+
+Others
+------
+
+- sashiko, AI patch reviews:
+
+    https://sashiko.dev/

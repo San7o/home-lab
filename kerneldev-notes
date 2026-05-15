@@ -8,7 +8,12 @@ The Kernel Commandments:
   instruct o'slave compiler to produce the side effects, when you need them.
 - Dereferencing a __user pointer is strictly forbidden, even to the bravest
   and enlighnened kernel developer.
-- A good C developer always cleans up its garbage.
+- A good C developer always cleans up its garbage, in reverse order.
+- Thou shalt synchronize an RCU data structure before writing to it
+- Thou shalt use floating point ops only in a special fpu context
+- Thou shalt never use sysfs API directly, unless he works deep in filesystems
+- Thou shalt setup sysfs before registering a device, so there are no userspace
+  race conditions when a process awakened by udev tries to read sysfs
 
 Useful commands
 ---------------

@@ -6,15 +6,11 @@ Experiment, play, and learn.
 Setup
 -----
 
-- Host system: Proxmox
+- Hypervisor: Proxmox
 
-- VPN: tailscale / netbird
-
-    https://san7o.github.io/giovanni-diary/programming/linux/setting-up-a-vpn.html
+- VPN: tailscale / netbird: https://login.tailscale.com/admin/machines
         
 - Monitoring: prometheus + grafana + node_exporter
-
-    https://san7o.github.io/giovanni-diary/programming/linux/linux-monitoring-with-prometheus-and-grafana.html
     
 - Security: wazuh
 
@@ -28,8 +24,21 @@ Setup
 - Contianers: dockerd, Dockhand dashboard
 - Firewall: firewalld, firewall-cmd
 - Service manager: systemd
-
-Other programs:
-
 - Identity management: Authentikit, FreeIPA (fedora only)
 - Music: navidrome
+- Project management: cgit
+
+Links
+-----
+
+- dockhand: http://home-lab:3002/containers
+- grafana: http://home-lab:3000/
+- prometheus: http://home-lab:9091/query
+- cgit: http://home-lab:8080/
+- proxmox: https://192.168.100.2:8006/
+- wazuh: https://home-lab/
+- fedora server panel: https://home-lab:9090/system
+- minecraft server: home-lab:25565
+- navidrome: http://home-lab:4533
+- openwebUI: http://home-lab:9000/
+- tailscale: https://login.tailscale.com/admin/machines

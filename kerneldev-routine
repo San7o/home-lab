@@ -1,17 +1,16 @@
 Kernel Routine
 ==============
 
-I do this everyday to stay up to date with kernel changes and learn
-new things.
+I do this everyday to stay up to date with kernel changes and learn new things.
 
 Morning routine
 ---------------
 
-- Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel
-  devs, securtiy mailing lists and news...)
+- Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel devs, securtiy
+  mailing lists and news...)
 - Inspect latest patches from the subsystems I follow:
 
-Setup:
+  Setup:
     
     # Clone mainline tree
     git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git kernel-mainline
@@ -21,7 +20,7 @@ Setup:
     git remote add bpf https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
     git remote add staging git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
   
-    cd linux-next
+    cd linux
     # git fetch --all
     git fetch origin && git fetch netdev && git fetch bpf
     # Netdev changes
@@ -30,9 +29,7 @@ Setup:
     # bpf changes
     git log bpf/master -- kernel/bpf/ net/core/filter.c
 
-- Skim over eBPF and mm mailing lists (I focus on RFCs and PATCH 0/X).
-
-When you are working on a tree, like staging:
+When you are working on your branch of a tree, like staging:
 
     git fetch staging
     git rebase staging/staging-next

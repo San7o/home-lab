@@ -1,8 +1,7 @@
-Kernel Dev Setup
-================
+Kernel Dev Building
+===================
 
-Some notes about setting up the development environment for Linux kernel
-development.
+Some notes about building the Linux kernel.
 
 Yocto
 -----
@@ -159,6 +158,12 @@ You can go yo the kernel root directory and simply run `tuxmake` to build it.
 You can specify some ocnfiguration flags. Tuxmake will download a docker
 container for the build and configure the toolchain and .config based on the
 falgs.
+
+Buildroot
+---------
+
+Buildroot is quite straight forward to use. `make menuconfig` and `make
+linux-menuconfig`, then `make <config>`.
 
 Devicetree
 ----------
