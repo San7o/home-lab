@@ -2,8 +2,8 @@ seL4
 ====
 
 seL4 is a microkernel, it is known because its behaviour is formally verified.
-Being a microkernel, the core of the OS implements small things like Tasks
-and IPC. All the rest is implemented externally.
+Being a microkernel, the core of the OS implements small things like Tasks and
+IPC. All the rest is implemented externally.
 
 What is cool is that for each external module, you need to define its
 capabilities. This means that your driver will be able to access only some

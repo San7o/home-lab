@@ -4,7 +4,6 @@ firewalld
 Firewalld is a firewall daemon. It is managed via the firewall-cmd
 command line utility.
 
-
 Zones
 -----
 
@@ -39,7 +38,6 @@ firewall-cmd --list-all-zones
 ```
 
 You can configure firewalld in `/etc/firewalld`
-
 
 Creating services
 -----------------
@@ -85,7 +83,6 @@ Reload the firewall after making changes:
 sudo firewall-cmd --reload
 ```
 
-
 Rich rules
 ----------
 
@@ -109,7 +106,6 @@ Drop packets silently:
 ```
 sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.0.2.1" drop'
 ```
-
 
 IP-set
 ------

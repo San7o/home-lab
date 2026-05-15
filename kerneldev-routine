@@ -7,32 +7,39 @@ Morning routine
 ---------------
 
 - Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel devs, securtiy
-  mailing lists and news...)
-- Inspect latest patches from the subsystems I follow:
+  mailing lists and news...). I use gnus on emacs for this.
 
-  Setup:
+- Read latest patches of the subsystems I follow, I use `lei` and `neomutt`
+
+    #lei q -o ~/Mail/drivers-staging -I https://lore.kernel.org/all/ --threads \
+                                     'dfn:drivers/staging/ AND rt:30.days.ago..'
+    #lei up ~/Mail/gpio-reviews
+    # Or simply:
+    ./scripts/lei-update.sh
+    neomutt -f ~/Mail/drivers-staging/
+
+- Update my current working tree:
+
+  First time setup:
     
     # Clone mainline tree
     git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git kernel-mainline
     # Add the origins you follow
-    git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-    git remote add netdev https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
-    git remote add bpf https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+    # git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+    # git remote add netdev https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+    # git remote add bpf https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
     git remote add staging git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-  
     cd linux
     # git fetch --all
-    git fetch origin && git fetch netdev && git fetch bpf
-    # Netdev changes
-    # use "log -p" to see the full patch 
-    git log netdev/main -- drivers/net/ethernet/intel/ net/core/ include/linux/netdevice.h
-    # bpf changes
-    git log bpf/master -- kernel/bpf/ net/core/filter.c
+    # git fetch origin && git fetch netdev && git fetch bpf
 
-When you are working on your branch of a tree, like staging:
+  When you are working on your branch of a tree, like staging:
 
     git fetch staging
     git rebase staging/staging-next
+
+  Also git blame and git log are very useful to understand what happened to a
+  file.
 
 Night routine
 -------------

@@ -6,14 +6,15 @@ The Kernel Commandments:
 - Thou shalt not sleep in interrupt context.
 - Thou shalt use rmb() and wmb() before or after iowrite() or ioread() to
   instruct o'slave compiler to produce the side effects, when you need them.
-- Dereferencing a __user pointer is strictly forbidden, even to the bravest
-  and enlighnened kernel developer.
+- Dereferencing a __user pointer is strictly forbidden, even to the bravest and
+  enlighnened kernel developer.
 - A good C developer always cleans up its garbage, in reverse order.
 - Thou shalt synchronize an RCU data structure before writing to it
 - Thou shalt use floating point ops only in a special fpu context
-- Thou shalt never use sysfs API directly, unless he works deep in filesystems
-- Thou shalt setup sysfs before registering a device, so there are no userspace
-  race conditions when a process awakened by udev tries to read sysfs
+- Thou shalt never use sysfs API directly, unless he works deep in filesystems.
+  Always use groups, or you will create a race condition and made fun of.
+- Beware of the scary spectre when reading memory indexed by an user variable.
+  Use array_index_nospec() or speculation_barrier() when necessary.
 
 Useful commands
 ---------------
@@ -34,3 +35,7 @@ Always checkpatch before thinking about sending a patch:
 Also run coccinelle, a static code analysis tool:
 
     make coccicheck MODE=report M=drivers/staging/iio/
+
+Generate the gtags so you can jump to definitions in your code editor:
+
+    make tags

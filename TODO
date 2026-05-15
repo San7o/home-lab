@@ -5,14 +5,12 @@ Server:
 
 - document security response workflow (sources, actions, automation...)
 - try out Trivy
-- setup tailscale on proxmox, install fedora server VM
 - investigate periodic backup
 - investigave Restic for backup
 
 Kernel dev:
 
 - understand the yocto+devtool+kas workflow
-- play with fastpath
 - work on tmp105
 - complete edu-driver
 
