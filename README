@@ -8,8 +8,14 @@ Setup
 
 - Hypervisor: Proxmox
 
-- VPN: tailscale / netbird: https://login.tailscale.com/admin/machines
-        
+- Servers:
+
+  - fedora server
+  - proxmox-entry (LCX container)
+  - windows-lab
+
+- VPN: tailscale / netbird        
+
 - Monitoring: prometheus + grafana + node_exporter
     
 - Security: wazuh
