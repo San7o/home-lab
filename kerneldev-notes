@@ -39,3 +39,21 @@ Also run coccinelle, a static code analysis tool:
 Generate the gtags so you can jump to definitions in your code editor:
 
     make tags
+
+Generate patch:
+
+    git format-patch -v1 --cover-letter staging/staging-next -o outgoing/
+    scripts/get_maintainer.pl outgoing/0001-your-patch-name.patch
+    # Modify the patch
+    git send-email \
+      --to="gregkh@linuxfoundation.org" \
+      --cc="linux-staging@lists.linux.dev" \
+      --cc="linux-kernel@vger.kernel.org" \
+      outgoing/0001-your-patch-name.patch
+
+Videos
+------
+
+Greg explaining release cycle and patch flow from mailing list to stable:
+
+    https://www.youtube.com/watch?v=vyenmLqJQjs

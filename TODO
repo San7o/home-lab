@@ -7,10 +7,11 @@ Server:
 - try out Trivy
 - investigate periodic backup
 - investigave Restic for backup
+- make cgit work
 
 Kernel dev:
 
 - understand the yocto+devtool+kas workflow
-- work on tmp105
+- work on tmp105 driver
 - complete edu-driver
 
