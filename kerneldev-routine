@@ -41,7 +41,8 @@ Morning routine
     # Add the origins you follow
     # git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
     # git remote add netdev https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
-    # git remote add bpf https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+    # git remote add bpf-next https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+    # git remote add bpf https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
     git remote add staging git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
 
     cd linux
@@ -56,7 +57,7 @@ Morning routine
     get fetch linux-next
     git fetch staging
     # When creating a new branch
-    git checkout -b my-staging-feature --track staging/staging-next
+    git checkout -b my-staging-feature staging/staging-next
 
   Always rebase before sending a patch:
 
@@ -72,8 +73,11 @@ Morning routine
     - Every night, the linux-next maintainer pulls staging/staging-next into the
       massive linux-next integration tree
 
-  Also git blame and git log are very useful to understand what happened to a
-  file.
+  Also git blame and git log are very useful to understand what is happening.
+
+    git log bpf-next/master -n 10
+    git blame -L 40,60 <file>
+    git log <commit-hash>
 
 Night routine
 -------------
