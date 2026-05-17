@@ -36,9 +36,11 @@ Also run coccinelle, a static code analysis tool:
 
     make coccicheck MODE=report M=drivers/staging/iio/
 
-Generate the gtags so you can jump to definitions in your code editor:
+Generate the ctags so you can jump to definitions in your code editor:
 
     make tags
+    # For emacs gtags:
+    make TAGS
 
 Generate patch:
 
