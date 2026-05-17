@@ -1,2 +1,5 @@
 #!/bin/sh
-yt-dlp --js-runtimes node -f bestaudio -x --audio-format mp3 $1
+yt-dlp -x --audio-format mp3 -f bestaudio \
+  --embed-metadata --embed-thumbnail \
+  -o "%(artist,uploader)s/%(album,playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s" \
+  $1
