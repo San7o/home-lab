@@ -1,18 +1,37 @@
 #!/bin/sh
 
 #
-# Update lei index, create one if it does not exist
+# Update lei mailbox, create one if it does not exist
 #
 
 set -e
 
-MAIL_DIR=~/Mail/drivers-staging
+STAGING_MAILBOX=~/Mail/drivers-staging
+STAGING_INBOX=https://lore.kernel.org/linux-staging/
+STAGING_QUERY='dfn:drivers/staging/ AND rt:30.days.ago..'
 
-if [ ! -d $MAIL_DIR ]; then
-    lei q -o $MAIL_DIR \
-        -I https://lore.kernel.org/all/ \
-        --threads 'dfn:drivers/staging/ AND rt:30.days.ago..'
+EBPF_MAILBOX=~/Mail/ebpf
+EBPF_INBOX=https://lore.kernel.org/ebpf/
+EBPF_QUERY='(dfn:kernel/bpf/ OR dfn:tools/lib/bpf/ OR dfn:tools/testing/selftests/bpf/) AND rt:30.days.ago..'
+
+if [ ! -d $STAGING_MAILBOX ]; then
+    echo "Setting up staging"
+    lei q -o $STAGING_MAILBOX \
+        -I $STAGING_INBOX \
+        --threads $STAGING_QUERY
     exit 0
 fi
+echo "Fetching staging"
+lei up $STAGING_MAILBOX
 
-lei up $MAIL_DIR
+if [ ! -d $EBPF_MAILBOX ]; then
+    echo "Setting up ebpf"
+    lei q -o $EBPF_MAILBOX \
+        -I $EBPF_INBOX \
+        --threads $EBPF_QUERY
+    exit 0
+fi
+echo "Fetching ebpf"
+lei up $EBPF_MAILBOX
+
+echo "Done"
