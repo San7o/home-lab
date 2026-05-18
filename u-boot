@@ -1,0 +1,21 @@
+U-boot
+======
+
+Testing U-boot
+--------------
+
+There are some secrets you need to know in order to run tests in u-boot, there
+is no documentation about this.
+
+Create a python environment and install the dependencies from some files:
+
+    # (optional quest) Find a way to install libgit2 v1.7... not even debian is this old
+
+    python3 -m venv .venv
+    source .venv/bin/activate
+    
+    REQS=$(find . -name requirements.txt); for REQ in $REQS; do pip3 install -r $REQ; done;
+
+Run the tests:
+
+    make check 
