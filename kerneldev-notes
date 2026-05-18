@@ -15,6 +15,8 @@ The Kernel Commandments:
   Always use groups, or you will create a race condition and made fun of.
 - Beware of the scary spectre when reading memory indexed by an user variable.
   Use array_index_nospec() or speculation_barrier() when necessary.
+- Add "Fixes: <commmit-id> ("<commit-message>")" tag if you are fixing a
+  previous patch
 
 Useful commands
 ---------------
@@ -42,9 +44,19 @@ Generate the ctags so you can jump to definitions in your code editor:
     # For emacs gtags:
     make TAGS
 
+Sending a patch
+---------------
+
+Make your comifications:
+
+    # Make sure your ~/.gitconfig is correct
+    git commit -s
+
 Generate patch:
 
-    git format-patch -v1 --cover-letter staging/staging-next -o outgoing/
+    git format-patch -1 HEAD
+    # For a series
+    # git format-patch -v1 --cover-letter staging/staging-next -o outgoing/
     scripts/get_maintainer.pl outgoing/0001-your-patch-name.patch
     # Modify the patch
     git send-email \
