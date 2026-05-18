@@ -1,6 +1,22 @@
 U-boot
 ======
 
+Git reference:
+
+    https://source.denx.de/u-boot/u-boot.git 
+
+Patchwork:
+
+    https://patchwork.ozlabs.org/project/uboot/list/
+
+Mailig list:
+
+    u-boot@lists.denx.de 
+
+Lore archive:
+
+    https://lore.kernel.org/u-boot/
+
 Testing U-boot
 --------------
 
