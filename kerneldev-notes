@@ -17,6 +17,7 @@ The Kernel Commandments:
   Use array_index_nospec() or speculation_barrier() when necessary.
 - Add "Fixes: <commmit-id> ("<commit-message>")" tag if you are fixing a
   previous patch
+- Thou shalt use devm_* functions whenever possible, as they are liked more
 
 Useful commands
 ---------------
