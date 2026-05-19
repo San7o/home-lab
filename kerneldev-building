@@ -159,11 +159,25 @@ You can specify some configuration flags. Tuxmake will download a docker
 container for the build and configure the toolchain and .config based on the
 falgs.
 
+    cd linux
+    tuxmake
+
+    # or
+    tuxmake --target-arch=arm64 \
+            --toolchain=gcc-10  \
+            --kconfig-add /path/to/my.config
+
 Buildroot
 ---------
 
-Buildroot is quite straight forward to use. `make menuconfig` and `make
-linux-menuconfig`, then `make <config>`.
+Buildroot is quite straight forward to use.
+
+    # See which configs are available
+    ls configs/ | grep qemu
+
+    make menuconfig
+    make linux-menuconfig
+    make <config>
 
 Devicetree
 ----------
