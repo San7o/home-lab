@@ -50,7 +50,7 @@ Generate the ctags so you can jump to definitions in your code editor:
 Sending a patch
 ---------------
 
-Make your comifications:
+Make your comifications (after running checkpatch and coccinelle):
 
     # Make sure your ~/.gitconfig is correct
     git commit -s

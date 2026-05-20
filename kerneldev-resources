@@ -30,6 +30,10 @@ Secondary but important
 Good documentation
 ------------------
 
+- Elixir Cross References
+
+    https://elixir.bootlin.com/linux/v7.0.9/source
+
 - `Documentation/` directory
 
 - Kernel Internals
