@@ -45,7 +45,7 @@ Unique Kernel Contributors per Subsystem
 +-----------------------+---------------+-------------------------------------+
 | Subsystem             | Percentage    | Info                                |
 +=======================+===============+=====================================+
-| Drivers (General)     | ~55% - 60%	| This includes GPU (about 30% of all |
+| Drivers (General)     | ~55% - 60%	  | This includes GPU (about 30% of all |
 |                       |               | drivers), Network, Multimedia, and  |
 |                       |               | Sound.                              |
 +-----------------------+---------------+-------------------------------------+
@@ -64,7 +64,7 @@ Unique Kernel Contributors per Subsystem
 |                       |               | standards. It includes scheduling   |
 |                       |               | and memory management.              |
 +-----------------------+---------------+-------------------------------------+
-| eBPF (kernel/bpf)     | ~4%	        | This is the fastest-growing niche.  |
+| eBPF (kernel/bpf)     | ~4%	          | This is the fastest-growing niche.  |
 |                       |               | eBPF is becoming the universal      |
 |                       |               | "glue" for observability and        |
 |                       |               | networking, drawing in engineers    |
