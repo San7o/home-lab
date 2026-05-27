@@ -45,15 +45,15 @@ Unique Kernel Contributors per Subsystem
 +-----------------------+---------------+-------------------------------------+
 | Subsystem             | Percentage    | Info                                |
 +=======================+===============+=====================================+
-| Drivers (General)     | ~55% - 60%	  | This includes GPU (about 30% of all |
+| Drivers (General)     | ~55% - 60%    | This includes GPU (about 30% of all |
 |                       |               | drivers), Network, Multimedia, and  |
 |                       |               | Sound.                              |
 +-----------------------+---------------+-------------------------------------+
-| Networking (net/)     | 8% - 10%	    | Massive corporate focus from Meta,  |
+| Networking (net/)     | 8% - 10%      | Massive corporate focus from Meta,  |
 |                       |               | Google, and Mellanox/Nvidia. This   |
 |                       |               | is the core of the cloud.           |
 +-----------------------+---------------+-------------------------------------+
-| Filesystems (fs/)     | ~7% - 8%	    | This is the "Data Integrity" tier.  |
+| Filesystems (fs/)     | ~7% - 8%      | This is the "Data Integrity" tier.  |
 |                       |               | Recent spikes come from Bcachefs    |
 |                       |               | (Kent Overstreet) and cloud-scale   |
 |                       |               | optimizations for NVMe.             |
@@ -64,13 +64,13 @@ Unique Kernel Contributors per Subsystem
 |                       |               | standards. It includes scheduling   |
 |                       |               | and memory management.              |
 +-----------------------+---------------+-------------------------------------+
-| eBPF (kernel/bpf)     | ~4%	          | This is the fastest-growing niche.  |
+| eBPF (kernel/bpf)     | ~4%           | This is the fastest-growing niche.  |
 |                       |               | eBPF is becoming the universal      |
 |                       |               | "glue" for observability and        |
 |                       |               | networking, drawing in engineers    |
 |                       |               | from Distributed Systems.           |
 +-----------------------+---------------+-------------------------------------+
-| Arch Specific (arch/) | ~10%	        | Mostly ARM64 and RISC-V churn.      |
+| Arch Specific (arch/) | ~10%          | Mostly ARM64 and RISC-V churn.      |
 |                       |               | RISC-V is currently seeing a "gold  |
 |                       |               | rush" of first-time contributors.   |
 +-----------------------+---------------+-------------------------------------+
@@ -82,13 +82,12 @@ Build systems
 
 .. image:: linux-build-systems.png
 
-- `Linux Kernel Module`_: raw
-  kernel development quickstart
-  
+- `Linux Kernel Module`_: raw kernel development quickstart
+
 - LKDE_: light kernel dev framework
 
 - tmp105-driver_: buildroot based driver
-  
+
 - yocto: TODO
 
 .. _Linux Kernel Module: https://github.com/San7o/linux-kernel-module
