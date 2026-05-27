@@ -1,5 +1,5 @@
-Home Lab
-========
+Home Lab Notes
+==============
 
 A collection of notes and useful stuff
 
@@ -8,3 +8,6 @@ A collection of notes and useful stuff
    :caption: Contents:
 
    kerneldev/index
+   networking/index
+   sysadmin/index
+   TODO

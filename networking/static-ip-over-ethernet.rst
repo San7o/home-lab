@@ -1,0 +1,59 @@
+static ip over ethernet
+=======================
+
+This is a quick reference for the commands for setting a static ip on two
+computers connected via ethernet so that they can communicate.
+
+First we need to add an ip to both machines. You need to know the name of your
+ethernet interface, you can use a command line `ifconfig`; here we use `eno1` as
+the ethernet interface name. Note that both machine need to use the same network
+(same netid and netmask).
+
+Machine1:
+
+.. code-block:: bash
+
+    sudo ip addr add 192.168.0.2/16 dev eno1
+
+Machine2:
+
+.. code-block:: bash
+
+    sudo ip addr add 192.168.0.3/16 dev eno1
+
+If you run `ifconfig` you should see the ip address
+assigned to the ethernet interface.
+
+Next we create a route from Machine 1 to Machine 2
+
+.. code-block:: bash
+
+    sudo ip route add 192.168.0.3 dev eno1
+
+And do the opposite for Machine 2.
+
+We can test the connection via a ping to Machine 2:
+
+.. code-block:: bash
+
+    ping -I eno1 192.168.0.3
+
+That's it. You can see a list of the configured routes with:
+
+.. code-block:: bash
+
+    ip route
+
+Here is an example on how to use scp to copy files over ssh:
+
+.. code-block:: bash
+
+  scp machine1@localhost:/some/path/ machine2@192.168.0.3:/your/path/
+
+You can delete routes and addresses via `ip addr del` and `ip route del`.
+
+To flush all settings of an interface:
+
+.. code-block:: bash
+
+    sudo ip addr flush eth0

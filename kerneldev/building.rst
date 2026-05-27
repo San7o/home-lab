@@ -1,5 +1,5 @@
-Kernel Dev Building
-===================
+Building Linux
+==============
 
 Some notes about building the Linux kernel.
 

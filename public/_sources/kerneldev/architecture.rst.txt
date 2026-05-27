@@ -1,5 +1,5 @@
-Linux Architecture Notes
-========================
+Linux Architecture Diagrams
+===========================
 
 Rendering Stack
 ---------------

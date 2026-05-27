@@ -1,8 +1,0 @@
-Hello hello
-===========
-
-Nice
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:

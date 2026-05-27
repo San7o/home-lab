@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'home-lab'
+project = 'home-lab-notes'
 author = 'Giovanni Santini'
 
 # -- General configuration ---------------------------------------------------
