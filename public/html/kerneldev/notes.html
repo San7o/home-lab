@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Linux Kernel Dev Notes &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kernel Routine" href="routine.html" />
+    <link rel="prev" title="I/O Interfaces" href="io-interfaces.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="linux-kernel-dev-notes">
+<h1>Linux Kernel Dev Notes<a class="headerlink" href="#linux-kernel-dev-notes" title="Link to this heading">¶</a></h1>
+<p>The Kernel Commandments:</p>
+<ul class="simple">
+<li><p>Thou shalt not sleep neither call kmalloc(size, GFP_KERNEL) in interrupt context.</p></li>
+<li><p>Thou shalt use rmb() and wmb() before or after iowrite() or ioread() to
+instruct o’slave compiler to produce the side effects, when you need them.</p></li>
+<li><p>Dereferencing a __user pointer is strictly forbidden, even to the bravest and
+enlighnened kernel developer.</p></li>
+<li><p>A good C developer always cleans up its garbage, in reverse order.</p></li>
+<li><p>Thou shalt synchronize an RCU data structure before writing to it</p></li>
+<li><p>Thou shalt use floating point ops only in a special fpu context</p></li>
+<li><p>Thou shalt never use sysfs API directly, unless he works deep in filesystems.
+Always use groups, or you will create a race condition and made fun of.</p></li>
+<li><p>Beware of the scary spectre when reading memory indexed by an user variable.
+Use array_index_nospec() or speculation_barrier() when necessary.</p></li>
+<li><p>Add “Fixes: &lt;commmit-id&gt; (“&lt;commit-message&gt;”)” tag if you are fixing a
+previous patch</p></li>
+<li><p>Thou shalt use devm_* functions whenever possible, as they are liked more</p></li>
+<li><p>Before touching a per-CPU variable, thou must disable preemption or
+interrupts using get_cpu_var() and release it with put_cpu_var()</p></li>
+</ul>
+<section id="useful-commands">
+<h2>Useful commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h2>
+<p>Get who owns what in the kernel. <cite>–nogit-fallback</cite> will not output developers
+who modified the file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/get_maintainer.pl<span class="w"> </span>-f<span class="w"> </span>&lt;path&gt;<span class="w"> </span>--nogit-fallback
+</pre></div>
+</div>
+<p>When building your module, ensure you have warnings enabled (1, 2 or 3):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">W</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+<p>Always checkpatch before thinking about sending a patch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/checkpatch.pl<span class="w"> </span>-f<span class="w"> </span>drivers/staging/your-driver/your-file.c
+</pre></div>
+</div>
+<p>Also run coccinelle, a static code analysis tool:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>coccicheck<span class="w"> </span><span class="nv">MODE</span><span class="o">=</span>report<span class="w"> </span><span class="nv">M</span><span class="o">=</span>drivers/staging/iio/
+</pre></div>
+</div>
+<p>Generate the ctags so you can jump to definitions in your code editor:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>tags
+<span class="c1"># For emacs gtags:</span>
+make<span class="w"> </span>TAGS
+</pre></div>
+</div>
+</section>
+<section id="sending-a-patch">
+<h2>Sending a patch<a class="headerlink" href="#sending-a-patch" title="Link to this heading">¶</a></h2>
+<p>Make your comifications (after running checkpatch and coccinelle):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure your ~/.gitconfig is correct</span>
+git<span class="w"> </span>commit<span class="w"> </span>-s
+</pre></div>
+</div>
+<p>Generate patch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>format-patch<span class="w"> </span>-1<span class="w"> </span>HEAD
+<span class="c1"># For a series</span>
+<span class="c1"># git format-patch -v1 --cover-letter staging/staging-next -o outgoing/</span>
+scripts/get_maintainer.pl<span class="w"> </span>outgoing/0001-your-patch-name.patch
+<span class="c1"># Modify the patch</span>
+git<span class="w"> </span>send-email<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--to<span class="o">=</span><span class="s2">&quot;gregkh@linuxfoundation.org&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cc<span class="o">=</span><span class="s2">&quot;linux-staging@lists.linux.dev&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cc<span class="o">=</span><span class="s2">&quot;linux-kernel@vger.kernel.org&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>outgoing/0001-your-patch-name.patch
+</pre></div>
+</div>
+</section>
+<section id="videos">
+<h2>Videos<a class="headerlink" href="#videos" title="Link to this heading">¶</a></h2>
+<p>Greg explaining release cycle and patch flow from mailing list to stable:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.youtube.com/watch?v=vyenmLqJQjs">https://www.youtube.com/watch?v=vyenmLqJQjs</a></p>
+</div></blockquote>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Linux Kernel Dev Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Kernel Development</a><ul>
+      <li>Previous: <a href="io-interfaces.html" title="previous chapter">I/O Interfaces</a></li>
+      <li>Next: <a href="routine.html" title="next chapter">Kernel Routine</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/kerneldev/notes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

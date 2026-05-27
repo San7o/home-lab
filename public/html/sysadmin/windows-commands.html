@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Windows commands &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Linux Audio" href="linux-audio.html" />
+    <link rel="prev" title="Sysadmin" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="windows-commands">
+<h1>Windows commands<a class="headerlink" href="#windows-commands" title="Link to this heading">¶</a></h1>
+<p>Quick tip: you can use the new windows terminal on windows 10 by installing it
+from the microsoft store. The windows terminal has some multiplexing features
+built-in which are very useful.</p>
+<p>To get an up to date powershell, you need to download it and install it from the
+official website – do not use the default powershell because it is really old!
+– and then configure the terminal to use the new shell.</p>
+<p>To install program, you can use <cite>winget</cite> which is a command line packet manager,
+in the style of Linux’s packet managers.</p>
+<p>Note: to run some of the following commands you need to run the shell as
+administrator.</p>
+<section id="command-utilities">
+<h2>Command utilities<a class="headerlink" href="#command-utilities" title="Link to this heading">¶</a></h2>
+<section id="network-utilities">
+<h3>Network Utilities<a class="headerlink" href="#network-utilities" title="Link to this heading">¶</a></h3>
+<p>Show ip information:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">ipconfig</span> <span class="p">/</span><span class="n">all</span>
+</pre></div>
+</div>
+<p>Drop / reassing ip:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">ipconfig</span> <span class="p">/</span><span class="n">release</span>
+<span class="n">ipconfig</span> <span class="p">/</span><span class="n">renew</span>
+</pre></div>
+</div>
+<p>Get interfaces with netsh. This tool offers a broader range of capabilities than
+ipconfig:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">netsh</span> <span class="n">interface</span> <span class="n">show</span> <span class="n">interface</span>
+</pre></div>
+</div>
+<p>List ports:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">netstat</span> <span class="n">-af</span>
+</pre></div>
+</div>
+</section>
+<section id="filesystem-utilities">
+<h3>Filesystem utilities<a class="headerlink" href="#filesystem-utilities" title="Link to this heading">¶</a></h3>
+<p>Check and repair issues in /f disk and /r sectors:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">chkdsk</span> <span class="p">/</span><span class="n">f</span>
+<span class="n">chkdsk</span> <span class="p">/</span><span class="nb">r</span>
+</pre></div>
+</div>
+<p>Repair corrupted filesystem files:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">sfc</span> <span class="p">/</span><span class="n">scannnow</span>
+</pre></div>
+</div>
+<p>Format a drive:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">format</span> <span class="no">[drive letter]</span><span class="p">:</span> <span class="p">/</span><span class="n">fs</span><span class="p">:</span><span class="no">[file system]</span> <span class="p">/</span><span class="n">q</span>
+</pre></div>
+</div>
+<p>Manage, create and delete disk partitions:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">diskpart</span>
+</pre></div>
+</div>
+<p>Encrypt all files in current folder:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">cipher</span> <span class="p">/</span><span class="n">E</span>
+</pre></div>
+</div>
+<p>Robust file copy, better than simple copy:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">robocopy</span> <span class="n">source</span> <span class="n">dest</span> <span class="p">/</span><span class="n">E</span>
+</pre></div>
+</div>
+</section>
+<section id="general-utilities">
+<h3>General utilities<a class="headerlink" href="#general-utilities" title="Link to this heading">¶</a></h3>
+<p>Get info about the system:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">systeminfo</span>
+</pre></div>
+</div>
+<p>Find a substring:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">findstr</span>
+</pre></div>
+</div>
+<p>Copy to clipboard:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">clip</span>
+</pre></div>
+</div>
+<p>Get a report on power consumption:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">powercfg</span> <span class="p">/</span><span class="n">energy</span>
+<span class="n">powercfg</span> <span class="p">/</span><span class="n">batteryreport</span>
+</pre></div>
+</div>
+<p>List and kill processes:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">tasklist</span>
+<span class="n">taskkill</span>
+</pre></div>
+</div>
+<p>Reboot to bios:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">shutdown</span> <span class="p">/</span><span class="nb">r </span><span class="p">/</span><span class="nb">fw </span><span class="p">/</span><span class="n">f</span> <span class="p">/</span><span class="n">t</span> <span class="n">0</span>
+</pre></div>
+</div>
+<p>Get the windows version:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">winver</span>
+</pre></div>
+</div>
+<p>NTop - windows version of “top”:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/gsass1/NTop">https://github.com/gsass1/NTop</a></p>
+</div></blockquote>
+</section>
+</section>
+<section id="powershell-examples">
+<h2>Powershell examples<a class="headerlink" href="#powershell-examples" title="Link to this heading">¶</a></h2>
+<p>Command help:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Help</span> <span class="nb">dir </span><span class="n">-detailed</span>
+</pre></div>
+</div>
+<p>Install latest Powershell (the one that is pre-installed is very old):</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-id</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span> <span class="p">-</span><span class="n">-source</span> <span class="n">winget</span>
+</pre></div>
+</div>
+<p>Update the help documentation:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Update-Help</span> <span class="n">-Verbose</span> <span class="n">-Force</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</pre></div>
+</div>
+<p>Get all processes, print their members:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Get-Member</span>
+</pre></div>
+</div>
+<p>Format objects:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">dir </span><span class="p">|</span> <span class="nb">Format-List</span>
+<span class="nb">dir </span><span class="p">|</span> <span class="nb">Format-Table</span>
+</pre></div>
+</div>
+<p>Get the number of objects:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Measure</span>
+</pre></div>
+</div>
+<p>Where filters the objects that meet a condition:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">dir </span><span class="p">|</span> <span class="nb">Where </span><span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Extension</span> <span class="o">-eq</span> <span class="s1">&#39;.json&#39;</span> <span class="p">}</span>
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where </span><span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">CPU</span> <span class="o">-ge</span> <span class="n">10</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Sort </span><span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">id</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Get just the name of the directories:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">ls </span><span class="p">|</span> <span class="k">ForEach</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Get all processes with an ID above 4000, and work out the average CPU time:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where </span><span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Id</span> <span class="o">-ge</span> <span class="n">4000</span> <span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">CPU</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Measure </span><span class="n">-Average</span>
+</pre></div>
+</div>
+<p>Get the drives:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-PSDrive</span>
+</pre></div>
+</div>
+<p>Get the commands using a filter:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Command</span> <span class="p">|</span> <span class="nb">Where </span><span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-like</span> <span class="s1">&#39;*process*&#39;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>in this case, Get-Command already accepts a wildcard as argument:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Command</span> <span class="p">*</span><span class="k">process</span><span class="p">*</span>
+</pre></div>
+</div>
+</section>
+<section id="windows-sandbox">
+<h2>Windows sandbox<a class="headerlink" href="#windows-sandbox" title="Link to this heading">¶</a></h2>
+<p>Windows Sandbox is a lightweight, isolated desktop environment that allows users
+to safely run applications without affecting their main operating system.</p>
+<p>To enable Windows Sandbox, you need to open “Turn Windows features off and off”
+and enable it, then restart the machie.</p>
+<p>Sandboxes are defines as a XML file, for example the following creates an
+isolated sandbox that can access the Download folder in read only mode, and it
+runs the explorer when it starts:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="n">Configuration</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="n">VGpu</span><span class="p">&gt;</span><span class="n">Disable</span><span class="p">&lt;/</span><span class="n">VGpu</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="n">Networking</span><span class="p">&gt;</span><span class="n">Disable</span><span class="p">&lt;/</span><span class="n">Networking</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="n">MappedFolders</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="n">MappedFolder</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="n">HostFolder</span><span class="p">&gt;</span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Public</span><span class="p">\</span><span class="n">Downloads</span><span class="p">&lt;/</span><span class="n">HostFolder</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="n">SandboxFolder</span><span class="p">&gt;</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">&lt;/</span><span class="n">SandboxFolder</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="n">ReadOnly</span><span class="p">&gt;</span><span class="n">true</span><span class="p">&lt;/</span><span class="n">ReadOnly</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="n">MappedFolder</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="n">MappedFolders</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="n">LogonCommand</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="n">Command</span><span class="p">&gt;</span><span class="n">explorer</span><span class="p">.</span><span class="n">exe</span> <span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">&lt;/</span><span class="n">Command</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="n">LogonCommand</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="n">Configuration</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>To run the sandbox, you need to save the XML as a .wsb file and then double
+click or run <cite>start</cite> on it.</p>
+</section>
+<section id="wsl">
+<h2>WSL<a class="headerlink" href="#wsl" title="Link to this heading">¶</a></h2>
+<p>Installing WSL is quite straight forward, just run:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span>
+</pre></div>
+</div>
+</section>
+<section id="sysinternals">
+<h2>sysinternals<a class="headerlink" href="#sysinternals" title="Link to this heading">¶</a></h2>
+<p>Useful tools for sysadmins:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://learn.microsoft.com/en-us/sysinternals/">https://learn.microsoft.com/en-us/sysinternals/</a></p>
+</div></blockquote>
+<p>Other tools include
+- total commander
+- FurMark2 (GPU benchmarks)
+- system informer</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sysadmin</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Windows commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-audio.html">Linux Audio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="top-commands.html">Top commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/terraform.html">Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ssh-public-key-auth.html">ssh public key authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selinux/selinux.html">SELinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible/ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="containers/docker-commands.html">Docker commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Sysadmin</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Sysadmin</a></li>
+      <li>Next: <a href="linux-audio.html" title="next chapter">Linux Audio</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/sysadmin/windows-commands.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

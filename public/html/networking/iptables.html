@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>iptables &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Connect LCX container to internet on proxmox" href="proxmox-lcx-internet.html" />
+    <link rel="prev" title="free DNS names" href="free-dns-names.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="iptables">
+<h1>iptables<a class="headerlink" href="#iptables" title="Link to this heading">¶</a></h1>
+<p>Note that iptables is now largely considered legacy, in favour of nftables.</p>
+<p>iptables works with the following concepts:</p>
+<ul class="simple">
+<li><p>tables: goup of similar rules, a table consists of several rule chains.</p></li>
+<li><p>chains: a chain is a list of rules. When a packet is received, iptables finds
+the appropriate table and filters it through the rule chain until a match is
+found.</p></li>
+<li><p>rules: a rule is a statement that defines the conditions for matching a
+packet, which is then sent to a target</p></li>
+<li><p>targets: a decision of what to do with a packet. The packet is either
+accepted, dropped, or rejected.</p></li>
+</ul>
+<section id="tables">
+<h2>Tables<a class="headerlink" href="#tables" title="Link to this heading">¶</a></h2>
+<p>Iptables has four default tables that manage different rule chains:</p>
+<ul class="simple">
+<li><p>filter: default packet filtering table. It acts as a gatekeeper that decides
+which packets enter and leave a network.</p></li>
+<li><p>NAT: network address translation rules for routing packets to
+remote networks.</p></li>
+<li><p>mangle: adjust the IP header properties of packets</p></li>
+<li><p>raw: exempts packets from connection tracking</p></li>
+</ul>
+</section>
+<section id="chains">
+<h2>Chains<a class="headerlink" href="#chains" title="Link to this heading">¶</a></h2>
+<p>There are different chains, each with a specific purpose:</p>
+<ul class="simple">
+<li><p>INPUT: handles incoming packets destined for a local pllication service.</p></li>
+<li><p>OUTPUT: manages outgoing packets generated on a local application or service.</p></li>
+<li><p>FORWARD: works with packets that pass through the system between network
+interfaces.</p></li>
+<li><p>PREROUTING: alters packets before they are routed. The NAT, mangle and raw
+tables contain this chain.</p></li>
+<li><p>POSTROUTING: alters packets after they are routed. The NAT and mangle tables
+contain this chain.</p></li>
+</ul>
+</section>
+<section id="targets">
+<h2>Targets<a class="headerlink" href="#targets" title="Link to this heading">¶</a></h2>
+<p>Common targets include ACCEPT, DROP, REJECT, LOG, SNAT, DNAT, MASQUERADE.</p>
+<p>For example, here is how to allow traffic over port 22 and disable
+all the rest:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">22</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-j<span class="w"> </span>DROP
+</pre></div>
+</div>
+<p>For ipv6, we use the utility <cite>ip6tables</cite> instead.</p>
+<p>To clear all rules:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>iptables<span class="w"> </span>-F
+ip6tables<span class="w"> </span>-F
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewalld.html">firewalld</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-dns-names.html">free DNS names</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">iptables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxmox-lcx-internet.html">Connect LCX container to internet on proxmox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static-ip-over-ethernet.html">static ip over ethernet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wpa_supplicant.html">WPA supplicant</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Networking</a><ul>
+      <li>Previous: <a href="free-dns-names.html" title="previous chapter">free DNS names</a></li>
+      <li>Next: <a href="proxmox-lcx-internet.html" title="next chapter">Connect LCX container to internet on proxmox</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/networking/iptables.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
