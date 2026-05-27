@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Probability Basics &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=fa8ba3e2" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Lagrange dual Funciton" href="lagrange-dual-function.html" />
+    <link rel="prev" title="Eigenvalues and Eigenvectors" href="eigenvalues-and-eigenvectors.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="probability-basics">
+<h1>Probability Basics<a class="headerlink" href="#probability-basics" title="Link to this heading">¶</a></h1>
+<p>In this document I will summarize the core ideas of probability theory.</p>
+<section id="basic-definitions">
+<h2>Basic Definitions<a class="headerlink" href="#basic-definitions" title="Link to this heading">¶</a></h2>
+<p>There are two main interpretations of what probability is. The first one is to
+think of a probability as the frequency of a certain event occurring. If a coin
+has 0.5 probability of landing heads, then we expect the coin to land heads
+about half of the time. The other interpretation views probability as a quantity
+of uncertainty or ignorance about something, this is more related to information
+rather than repeated trials. In the coin example, here we mean that the coin is
+equally likely to land heads or tails on the next toss.</p>
+<p>We define the following terms:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\Omega\)</span> as the sample space, it is composed of independent events</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\subset 2^{\Omega}\)</span> is a subset of the sample space of a problem</p></li>
+<li><p><span class="math notranslate nohighlight">\(a\in A\)</span> is an event</p></li>
+</ul>
+</section>
+<section id="probability-function">
+<h2>Probability Function<a class="headerlink" href="#probability-function" title="Link to this heading">¶</a></h2>
+<p>A function <cite>P</cite> is a probability function if:</p>
+<ul class="simple">
+<li><p><cite>P</cite> is non negative: <span class="math notranslate nohighlight">\(P(A)\ge 0\ \forall A\in \Omega\)</span></p></li>
+<li><p><cite>P</cite> is normalized: <span class="math notranslate nohighlight">\(P(\Omega)=1\)</span></p></li>
+<li><p><cite>P</cite> is <span class="math notranslate nohighlight">\(\sigma\)</span> -additive: if <span class="math notranslate nohighlight">\(A_i \cap A_j \ne \emptyset,\ A\in \Omega\)</span> then  <span class="math notranslate nohighlight">\(P(\cup_i A_i)=\sum_i P(A_i)\)</span></p></li>
+</ul>
+<p>From set theory, you can demonstrate that the following holds:</p>
+<div class="math notranslate nohighlight">
+\[P(A\cup B) = P(A) + P(B) - P(A\cap B)\]</div>
+</section>
+<section id="bayes-theorem">
+<h2>Bayes Theorem<a class="headerlink" href="#bayes-theorem" title="Link to this heading">¶</a></h2>
+<p>Bayes theorem is a foundamental theorem that correlates the probabilty of
+variables given another variable. First, we define <span class="math notranslate nohighlight">\(P(A|H)\)</span> as the
+probability of A given H, and we can calculate this as:</p>
+<div class="math notranslate nohighlight">
+\[P(A|H)=\frac{P(A\cap H)}{P(H)},\ P(H)&gt;0\]</div>
+<p>The Bayes theorem states:</p>
+<div class="math notranslate nohighlight">
+\[P(A_i|B)=\frac{P(B|A_i)P(A_i)}{\sum_j P(B|A_j)P(A_j)}=\frac{P(B|A_i)P(A_i)}{P(B)}\]</div>
+</section>
+<section id="stochastic-independence">
+<h2>Stochastic Independence<a class="headerlink" href="#stochastic-independence" title="Link to this heading">¶</a></h2>
+<p>Events <span class="math notranslate nohighlight">\(A\in \Omega\)</span> are said to be independent if:</p>
+<div class="math notranslate nohighlight">
+\[P(A_{i1} \cap A_{i2} \cap ... \cap A_{ik}) = \prod_{j=1}^k P(A_{ij}) = P(A_{i1})\cdot P(A_{i2})\cdot ...\cdot P(A_{ik})\]</div>
+<p>The same applies to bivaraite functions:</p>
+<div class="math notranslate nohighlight">
+\[P_{X, Y}(x, y) = P_X(x)\cdot P_Y(y),\ \forall (x, y)\in R_x \times R_y\]</div>
+<p>moreover:</p>
+<div class="math notranslate nohighlight">
+\[P_{X|Y}(x|y) = P_X(x)
+P_{Y|X}(y|x) = P_Y(y)\]</div>
+</section>
+<section id="distribution-function">
+<h2>Distribution Function<a class="headerlink" href="#distribution-function" title="Link to this heading">¶</a></h2>
+<p>A function <cite>F</cite> is a probability distribution function if:</p>
+<ul class="simple">
+<li><p><cite>F</cite> never decreases</p></li>
+<li><p><cite>F</cite> is right-continuous</p></li>
+<li><p><cite>F</cite> always has a left-limit</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{x\to - \infty} f(x)=0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{x\to\infty}f(x)=1\)</span></p></li>
+</ul>
+<p>Then:</p>
+<div class="math notranslate nohighlight">
+\[P((a, b])=^{(discrete)}F(b)-F(a^-) =^{(continuous)} \int_a^b f(x)dx\]</div>
+<p>Where <cite>f(x)</cite> is called density when if <cite>Fin C^1</cite> in the continuous formulation.</p>
+</section>
+<section id="random-variable">
+<h2>Random Variable<a class="headerlink" href="#random-variable" title="Link to this heading">¶</a></h2>
+<p>Random variables are a mathematical formalization used to model quantities which
+depend on random events, it lets us quantify random events so that we can make
+probability calculations.</p>
+<p>More formally, a random variable is a function that maps event in some sample
+space <span class="math notranslate nohighlight">\(\Omega\)</span> to a set of outcomes in measurable space <cite>E</cite>, which is often
+<span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[X:\Omega \to E\]</div>
+<p>The probability that $X$ takes on a value in a measurable set <span class="math notranslate nohighlight">\(S\subseteq
+E\)</span> is written as</p>
+<div class="math notranslate nohighlight">
+\[P(X\in S) = P(\{ \omega \in \Omega \ \|\ X(\omega)\in S \})\]</div>
+</section>
+<section id="notable-random-variables">
+<h2>Notable Random Variables<a class="headerlink" href="#notable-random-variables" title="Link to this heading">¶</a></h2>
+<p>Some random variables appear more than others, so a few of them are worthy of
+their name. You will see those everywhere in nature, economics, populations, and
+more.</p>
+<p>Bernoulli:</p>
+<div class="math notranslate nohighlight">
+\[X(\omega)=\{0, 1\}\]</div>
+<p>Rademacher:</p>
+<div class="math notranslate nohighlight">
+\[Y(\omega)=\{ -1, 1 \}\]</div>
+<p>Binomial <span class="math notranslate nohighlight">\(X\sim Bin(n, p)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[P_x(J)=\{ \binom{n}{k}p^J(1-p)^{n-J},\ j=1...n\ \|\ 0\ otherwise \}\]</div>
+<p>Poissont <span class="math notranslate nohighlight">\(X\sim Pois(\lambda)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[P_x\{\frac{\lambda^xe^{-\lambda}}{x!}, n\in \mathbb{N}\cup \{ 0 \}\ \|\ 0\ otherwise\}\]</div>
+<p>Geometric:</p>
+<div class="math notranslate nohighlight">
+\[P(y)=\{ p(1-p)^{y-1},\ y\in \mathbb{N}\ \|\ 0\ otherwise \}\]</div>
+<p>Uniform <span class="math notranslate nohighlight">\(X\sim Unif[a, b]\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[f_x(x)=\{ \frac{1}{b-a},\ x\in [a, b]\ \|\ 0\ otherwise \}\]</div>
+<p>Normal (Gaussian) <span class="math notranslate nohighlight">\(X\sim N(\mu , \sigma^2)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[f_x(x) = \frac{1}{\sqrt{2\pi \sigma^2}}e^{-\frac{1}{2}\frac{(x-\mu)^2}{\sigma^2}}\]</div>
+<p>Exponential <span class="math notranslate nohighlight">\(X\sim Exp(\lambda)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[f_x(x)=\lambda e^{\lambda x}\mathbb{1}(x&gt;0)\]</div>
+</section>
+<section id="expected-value">
+<h2>Expected Value<a class="headerlink" href="#expected-value" title="Link to this heading">¶</a></h2>
+<p>We define the expected value in a discrete space as:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(x) = \sum_{x\in R_x} xp_x(x)\]</div>
+<p>and in the continuous:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(x)=\int_{-\infty}^{\infty} xf_x(x)dx\]</div>
+<p>The expected value is a linear function:</p>
+<div class="math notranslate nohighlight">
+\[E(aX+b) = a\mathbb{E}(x)+b
+E(g(x))=\sum_{x\in R_x} g(x)p_x(x)\]</div>
+<p>Known formulas for notable random variables:</p>
+<ul class="simple">
+<li><p>Bernoulli: <span class="math notranslate nohighlight">\(\mathbb{E}(x)=p\)</span></p></li>
+<li><p>Binomial: <span class="math notranslate nohighlight">\(\mathbb{E}(x)=np\)</span></p></li>
+<li><p>Geometric: <span class="math notranslate nohighlight">\(\mathbb{E}(x)= \frac{1}{p}-1\)</span></p></li>
+<li><p>Normal: <span class="math notranslate nohighlight">\(\mathbb{E}(x)=\mu\)</span></p></li>
+<li><p>Exponential: <span class="math notranslate nohighlight">\(\mathbb{E}(x)=\frac{1}{\lambda}\)</span></p></li>
+<li><p>Poisson: <span class="math notranslate nohighlight">\(\mathbb{E}(x)=\lambda\)</span></p></li>
+</ul>
+</section>
+<section id="variance">
+<h2>Variance<a class="headerlink" href="#variance" title="Link to this heading">¶</a></h2>
+<p>We define variance as:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}ar(x)=\mathbb{E}(x^2)-\mathbb{E}(x)^2 = \mathbb{E}[(x-\mathbb{E}[x])^2]\]</div>
+<p>Moreover:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}ar(x)=\mathbb{E}(\mathbb{V}ar(x|y)) + \mathbb{V}ar(\mathbb{E}(x|y))\]</div>
+</section>
+<section id="covariance">
+<h2>Covariance<a class="headerlink" href="#covariance" title="Link to this heading">¶</a></h2>
+<p>We define the covariance as:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{C}ov(x, y)=\mathbb{E}((x-\mathbb{E}(x))(y-\mathbb{E}(y)))=\mathbb{E}(XY)-\mathbb{E}(x)\mathbb{E}(y)\]</div>
+</section>
+<section id="standardization">
+<h2>Standardization<a class="headerlink" href="#standardization" title="Link to this heading">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[z=g(x)=\frac{x-\mathbb{E}(x)}{\sqrt{\mathbb{V}ar(x)}}\]</div>
+<p>After this transformation:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbb{E}(z)=0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbb{V}ar(z)=1\)</span></p></li>
+</ul>
+<p>The opposite can be achieved:</p>
+<div class="math notranslate nohighlight">
+\[x=\sigma z + \mu\]</div>
+</section>
+<section id="markov-inequality">
+<h2>Markov Inequality<a class="headerlink" href="#markov-inequality" title="Link to this heading">¶</a></h2>
+<p>Let <cite>Y</cite> be a random variable non negative, then <span class="math notranslate nohighlight">\(\forall a&gt;0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[P(Y\ge a)\le \frac{\mathbb{E}(y)}{a}\]</div>
+</section>
+<section id="chebyshev-inequality">
+<h2>Chebyshev Inequality<a class="headerlink" href="#chebyshev-inequality" title="Link to this heading">¶</a></h2>
+<p>Let <cite>Y</cite> be a random variable, <span class="math notranslate nohighlight">\(\mu = \mathbb{E}(y)\)</span>,
+<span class="math notranslate nohighlight">\(\sigma^2=\mathbb{V}ar(y)\)</span>, then <span class="math notranslate nohighlight">\(\forall \epsilon &gt; 0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[P(\|Y-\mu\| \ge \epsilon)\le \frac{\sigma^2}{\epsilon^2}\]</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Math</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="eigenvalues-and-eigenvectors.html">Eigenvalues and Eigenvectors</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Probability Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lagrange-dual-function.html">The Lagrange dual Funciton</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Math</a><ul>
+      <li>Previous: <a href="eigenvalues-and-eigenvectors.html" title="previous chapter">Eigenvalues and Eigenvectors</a></li>
+      <li>Next: <a href="lagrange-dual-function.html" title="next chapter">The Lagrange dual Funciton</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/math/probability-basics.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

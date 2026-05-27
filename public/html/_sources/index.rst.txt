@@ -10,4 +10,5 @@ A collection of my personal notes and other useful stuff
    kerneldev/index
    networking/index
    sysadmin/index
+   math/index
    TODO

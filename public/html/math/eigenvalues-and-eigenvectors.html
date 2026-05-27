@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Eigenvalues and Eigenvectors &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=fa8ba3e2" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Probability Basics" href="probability-basics.html" />
+    <link rel="prev" title="Math" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="eigenvalues-and-eigenvectors">
+<h1>Eigenvalues and Eigenvectors<a class="headerlink" href="#eigenvalues-and-eigenvectors" title="Link to this heading">¶</a></h1>
+<p>Today we will look at Eigenvalues and Eigenvectors in linear algebra. I will use
+the great book “Algebra Lineare” by Marco Abate as my reference.</p>
+<p>Eigenvectors are an important theoretical and practical topic, they are is used
+also in machine learning and are often used as the preferred axis for rotations
+or other transformations.</p>
+<section id="definition">
+<h2>Definition<a class="headerlink" href="#definition" title="Link to this heading">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(T: V\rightarrow V\)</span> be an endomorphism (maps from a space to itself)
+of a vector space <cite>V</cite>. A vector <span class="math notranslate nohighlight">\(v_0 \ne 0\)</span> of <cite>V</cite> is an eigenvector of
+<cite>T</cite> with respect to the <em>eigenvalue</em> <span class="math notranslate nohighlight">\(\lambda\)</span> if:</p>
+<div class="math notranslate nohighlight">
+\[T(v_0)=\lambda v_0\]</div>
+<p>The set of <em>eigenvalues</em> is called the spectre of <cite>T</cite>. If <span class="math notranslate nohighlight">\(\lambda \in \
+space(T)\)</span> then the set:</p>
+<div class="math notranslate nohighlight">
+\[V_{\lambda} = \{ v\in T\ \|\ T(v)=\lambda v \}\]</div>
+<p>is called <em>eigenspace</em>.</p>
+<p>Notice that from the definition follows:</p>
+<div class="math notranslate nohighlight">
+\[Tv_0 - \lambda v_0 = 0
+(T - \lambda I)v_0 = 0\]</div>
+<p>Therefore <span class="math notranslate nohighlight">\((T-\lambda I)=0\)</span> (is singular) and it’s determinant is 0.</p>
+<div class="math notranslate nohighlight">
+\[det(T-\lambda I)=0\]</div>
+<p>This is very useful to compute the eigenvalues. Once you have those, and T, you
+can use them in the definition to get the eigenspace and the eigenvectors.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Math</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Eigenvalues and Eigenvectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probability-basics.html">Probability Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lagrange-dual-function.html">The Lagrange dual Funciton</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Math</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Math</a></li>
+      <li>Next: <a href="probability-basics.html" title="next chapter">Probability Basics</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/math/eigenvalues-and-eigenvectors.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
