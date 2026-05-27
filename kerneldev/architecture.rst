@@ -1,16 +1,15 @@
-========================
 Linux Architecture Notes
 ========================
 
 Rendering Stack
 ---------------
 
-.. image:: linux-rendering-stack.png
+.. image:: ../images/linux-rendering-stack.png
 
 Networking Stack
 ----------------
 
-.. image:: linux-networking-stack.png
+.. image:: ../images/linux-networking-stack.png
 
 - NAPI_ (New API): poll packets from the NIC in bulk so that it does not
   interrupt the CPU too much
@@ -24,7 +23,7 @@ Networking Stack
 Storage Stack
 -------------
 
-.. image:: linux-storage-stack.png
+.. image:: ../images/linux-storage-stack.png
 
 To manage read and writes to the storage device, the Linux kernel uses the `bio`
 structure which connects the filesystem to a particular storage device.
@@ -80,7 +79,7 @@ Source: gemini.
 Build systems
 -------------
 
-.. image:: linux-build-systems.png
+.. image:: ../images/linux-build-systems.png
 
 - `Linux Kernel Module`_: raw kernel development quickstart
 

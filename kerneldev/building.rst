@@ -29,6 +29,8 @@ custom one.
 By convention, a layer's directory starts with `meta-`. Here is an example
 layout.
 
+.. code-block:: text
+
      meta-my-layer/
        conf/
          layer.conf
@@ -46,6 +48,8 @@ Yocto Getting started
 ---------------------
 
 Do this to start a new project:
+
+.. code-block:: bash
 
     # Setup
     mkdir yocto && cd yocto
@@ -79,10 +83,14 @@ Now that you have a linux image, to actually develop an out-of-tree kernel
 module, you can use bitbake to generate the cross compilationm environment for
 you (or use `devtool`, more on this later):
 
+.. code-block:: bash
+
     bitbake core-image-minimal -c populate_sdk
 
 This generates a shell script in build/tmp/deploy/sdk/ that you can execute to
 generate the sdk.
+
+.. code-block:: bash
 
     . <sdk_dir>/environment-setup-x86-64-v3-poky-linux
 
@@ -93,6 +101,8 @@ or something similar. With this you can avoid restarting the image each time.
 Once you are done developing, you can integrate it to the image by adding the
 module inside the bitbake build system. You do this by creating a new recipe
 that uses the module.bbclass. Then to build it with the bitbake toolchain:
+
+.. code-block:: bash
 
     bitbake my-driver
 
@@ -108,6 +118,8 @@ module with make. To connect these two systems, you can use `devtool`. It does
 some setting up for you and it links the module with the yocto toolchain.
 
 To run the following commands you need to have sourced the bitbake environment.
+
+.. code-block:: bash
 
     # Generate new recipes of the driver
     devtool add <recipe-name> /path/to/driver
@@ -142,6 +154,8 @@ a tool like Kas. It is not only really useful for CI, but also for local
 development. You can create a single `project.yml` file that describes your
 yocto setup, then enter it with:
 
+.. code-block:: bash
+
     kas build project.yml
     # or ugse bitbake or build
     kas shell project.yml
@@ -159,6 +173,8 @@ You can specify some configuration flags. Tuxmake will download a docker
 container for the build and configure the toolchain and .config based on the
 falgs.
 
+.. code-block:: bash
+
     cd linux
     tuxmake
 
@@ -171,6 +187,8 @@ Buildroot
 ---------
 
 Buildroot is quite straight forward to use.
+
+.. code-block:: bash
 
     # See which configs are available
     ls configs/ | grep qemu
@@ -233,6 +251,8 @@ Some build configs you should know about:
 
 Useful commands
 ---------------
+
+.. code-block:: bash
 
   bitbake-config-build list-fragments
 

@@ -8,6 +8,8 @@ the DTS represents the rest of the board.
 
 They are localted in arch/arm64/boot/dts/ and you can build them with make:
 
+.. code-block:: bash
+
     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
                          arch/arm64/boot/dts/arm/corstone1000.dtsi
 

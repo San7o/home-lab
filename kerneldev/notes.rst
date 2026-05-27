@@ -27,21 +27,31 @@ Useful commands
 Get who owns what in the kernel. `--nogit-fallback` will not output developers
 who modified the file:
 
+.. code-block:: bash
+
     ./scripts/get_maintainer.pl -f <path> --nogit-fallback
 
 When building your module, ensure you have warnings enabled (1, 2 or 3):
+
+.. code-block:: bash
 
     make W=1
 
 Always checkpatch before thinking about sending a patch:
 
+.. code-block:: bash
+
     ./scripts/checkpatch.pl -f drivers/staging/your-driver/your-file.c
 
 Also run coccinelle, a static code analysis tool:
 
+.. code-block:: bash
+
     make coccicheck MODE=report M=drivers/staging/iio/
 
 Generate the ctags so you can jump to definitions in your code editor:
+
+.. code-block:: bash
 
     make tags
     # For emacs gtags:
@@ -52,10 +62,14 @@ Sending a patch
 
 Make your comifications (after running checkpatch and coccinelle):
 
+.. code-block:: bash
+
     # Make sure your ~/.gitconfig is correct
     git commit -s
 
 Generate patch:
+
+.. code-block:: bash
 
     git format-patch -1 HEAD
     # For a series
