@@ -84,3 +84,6 @@ Night routine
 
 Work on the project I am currently working on (a driver, my OS, learning a tool
 like yocto, write a compiler.... whatever).
+
+
+shh grep -rnE 'pr_err\(\s*"([^"\\]|\\.)*([^n]|[^\\].)"' .

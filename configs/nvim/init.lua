@@ -10,6 +10,7 @@
 -- vim options
 vim.opt.number         = true
 vim.opt.relativenumber = true
+vim.opt.clipboard      = "unnamedplus" -- system clipboard
 vim.opt.expandtab      = true
 vim.opt.shiftwidth     = 4
 vim.opt.tabstop        = 4
@@ -18,8 +19,19 @@ vim.opt.textwidth      = 80   -- use 'gqip' to format a paragraph
 vim.opt.tags           = "./tags;,tags"
 vim.g.loaded_netrw       = 1  -- Disable default tree view for nvim-tree
 vim.g.loaded_netrwPlugin = 1
-vim.opt.clipboard      = "unnamedplus" -- system clipboard, you may need to
-                                       -- install wl-clipboard on wayland
+
+-- Show whitespaces
+vim.o.list = true
+vim.o.listchars = 'tab:» ,lead:•,trail:•'
+vim.api.nvim_set_hl(0, 'TrailingWhitespace', { bg='LightRed' })
+vim.api.nvim_create_autocmd('BufEnter', {
+	pattern = '*',
+	command = [[
+		syntax clear TrailingWhitespace |
+		syntax match TrailingWhitespace "\_s\+$"
+	]]}
+)
+
 -- I use plug
 local Plug = vim.fn['plug#']
 

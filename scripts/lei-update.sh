@@ -11,6 +11,10 @@ STAGING_INBOX=https://lore.kernel.org/linux-staging/
 #STAGING_QUERY='dfn:drivers/staging/ AND rt:30.days.ago..'
 STAGING_QUERY='(l:linux-staging.vger.kernel.org OR l:linux-staging@lists.linux.dev OR dfn:drivers/staging/) AND rt:30.days.ago..'
 
+JANITORS_MAILBOX=~/Mail/kernel-janitors
+JANITORS_INBOX=https://lore.kernel.org/kernel-janitors/
+JANITORS_QUERY='rt:30.days.ago..'
+
 EBPF_MAILBOX=~/Mail/bpf
 EBPF_INBOX=https://lore.kernel.org/bpf/
 #EBPF_QUERY='(dfn:kernel/bpf/ OR dfn:tools/lib/bpf/ OR dfn:tools/testing/selftests/bpf/) AND rt:30.days.ago..'
@@ -29,6 +33,17 @@ if [ ! -d $STAGING_MAILBOX ]; then
 else
     echo "Fetching staging"
     lei up $STAGING_MAILBOX
+fi
+
+# Janitors
+if [ ! -d $JANITORS_MAILBOX ]; then
+    echo "Setting up staging"
+    lei q -o $JANITORS_MAILBOX \
+        -I $JANITORS_INBOX \
+        --threads $JANITORS_QUERY
+else
+    echo "Fetching staging"
+    lei up $JANITORS_MAILBOX
 fi
 
 # eBPF
