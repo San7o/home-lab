@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Linux Benchmarking &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=fa8ba3e2" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Monitoring Linux" href="monitoring.html" />
+    <link rel="prev" title="Setup a VPN" href="setup-vpn.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="linux-benchmarking">
+<h1>Linux Benchmarking<a class="headerlink" href="#linux-benchmarking" title="Link to this heading">¶</a></h1>
+<p>Running benchmarks is ultimately the best way to compare two different systems
+or to assert that a particular modification has had any positive or negative
+effect on the system’s performance. To do benchmarks I have been using the
+<a class="reference external" href="https://github.com/phoronix-test-suite/phoronix-test-suite">phoronix test suite</a>, in this document I will briefly explain what phoronix is
+and how it works.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Phoronix is the name of a famous <a class="reference external" href="https://www.phoronix.com/">website</a> founded by Michael Larabel in 2004
+where Michael has been publishing benchmarks and news of linux applications for
+the most part. I personally think his website is one of the most reliable
+sources of information regarding performance and news on latest software and
+hardware. Michael has also create his testing framework, the Phoronix Test
+Suite, which he uses for all his benchmarks.</p>
+<p>The Phoronix Test Suite is composed of an <a class="reference external" href="https://openbenchmarking.org/tests">immense number of benchmarks</a>
+supporting many operating systems including Linux, Windows, maxOS, Solaris and
+various BSD. Around this tool there is a community of people creating new tests
+and sharing results in the <a class="reference external" href="https://openbenchmarking.org/results/latest">openbenchmarking.org</a> website. Here, anybody can view
+and compare them via the web interface. Furthermore, you can schedule and run
+your custom test suites on multiple machines and visualize results in nice
+graphs of various kinds.</p>
+</section>
+<section id="command-line-usage">
+<h2>Command line usage<a class="headerlink" href="#command-line-usage" title="Link to this heading">¶</a></h2>
+<p>You can download the phoronix test suite from the official <a class="reference external" href="https://github.com/phoronix-test-suite/phoronix-test-suite">github</a> page, or
+through you favorite package manager. Fedora provides the package
+“phoronix-test-suite-$VERSION”. Running the command will give you a bunch of
+possible flags you can enter.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoronix-test-suite<span class="w"> </span><span class="nb">help</span>
+</pre></div>
+</div>
+<p>For the most basic usage, you may want to select and run a test. Let’s first
+list all the available tests:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoronix-test-suite<span class="w"> </span>list-all-tests
+</pre></div>
+</div>
+<p>Let’s pick for example “pts/unpack-linux”, a popular test to unpack the linux
+kernel. To get more information about a single test, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoronix-test-suite<span class="w"> </span>info<span class="w"> </span>pts/unpack-linux
+</pre></div>
+</div>
+<p>Some tests may depend on some programs which you need to have installed in your
+system, those programs are usually listed under the “Software Dependencies”
+voice on the infos.</p>
+<p>Let’s try to run the test now. Note that the tests are lazily fetched meaning
+that you don’t have all the tests downloaded in you system but you decide which
+one to download. When running a test it automatically gets downloaded.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoronix-test-suite<span class="w"> </span><span class="nb">test</span><span class="w"> </span>pts/unpack-linux
+</pre></div>
+</div>
+<p>The program will ask if you want to save the results to a file, and to give an
+unique name for the test. The test will start running, often multiple times.
+After completion, you are asked if you want to view the results on a web page,
+otherwise you will be able to do so from the command line by starting the result
+viewer:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoronix-test-suite<span class="w"> </span>start-result-viewer
+</pre></div>
+</div>
+<p>From here you get a web page where you can explore the results, compare them and
+export them in various formats such as pdf, html, json etc..</p>
+</section>
+<section id="id1">
+<h2>openbenchmarking.org<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>You can view other people’s benchmarks and tests on <a class="reference external" href="https://openbenchmarking.org/results/latest">openbenchmarking.org</a>. It is
+particularly useful to download or compare the results directly through the
+browser by writing a comma separated list of the IDs of the benchmarks you want
+to compare on the url. It is easier to see with an example, the request with the
+following url will compare the results between the test “2505249-NE-RES42653018”
+and “2505242-NE-RES51774018”, where each ID was generated when uploading a
+result to the website:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://openbenchmarking.org/result/2505249-NE-RES42653018,2505242-NE-RES51774018">https://openbenchmarking.org/result/2505249-NE-RES42653018,2505242-NE-RES51774018</a></p>
+</div></blockquote>
+<p>The website is also useful to look for specific tests and their results over
+various systems averaged by all the tests from the community. You can find this
+information in the <a class="reference external" href="https://openbenchmarking.org/tests">tests</a> page.</p>
+<img alt="../_images/openbenchmarking.png" src="../_images/openbenchmarking.png" />
+</section>
+<section id="phoromatic-server">
+<h2>Phoromatic server<a class="headerlink" href="#phoromatic-server" title="Link to this heading">¶</a></h2>
+<p>The coolest think about phoronix in my opinion is the phoromatic-server. Using
+the same program we have been using to run the tests, we can host a server
+using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoronix-test-suite<span class="w"> </span>start-phoromatic-server
+</pre></div>
+</div>
+<p>This will start a web interface where you can remotely manage benchmarks on
+multiple machines. When you first open the web page, you can login or create an
+account (locally), then you will get an overview page with the state of the
+various machines you have connected and which benchmarks are running or are
+scheduled to run.</p>
+<p>From the “systems” page you can manage your machines. You will get a list of the
+connected machines with a description of their hardware and software. The page
+contains instructions to connect other machines, which looks like running a
+command similar to:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoronix-test-suite<span class="w"> </span>phoromatic.connect<span class="w"> </span><span class="m">10</span>.10.100.1:8484/VA9KRR
+</pre></div>
+</div>
+<p>From the “test” page you can browse tests, and from the “testing” page you can
+schedule them. You usually need to create a custom test suite which is just a
+collection of one or more tests to run. You can then run the suite and see the
+results in the “results” page.</p>
+<p>Even if the user interface does not look pretty, phoronix is a really powerful
+tool that does the job done. There are many more functionalities and I think it
+is worth the time to learn and explore what the tool is able to do.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sysadmin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="windows-commands.html">Windows commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-audio.html">Linux Audio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="top-commands.html">Top commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-llms.html">Local LLMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/terraform.html">Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ssh-public-key-auth.html">ssh public key authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selinux/selinux.html">SELinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible/ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="containers/docker-commands.html">Docker commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-minecraft-server.html">Setup a Minecraft Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-irc-client.html">Setup an IRC client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-vpn.html">Setup a VPN</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Linux Benchmarking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monitoring.html">Monitoring Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perf-analysis.html">Performance Analysis on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rss.html">RSS Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Sysadmin</a><ul>
+      <li>Previous: <a href="setup-vpn.html" title="previous chapter">Setup a VPN</a></li>
+      <li>Next: <a href="monitoring.html" title="next chapter">Monitoring Linux</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/sysadmin/linux-benchmarking.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

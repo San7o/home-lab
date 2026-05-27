@@ -16,3 +16,8 @@ Sysadmin
    containers/docker-commands
    setup-minecraft-server
    setup-irc-client
+   setup-vpn
+   linux-benchmarking
+   monitoring
+   perf-analysis
+   rss

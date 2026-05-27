@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Monitoring Linux &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=fa8ba3e2" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Performance Analysis on Linux" href="perf-analysis.html" />
+    <link rel="prev" title="Linux Benchmarking" href="linux-benchmarking.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="monitoring-linux">
+<h1>Monitoring Linux<a class="headerlink" href="#monitoring-linux" title="Link to this heading">¶</a></h1>
+<p>If you are managing any system, you need to have an effective way to monitor,
+log and receive notifications about the state of the system. A classic solution
+for Linux based servers is the Prometheus + Grafana stack. In this document I
+will explain you how to setup this and how to create a custom prometheus
+exporter.</p>
+<p>We will see how to setup both Prometheus and Grafana to monitor various system
+statistics which are fetched by node exporter. I will be using Fedora 42 as a
+base.</p>
+<section id="setting-up-node-exporter">
+<h2>Setting up node exporter<a class="headerlink" href="#setting-up-node-exporter" title="Link to this heading">¶</a></h2>
+<p>Node exporter is a service that collects various system information such as CPU
+load, ram usage and much more. Fedora already provides the package
+“node-exporter” and service “node_exporter”:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>node-exporter
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>node_exporter
+</pre></div>
+</div>
+<p>The service will listen on port 9100.</p>
+</section>
+<section id="setting-up-prometheus">
+<h2>Setting up Prometheus<a class="headerlink" href="#setting-up-prometheus" title="Link to this heading">¶</a></h2>
+<p>You can download the latest version of Prometheus from GitHub:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LATEST</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/repos/prometheus/prometheus/releases/latest<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-cr<span class="w"> </span>.tag_name<span class="k">)</span>
+wget<span class="w"> </span>https://github.com/prometheus/prometheus/releases/download/<span class="nv">$LATEST</span>/prometheus-<span class="s2">&quot;</span><span class="si">${</span><span class="nv">LATEST</span><span class="p">:</span><span class="nv">1</span><span class="si">}</span><span class="s2">&quot;</span>.linux-amd64.tar.gz
+tar<span class="w"> </span>-xf<span class="w"> </span>prometheus-*
+<span class="nb">cd</span><span class="w"> </span>prometheus-<span class="s2">&quot;</span><span class="si">${</span><span class="nv">LATEST</span><span class="p">:</span><span class="nv">1</span><span class="si">}</span><span class="s2">&quot;</span>.linux-amd64
+sudo<span class="w"> </span>cp<span class="w"> </span>prometheus<span class="w"> </span>/usr/local/bin/
+</pre></div>
+</div>
+<p>You need to add node exporter to the list of services to scrape, you should edit
+the <cite>/etc/prometheus/prometheus.yml</cite> file and add the following Item in the
+“scrape configs” section:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>scrape_configs:
+-job_name: &#39;linux-server&#39;
+ scrape_interval: 5s
+ static_configs:
+ - targets: [&#39;localhost:9100&#39;]
+</pre></div>
+</div>
+<p>You can start the server by running the command “prometheus”. It will listen in
+port 9090 where you can access the html page. If you are not lazy you can add a
+systemd service for prometheus (or whatever daemon management you are using). To
+create a systemd service, add the following content to the file
+“/etc/systemd/system/prometheus.service”:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[Unit]
+Description=Prometheus
+Documentation=https://github.com/prometheus/prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/etc/prometheus/data \
+  --storage.tsdb.retention.time=30d
+</pre></div>
+</div>
+<p>Then change permissions, reload the daemons and start the service:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chown<span class="w"> </span>prometheus:prometheus<span class="w"> </span>-R<span class="w"> </span>/etc/prometheus
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>prometheus
+</pre></div>
+</div>
+<p>Prometheus has a web UI accessible by default at port =9090=, we will now see
+how to setup Grafana, a popular and powerful UI to visualize the data.</p>
+</section>
+<section id="setting-up-grafana">
+<h2>Setting up Grafana<a class="headerlink" href="#setting-up-grafana" title="Link to this heading">¶</a></h2>
+<p>Install Grafana from your favorite package manager:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>grafana
+</pre></div>
+</div>
+<p>Fedora already creates a systemd service so you can start it as usual, otherwise
+you can create the service yourself like we did before.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>grafana-server
+</pre></div>
+</div>
+<p>If you are using the default Fedora’s SELinux, in order to allow grafana to use
+the prometheus tcp socket we need to write a custom policy. Create the file
+“grafana [underscore] websm.te” and add the following content:</p>
+<p>module grafana_websm 1.0;</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>require<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">type</span><span class="w"> </span>grafana_t<span class="p">;</span>
+<span class="w">    </span><span class="nb">type</span><span class="w"> </span>websm_port_t<span class="p">;</span>
+<span class="w">    </span>class<span class="w"> </span>tcp_socket<span class="w"> </span>name_connect<span class="p">;</span>
+<span class="o">}</span>
+
+<span class="c1"># Allow Grafana to connect to ports labeled websm_port_t</span>
+allow<span class="w"> </span>grafana_t<span class="w"> </span>websm_port_t:tcp_socket<span class="w"> </span>name_connect<span class="p">;</span>
+</pre></div>
+</div>
+<p>Then compile it and load It:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>checkmodule<span class="w"> </span>-M<span class="w"> </span>-m<span class="w"> </span>-o<span class="w"> </span>grafana_websm.mod<span class="w"> </span>grafana_websm.te
+semodule_package<span class="w"> </span>-o<span class="w"> </span>grafana_websm.pp<span class="w"> </span>-m<span class="w"> </span>grafana_websm.mod
+sudo<span class="w"> </span>semodule<span class="w"> </span>-i<span class="w"> </span>grafana_websm.pp
+</pre></div>
+</div>
+<p>Additionally, if you are using a firewall and you want to access the port from
+another device, you need to enable the port 3000. On firewalld, you can use the
+following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">30002</span>/tcp
+sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
+</pre></div>
+</div>
+<p>You can finally go to “<a class="reference external" href="http://localhost:3000">http://localhost:3000</a>” and login with “admin” as the
+username and password and add prometheus as a source in Home &gt; Connections &gt; Add
+a new connection and search for prometheus.</p>
+<p>You can find already made dashboards for node exporter on the <a class="reference external" href="https://grafana.com/grafana/dashboards/?search=node+exporter">grafana website</a></p>
+<img alt="../_images/grafana.png" src="../_images/grafana.png" />
+</section>
+<section id="custom-exporter">
+<h2>Custom Exporter<a class="headerlink" href="#custom-exporter" title="Link to this heading">¶</a></h2>
+<p>What if you wanted to log something custom to your dashboard, you can easily do
+this by starting a tcp server and serving the data you want prometheus to read.
+Then, you need to tell prometheus to fetch your service like we did for node
+exporter.</p>
+<p>One of the simplest way to create a server is using socat. For example, the
+following script creates a server that serves the system’s load average metric
+for prometheus.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="nv">INTERVAL</span><span class="o">=</span><span class="m">5</span><span class="w">  </span><span class="c1"># seconds</span>
+<span class="nv">METRICS_FILE</span><span class="o">=</span><span class="s2">&quot;/tmp/power_metrics.prom&quot;</span>
+<span class="nv">PORT</span><span class="o">=</span><span class="m">9200</span>
+touch<span class="w"> </span><span class="nv">$METRICS_FILE</span>
+
+<span class="c1"># Start background HTTP server</span>
+socat<span class="w"> </span>TCP-LISTEN:<span class="nv">$PORT</span>,reuseaddr,fork<span class="w"> </span>SYSTEM:<span class="s2">&quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; cat \&quot;</span><span class="nv">$METRICS_FILE</span><span class="s2">\&quot;&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># Metrics writer loop</span>
+<span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$INTERVAL</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nv">loadavg</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>/proc/loadavg<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1 }&#39;</span><span class="k">)</span>
+
+<span class="w">    </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; &quot;$METRICS_FILE&quot;</span>
+<span class="s">    # HELP loadavg Load Average</span>
+<span class="s">    # TYPE loadavg gauge</span>
+<span class="s">    loadavg $loadavg</span>
+<span class="s">    EOF</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>And update the <cite>prometheus.yml</cite> file:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>scrape_configs:
+...
+- job_name: &#39;load-average&#39;
+  scrape_interval: 5s
+  static_configs:
+  - targets: [&#39;localhost:9200&#39;]
+</pre></div>
+</div>
+<p>This script runs the tcp server in the background and updates the served content
+each <cite>$INTERVAL</cite> seconds and it exposes the <cite>loadavg</cite> metric with the value of
+the average system load in the last minute. You can now add a new dashboard in
+grafana from the dashboard section and clicking “New &gt; New Dashboard &gt; Add
+Visualization”. You select prometheus as a source and you add your custom metric
+and clock “apply”.</p>
+<img alt="../_images/grafana-custom.png" src="../_images/grafana-custom.png" />
+<p>You can create the http server in any other way, maybe integrate it with the
+application you have been working on, and so on.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sysadmin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="windows-commands.html">Windows commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-audio.html">Linux Audio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="top-commands.html">Top commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-llms.html">Local LLMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/terraform.html">Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ssh-public-key-auth.html">ssh public key authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selinux/selinux.html">SELinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible/ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="containers/docker-commands.html">Docker commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-minecraft-server.html">Setup a Minecraft Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-irc-client.html">Setup an IRC client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-vpn.html">Setup a VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-benchmarking.html">Linux Benchmarking</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Monitoring Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perf-analysis.html">Performance Analysis on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rss.html">RSS Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Sysadmin</a><ul>
+      <li>Previous: <a href="linux-benchmarking.html" title="previous chapter">Linux Benchmarking</a></li>
+      <li>Next: <a href="perf-analysis.html" title="next chapter">Performance Analysis on Linux</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/sysadmin/monitoring.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

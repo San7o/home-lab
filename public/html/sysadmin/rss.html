@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>RSS Guide &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=fa8ba3e2" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TODO" href="../TODO.html" />
+    <link rel="prev" title="Performance Analysis on Linux" href="perf-analysis.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="rss-guide">
+<h1>RSS Guide<a class="headerlink" href="#rss-guide" title="Link to this heading">¶</a></h1>
+<p>RSS is a standard format to let a client access updates from a website. The
+standard is xml based, feeds files (usually ending with .rss or .xml) have at
+least a title, a link and a description, and zero or more feed items.  The way
+this works is that a server would host the .rss or .xml file on some url, then
+the client would fetch the xml file and parse it locally: if the client did not
+have any of the fetched feed items locally, it will notify the user that a new
+item has been updated and it will update It’s local copy.</p>
+<p>In other words, the client would compare the newly fetched feed file and a
+previous local version (if it had one), then if the fetched file has more items
+this means that a new item was published. The way this notification is presented
+depends on the client you are using, as well as the frequency of fetching the
+updates which you can usually change.</p>
+<section id="rss-clients">
+<h2>RSS Clients<a class="headerlink" href="#rss-clients" title="Link to this heading">¶</a></h2>
+<p>There are a large number of free and open source clients out there, you may try
+some and see If you like any of them or just write your own since it is very
+simple. For emacs, you could use <a class="reference external" href="https://www.emacswiki.org/emacs/GnusRss">Gnus</a>, <a class="reference external" href="https://github.com/skeeto/elfeed">Elfeed</a> or <a class="reference external" href="https://www.emacswiki.org/emacs/NewsTicker">NewsTicker</a> (which comes by
+default in emacs since emacs 22) or any other. I tried all three of them and
+they are great, I like NewsTicker interface but gnus is more powerful so I use
+gnus on my daily workflow.</p>
+<p>There are many alternatives outside of emacs, both GUI and tui such as <a class="reference external" href="https://tt-rss.org/">tiny
+tiny RSS</a>. A quick search online would help you find the most suitable one for
+your liking.</p>
+</section>
+<section id="how-do-you-use-a-client">
+<h2>How do you use a client<a class="headerlink" href="#how-do-you-use-a-client" title="Link to this heading">¶</a></h2>
+<p>The usage is usually quite straightforward: you add the url of the feed to your
+client and you update the feeds when you want to check for new publications. The
+client will query all the urls of the feeds you set up and show you the results.</p>
+</section>
+<section id="atom">
+<h2>Atom<a class="headerlink" href="#atom" title="Link to this heading">¶</a></h2>
+<p>I really like the simplicity of RSS. An alternative you may find online are
+<a class="reference external" href="https://validator.w3.org/feed/docs/atom.html">Atom</a> feeds which were created to address some of the limitation of RSS by being
+more extensible and flexible, but it works exactly the same for the most part so
+you can apply what you learned about RSS to Atom. Usually clients can read both.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sysadmin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="windows-commands.html">Windows commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-audio.html">Linux Audio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="top-commands.html">Top commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-llms.html">Local LLMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/terraform.html">Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ssh-public-key-auth.html">ssh public key authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selinux/selinux.html">SELinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible/ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="containers/docker-commands.html">Docker commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-minecraft-server.html">Setup a Minecraft Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-irc-client.html">Setup an IRC client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-vpn.html">Setup a VPN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-benchmarking.html">Linux Benchmarking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monitoring.html">Monitoring Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perf-analysis.html">Performance Analysis on Linux</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RSS Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Sysadmin</a><ul>
+      <li>Previous: <a href="perf-analysis.html" title="previous chapter">Performance Analysis on Linux</a></li>
+      <li>Next: <a href="../TODO.html" title="next chapter">TODO</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/sysadmin/rss.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
