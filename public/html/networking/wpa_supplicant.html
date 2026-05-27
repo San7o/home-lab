@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>WPA supplicant &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=2611ff0f" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Sysadmin" href="../sysadmin/index.html" />
+    <link rel="prev" title="static ip over ethernet" href="static-ip-over-ethernet.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="wpa-supplicant">
+<h1>WPA supplicant<a class="headerlink" href="#wpa-supplicant" title="Link to this heading">¶</a></h1>
+<p>To use wpa_supplicant, you need to setup the configuration, start the daemon,
+and use the wpa_cli.</p>
+<p>Edit <cite>/etc/wpa_supplicant/wpa_supplicant.conf</cite>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ctrl_interface=/run/wpa_supplicant
+update_config=1
+country=IT
+
+network={
+     ssid=&quot;eduroam&quot;
+     scan_ssid=1
+     key_mgmt=WPA-EAP
+     eap=PEAP
+     phase1=&quot;peapver0&quot;
+     phase2=&quot;auth=MSCHAPV2&quot;
+     identity=&quot;name.surname@unitn.it&quot;
+     passwprd=&quot;my_password&quot;
+     ca_cert=&quot;/etc/ssl/certs/ca-certificates.crt&quot;
+     ieee80211w=0
+     domain_suffix_match=&quot;unitn.it&quot;
+}
+</pre></div>
+</div>
+<p>Edit /etc/network/interfaces</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>allow-hotplug wlan0
+iface wlan0 inet dhcp
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+</pre></div>
+</div>
+<p>Run the daemon:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wpa_supplicant -d -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant-eduroam.conf
+</pre></div>
+</div>
+<p>Use wpa_cli:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wpa_cli
+&gt; status
+&gt; list_networks
+&gt; select_network 0
+</pre></div>
+</div>
+<p>This should be enough to connect to the internet. If you have a container or
+virtual machine, you may have to do additional steps like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iptables -t nat -A POSTROUTING -s &#39;192.168.100.0/24&#39; -o wlan0 -j MASQUERADE
+</pre></div>
+</div>
+<p>or adding a nameserver in <cite>/etc/resolv.conf</cite></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="firewalld.html">firewalld</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-dns-names.html">free DNS names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iptables.html">iptables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxmox-lcx-internet.html">Connect LCX container to internet on proxmox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static-ip-over-ethernet.html">static ip over ethernet</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">WPA supplicant</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Networking</a><ul>
+      <li>Previous: <a href="static-ip-over-ethernet.html" title="previous chapter">static ip over ethernet</a></li>
+      <li>Next: <a href="../sysadmin/index.html" title="next chapter">Sysadmin</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/networking/wpa_supplicant.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

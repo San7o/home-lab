@@ -1,0 +1,258 @@
+Building Linux
+==============
+
+Some notes about building the Linux kernel.
+
+Yocto
+-----
+
+Yocto is a collection of tools and configurations for building Linux images.
+
+The goal of yocto is to build a full Linux distribution. This includes the
+toolchain, bootloader, and kernel. Keep in mind that Yocto is not a particular
+tool, it is more of an umbrella project under the Linux Foundation. It uses the
+"OpenEmbedded" framework which provides tools and configurations to build Linux.
+The tool you use for building is called `BitBake`, and the reference base
+distribution you start with is called "poky".
+
+What makes yocto different from other build systems is the use of "layers".
+Layers are directories that contain build instructions (like "recipes",
+"classes", "configuration" and "fragments"). You can create, add, remove and
+modify layers in your build. Openembedded already provides a lot of these for
+you, such as BSP (Board Support Package), UI (frameworks like qt), and distro
+layers (systemd..).
+
+This allows different teams / projects to share layers on the web. You can
+use an official layer from the raspberry pi team for example, or set up your
+custom one.
+
+By convention, a layer's directory starts with `meta-`. Here is an example
+layout.
+
+.. code-block:: text
+
+     meta-my-layer/
+       conf/
+         layer.conf
+         machine/
+           raspberrypi.conf
+       meta-bsp/
+         recipes-bsp/
+         recipes-core/
+         recipes-graphics/
+         recipes-kernel/
+           linux-raspberrypi.inc
+           linux-raspberrypi-dev.bb
+
+Yocto Getting started
+---------------------
+
+Do this to start a new project:
+
+.. code-block:: bash
+
+    # Setup
+    mkdir yocto && cd yocto
+    # Install build dependencies
+    sudo apt-get install build-essential chrpath cpio debianutils \
+                         diffstat file gawk gcc git iputils-ping  \
+                         libacl1 locales python3 python3-git      \
+                         python3-jinja2 python3-pexpect python3-pip \
+                         python3-subunit socat texinfo unzip wget \
+                         xz-utils zstd
+    # Get bitbake
+    git clone https://git.openembedded.org/bitbake
+
+    # Configure
+    ./bitbake/bin/bitbake-setup init
+    source bitbake-builds/poky-wrynose/build/init-build-env 
+    bitbake-config-build enable-fragment core/yocto/root-login-with-empty-password
+    bitbake-config-build enable-fragment core/yocto/sstate-mirror-cdn
+
+    # Build
+    # You can build different images:
+    # - core-image-minimal: bare essentials
+    # - core-image-base: console only with drivers and firmware
+    # - core-image-sato: includes X11 and some UI applications
+    # - core-image-full-cmdlike: no GUI but lots of cli tools
+    bitbake core-image-minimal
+    
+    runqemu snapshot nographic
+
+Now that you have a linux image, to actually develop an out-of-tree kernel
+module, you can use bitbake to generate the cross compilationm environment for
+you (or use `devtool`, more on this later):
+
+.. code-block:: bash
+
+    bitbake core-image-minimal -c populate_sdk
+
+This generates a shell script in build/tmp/deploy/sdk/ that you can execute to
+generate the sdk.
+
+.. code-block:: bash
+
+    . <sdk_dir>/environment-setup-x86-64-v3-poky-linux
+
+You then develop the module "normally", using a Makefile. To test it, you run a
+virtual machine and `scp` the module inside it, or mount a network filesystem,
+or something similar. With this you can avoid restarting the image each time.
+
+Once you are done developing, you can integrate it to the image by adding the
+module inside the bitbake build system. You do this by creating a new recipe
+that uses the module.bbclass. Then to build it with the bitbake toolchain:
+
+.. code-block:: bash
+
+    bitbake my-driver
+
+Here is an index of many yocto layers:
+
+   https://layers.openembedded.org/layerindex/branch/master/layers/ 
+
+Devtool
+-------
+
+We have seen that you can create the toolchain with yocto, and develop the
+module with make. To connect these two systems, you can use `devtool`. It does
+some setting up for you and it links the module with the yocto toolchain.
+
+To run the following commands you need to have sourced the bitbake environment.
+
+.. code-block:: bash
+
+    # Generate new recipes of the driver
+    devtool add <recipe-name> /path/to/driver
+    # Or modify existing ones
+    devtool modify <recipe-name>
+
+    # Now you can go to the new workspace directory to modify the
+    # sources
+    cd build/workspace/<recipe-name>/sources
+
+    # Iterative development
+
+    devtool build <recipe-name>
+    devtool deploy-target <recipe-name> root@<target-ip>
+
+    # Commit changes
+    git add .
+    git commit -m "commit message"
+    # Update, keep the workspace active
+    devtool update-recipe <recipe-name> -a <path to custom layer>
+    
+    # Cleanup
+
+    # Close the workspace
+    devtool finish <recipe-name> meta-custom-project
+
+Kas
+---
+
+To setup the entire yocto project in a repeatable way, you can (and should) use
+a tool like Kas. It is not only really useful for CI, but also for local
+development. You can create a single `project.yml` file that describes your
+yocto setup, then enter it with:
+
+.. code-block:: bash
+
+    kas build project.yml
+    # or ugse bitbake or build
+    kas shell project.yml
+
+TODO: play with this
+
+Tuxmake
+-------
+
+If you just want to build the kernel and you don't want to deal with
+dependencies, tuxmake is a great tool for this.
+
+You can go yo the kernel root directory and simply run `tuxmake` to build it.
+You can specify some configuration flags. Tuxmake will download a docker
+container for the build and configure the toolchain and .config based on the
+falgs.
+
+.. code-block:: bash
+
+    cd linux
+    tuxmake
+
+    # or
+    tuxmake --target-arch=arm64 \
+            --toolchain=gcc-10  \
+            --kconfig-add /path/to/my.config
+
+Buildroot
+---------
+
+Buildroot is quite straight forward to use.
+
+.. code-block:: bash
+
+    # See which configs are available
+    ls configs/ | grep qemu
+
+    make menuconfig
+    make linux-menuconfig
+    make <config>
+
+Devicetree
+----------
+
+To tell the kernel which hardware is available and where to find it, you need
+to write a Device Tree Structure (.dts file). You use the interface from the
+SoC manifacturer (.dtsi file) as a base class that defines specific connectors.
+Ideally the kernel should be aware only of the minimum possible in order to
+save power.
+
+Build Configs
+-------------
+
+Some build configs you should know about:
+
+- CONFIG_KASAN=y
+  CONFIG_KASAN_GENERIC=y
+  #CONFIG_KASAN_SW_TAGS=y
+  #CONFIG_KASAN_HW_TAGS=y
+  CONFIG_KASAN_VMALLOC=y
+
+  Enable the generic kernel address sanitization, then pick the one you want.
+
+- CONFIG_UBSAN=y
+
+  Enable runtime undefined behaviour checker.
+
+- CONFIG_LOCKDEP=y
+
+  Catch deadlocks
+
+- CONFIG_DEBUG_VM=y
+
+  Do this when touching memory management or DMA.
+
+- CONFIG_PROVE_RCU=y
+
+  This ensures you are accessing RCU-protected memory properly
+
+- CONFIG_SLUB_DEBUG_ON=y
+
+  Do more checks on the slab allocator
+
+- CONFIG_DEBUG_STACKOVERFLOW=y
+
+  Check that we did not put huge object on the stack, because it is very
+  limited.
+
+- CONFIG_DETECT_HUNG_TASK=y
+
+  If you accidentally put a process into an uninterruptible sleep, this will
+  dump the stack trace
+
+Useful commands
+---------------
+
+.. code-block:: bash
+
+  bitbake-config-build list-fragments
+

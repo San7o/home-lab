@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>firewalld &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=2611ff0f" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="free DNS names" href="free-dns-names.html" />
+    <link rel="prev" title="Networking" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="firewalld">
+<h1>firewalld<a class="headerlink" href="#firewalld" title="Link to this heading">¶</a></h1>
+<p>Firewalld is a firewall daemon. It is managed via the firewall-cmd command line
+utility.</p>
+<img alt="../_images/firewalld-architecture.png" src="../_images/firewalld-architecture.png" />
+<section id="zones">
+<h2>Zones<a class="headerlink" href="#zones" title="Link to this heading">¶</a></h2>
+<p>Firewalld is logically divided into zone and the traffic flowing between them
+can be governed by policies</p>
+<p>Firewalld follows some strict principles in regards to zones:</p>
+<ol class="arabic simple">
+<li><p>Traffic ingresses one and only one zone</p></li>
+<li><p>Traffic egresses one and only one zone</p></li>
+<li><p>A zone defines a level of trust</p></li>
+<li><p>intra-zone (within the same zone) is allowed by default</p></li>
+<li><p>inter-zone (zone to zone) is denied by default</p></li>
+</ol>
+<p>To list the available zones, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--get-zones
+</pre></div>
+</div>
+<p>To list the currently active zones:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firealld-cmd<span class="w"> </span>--get-active-zones
+</pre></div>
+</div>
+<p>To inspect a particular zone:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>public<span class="w"> </span>--list-all
+firewall-cmd<span class="w"> </span>--list-all-zones
+</pre></div>
+</div>
+<p>You can configure firewalld in <cite>/etc/firewalld</cite></p>
+</section>
+<section id="creating-services">
+<h2>Creating services<a class="headerlink" href="#creating-services" title="Link to this heading">¶</a></h2>
+<p>To create a service and open a port, use the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>public<span class="w"> </span>--add-service<span class="o">=</span>http
+sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>public<span class="w"> </span>--add-service<span class="o">=</span>http<span class="w"> </span>--permanent
+</pre></div>
+</div>
+<p>A service is a configuration which contains some ports. In this
+case the service was already defined by the distribution.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--info-service<span class="o">=</span>http
+</pre></div>
+</div>
+<p>To see all the predefined services, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--get-services
+</pre></div>
+</div>
+<p>To create a custom service, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--new-service<span class="o">=</span>myapp
+sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--service<span class="o">=</span>myapp<span class="w"> </span>--set-description<span class="o">=</span><span class="s2">&quot;My Custom Enterprise App&quot;</span>
+sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--service<span class="o">=</span>myapp<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8080</span>/tcp
+</pre></div>
+</div>
+<p>Verify your changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>public<span class="w"> </span>--list-services
+sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>public<span class="w"> </span>--list-ports
+</pre></div>
+</div>
+<p>Reload the firewall after making changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
+</pre></div>
+</div>
+</section>
+<section id="rich-rules">
+<h2>Rich rules<a class="headerlink" href="#rich-rules" title="Link to this heading">¶</a></h2>
+<p>You can have more control on the firewall with rich rules.</p>
+<p>For example. here is a rule to block an IP and log the attempts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-rich-rule<span class="o">=</span><span class="s1">&#39;rule family=&quot;ipv4&quot; source address=&quot;203.0.113.5&quot; drop&#39;</span>
+</pre></div>
+</div>
+<p>Allow ssh, but if someone tries to connect more than 3 times per minute,
+stop listening to them:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-rich-rule<span class="o">=</span><span class="s1">&#39;rule service name=&quot;ssh&quot; nickname=&quot;stop_brute&quot; limit value=&quot;3/m&quot; accept&#39;</span>
+</pre></div>
+</div>
+<p>Drop packets silently:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-rich-rule<span class="o">=</span><span class="s1">&#39;rule family=&quot;ipv4&quot; source address=&quot;192.0.2.1&quot; drop&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="ip-set">
+<h2>IP-set<a class="headerlink" href="#ip-set" title="Link to this heading">¶</a></h2>
+<p>An IP set is a “bucket” of IP addresses, subnets or MAC addresses that
+firewalld treats as a single object.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--new-ipset<span class="o">=</span>denylist<span class="w"> </span>--type<span class="o">=</span>hash:net
+firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--ipset<span class="o">=</span>denylist<span class="w"> </span>--add-entries-from-file<span class="o">=</span>blocked_ips.txt
+sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>public<span class="w"> </span>--add-rich-rule<span class="o">=</span><span class="s1">&#39;rule source ipset=&quot;denylist&quot; drop&#39;</span>
+sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">firewalld</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-dns-names.html">free DNS names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iptables.html">iptables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxmox-lcx-internet.html">Connect LCX container to internet on proxmox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static-ip-over-ethernet.html">static ip over ethernet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wpa_supplicant.html">WPA supplicant</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Networking</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Networking</a></li>
+      <li>Next: <a href="free-dns-names.html" title="next chapter">free DNS names</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/networking/firewalld.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

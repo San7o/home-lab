@@ -1,0 +1,22 @@
+ssh public key authentication
+=============================
+
+Generate a public/private key pair for ssh:
+
+.. code-block:: bash
+
+   mkdir -p ~/.ssh && chmod 700 ~/.ssh
+   ssh-keygen
+
+Set our key to a remove server:
+
+.. code-block:: bash
+
+    # On the server
+    touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+
+    # On the client
+    ssh-copy-id [username]@[hostname_or_ip]
+
+To disable password authentication, edit the file `/etc/ssh/sshd_config` and set
+"PasswordAuthentication" to "no".
