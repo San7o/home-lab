@@ -12,7 +12,6 @@ Kernel Development
    io-interfaces
    notes
    routine
-   io-interfaces
    seL4
    u-boot
    resources

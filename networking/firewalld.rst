@@ -18,7 +18,7 @@ Firewalld follows some strict principles in regards to zones:
 2. Traffic egresses one and only one zone
 3. A zone defines a level of trust
 4. intra-zone (within the same zone) is allowed by default
-4. inter-zone (zone to zone) is denied by default
+5. inter-zone (zone to zone) is denied by default
 
 To list the available zones, run:
 
