@@ -1,7 +1,7 @@
 Home Lab Notes
 ==============
 
-A collection of notes and useful stuff
+A collection of my personal notes and other useful stuff
 
 .. toctree::
    :maxdepth: 2

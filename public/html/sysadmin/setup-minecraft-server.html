@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Setup a Minecraft Server &#8212; home-lab-notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=2f5d76ca" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Setup an IRC client" href="setup-irc-client.html" />
+    <link rel="prev" title="Docker commands" href="containers/docker-commands.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="setup-a-minecraft-server">
+<h1>Setup a Minecraft Server<a class="headerlink" href="#setup-a-minecraft-server" title="Link to this heading">¶</a></h1>
+<p>In this page I want to quickly explain how to setup a minecraft server. You can
+follow this document regardless of your platform since you only need the java
+virtual machine to run the server.</p>
+<section id="vanilla-server">
+<h2>Vanilla server<a class="headerlink" href="#vanilla-server" title="Link to this heading">¶</a></h2>
+<p>Setting up a vanilla server is very simple, just download the jar file from the
+<a class="reference external" href="https://www.minecraft.net/en-us/download/server">Mojang</a> website and move it on Its own directory (it will generate a bunch of
+garbage) and run it using the JVM:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java<span class="w"> </span>-Xmx1024M<span class="w"> </span>-Xms1024M<span class="w"> </span>-jar<span class="w"> </span>server.jar<span class="w"> </span>nogui
+</pre></div>
+</div>
+<p>You can set many flags to fine tune various aspects of the server such as how
+much resources does it use and multi threading. You can find some information
+<a class="reference external" href="https://docs.papermc.io/paper/aikars-flags/">here</a>.</p>
+<p>The first time you run the server, it will fail with error “Failed to load
+eula.txt”. You are required to accept the <a class="reference external" href="https://www.minecraft.net/en-us/eula">eula</a> agreement. If you want to
+proceed, you should edit a file named “eula.txt” in the same directory as the
+.jar file and set the “eula” value to true.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>eula=true
+</pre></div>
+</div>
+<p>Then run the server again and you should see a message saying “Starting
+Minecraft server on <cite>*:25565</cite>” and the world being generated. Congratulations,
+you have your vanilla minecraft server. You can connect to the server via the IP
+of the machine in the network.</p>
+<p>Note that if you have a firewall, you need to check that the port is accessible
+from other machines. If you need the server to be reachable from other networks,
+you need to configure port forwarding on your router or use a VPN.</p>
+</section>
+<section id="papermc">
+<h2>PaperMC<a class="headerlink" href="#papermc" title="Link to this heading">¶</a></h2>
+<p><a class="reference external" href="https://docs.papermc.io/">PaperMC</a> is a popular server that enables the use of plugins. The experience is
+very similar to the vanilla server but you also get to configure all the
+plugins.</p>
+<p>You can download paper from the official website and run it with the JVM:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java<span class="w"> </span>-Xmx1024M<span class="w"> </span>-Xms1024M<span class="w"> </span>-jar<span class="w"> </span>paper-1.21.4-231.jar<span class="w"> </span>nogui
+</pre></div>
+</div>
+<p>As always, you will need to edit the eula file that will be generated after the
+first run.</p>
+<p>You can browse and download plugins in the <a class="reference external" href="https://hangar.papermc.io/">Hangar</a> website, then move them in
+the “plugin” directory in your server’s directory.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">home-lab-notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sysadmin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="windows-commands.html">Windows commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-audio.html">Linux Audio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="top-commands.html">Top commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-llms.html">Local LLMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terraform/terraform.html">Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ssh-public-key-auth.html">ssh public key authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selinux/selinux.html">SELinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible/ansible.html">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="containers/docker-commands.html">Docker commands</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Setup a Minecraft Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup-irc-client.html">Setup an IRC client</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Sysadmin</a><ul>
+      <li>Previous: <a href="containers/docker-commands.html" title="previous chapter">Docker commands</a></li>
+      <li>Next: <a href="setup-irc-client.html" title="next chapter">Setup an IRC client</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/sysadmin/setup-minecraft-server.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

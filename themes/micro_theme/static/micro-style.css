@@ -48,8 +48,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* Base colors */
-    --bg: #090909;
-    --text: #FFFFFF;
+    --bg: #0B0B0B;
+    --text: #DDDDDD;
     --link: #4dc5ff;
     --link-visited: #39a7d9;
     --link-hover: #66d9ff;
@@ -350,6 +350,14 @@ div.highlight {
 
 .highlight .c1 {
     color: var(--code-comment)
+}
+
+.highlight .n {
+    color: var(--text)
+}
+
+.highlight .nv {
+    color: var(--code-special)
 }
 
 dt:target, .highlight {
