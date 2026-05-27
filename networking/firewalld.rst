@@ -1,4 +1,4 @@
-firewalld
+Firewalld
 =========
 
 Firewalld is a firewall daemon. It is managed via the firewall-cmd command line

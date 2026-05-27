@@ -1,4 +1,4 @@
-static ip over ethernet
+Static IP over ethernet
 =======================
 
 This is a quick reference for the commands for setting a static ip on two

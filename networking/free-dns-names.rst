@@ -1,4 +1,4 @@
-free DNS names
+Free DNS names
 ==============
 
 To reduce the likelihood of conflict and confusion, a few top level domain names
