@@ -1,19 +1,100 @@
 @import url("basic.css");
 
+/*
+ * Global colors
+ *
+ * There are two variants for each color, one for light theme and
+ * the other for dark theme. The client's browser will decide which
+ * one to use based on the user's default settings.
+ */
+:root {
+  /* Base colors */
+  --bg: #FFFFFF;
+  --text: #000000;
+  --link: #0000ff;
+  --link-visited: #000099;
+  --link-hover: #0000aa;
+  --link-decoration: #0000aa;
+  --link-active: #0000cc;
+  --code-bg: #eeeeee;
+  --code-border: #040404;
+  --card-bg: #ddd;
+  --card-border: #040404;
+
+  /*
+   * Syntax highlighting - light theme
+   *
+   * These colors are used for code blocks
+   */
+  --code-alert: #b00000;
+  --code-error: #a40000;
+  --code-comment: #606060;
+  --code-string: #008000;
+  --code-keyword: #0000ff;
+  --code-operator: #aa5500;
+  --code-datatype: #0000ff;
+  --code-function: #795e00;
+  --code-constant: #800080;
+  --code-number: #800080;
+  --code-attribute: #008000;
+  --code-warning: #aa5500;
+  --code-variable: #000000;
+  --code-special: #aa5500;
+}
+
+/*
+ * Dark mode
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Base colors */
+    --bg: #090909;
+    --text: #FFFFFF;
+    --link: #4dc5ff;
+    --link-visited: #39a7d9;
+    --link-hover: #66d9ff;
+    --link-active: #1fb6ff;
+    --link-decoration: #66d9ff;
+    --code-bg: #090912;
+    --code-border: #ddd;
+    --card-bg: #040404;
+    --card-border: #ddd;
+
+    /* Syntax highlighting - dark theme */
+    --code-alert: #ff5555;
+    --code-error: #ff4444;
+    --code-comment: #888888;
+    --code-string: #50fa7b;
+    --code-keyword: #8be9fd;
+    --code-operator: #ffb86c;
+    --code-datatype: #8be9fd;
+    --code-function: #f1fa8c;
+    --code-constant: #bd93f9;
+    --code-number: #bd93f9;
+    --code-attribute: #50fa7b;
+    --code-warning: #ffb86c;
+    --code-variable: #f8f8f2;
+    --code-special: #ffb86c;
+  }
+}
+
 /* -- page layout ----------------------------------------------------------- */
 
 body {
-    font-family: Georgia, serif;
+    /* font-family: Georgia, serif; */
+    font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
     font-size: 17px;
-    background-color: #fff;
-    color: #000;
+    background-color: var(--bg);
+    color: var(--text);
     margin: 0;
     padding: 0;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 
 div.document {
-    width: 940px;
+    width: 1140px;
     margin: 30px auto 0 auto;
 }
 
@@ -37,8 +118,8 @@ hr {
 }
 
 div.body {
-    background-color: #fff;
-    color: #3E4349;
+    background-color: var(--bg);
+    color: var(--text);
     padding: 0 30px 0 30px;
 }
 
@@ -75,13 +156,13 @@ div.sphinxsidebar {
 }
 
 div.sphinxsidebar a {
-    color: #444;
+    color: var(--text);
     text-decoration: none;
-    border-bottom: 1px dotted #999;
+    border-bottom: 1px dotted var(--link-decoration);
 }
 
 div.sphinxsidebar a:hover {
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid var(--link-decoration);
 }
 
 div.sphinxsidebarwrapper {
@@ -113,7 +194,7 @@ div.sphinxsidebarwrapper p.blurb {
 div.sphinxsidebar h3,
 div.sphinxsidebar h4 {
     font-family: Georgia, serif;
-    color: #444;
+    color: var(--text);
     font-size: 24px;
     font-weight: normal;
     margin: 0 0 5px 0;
@@ -125,7 +206,7 @@ div.sphinxsidebar h4 {
 }
 
 div.sphinxsidebar h3 a {
-    color: #444;
+    color: var(--link);
 }
 
 div.sphinxsidebar p.logo a,
@@ -136,7 +217,7 @@ div.sphinxsidebar h3 a:hover {
 }
 
 div.sphinxsidebar p {
-    color: #555;
+    color: var(--text);
     margin: 10px 0;
 }
 
@@ -195,13 +276,13 @@ div.sphinxsidebar h3.donation {
 /* -- body styles ----------------------------------------------------------- */
 
 a {
-    color: #004B6B;
-    text-decoration: underline;
+    color: var(--link);
+    text-decoration: underline var(--link-decoration);
 }
 
 a:hover {
-    color: #6D4100;
-    text-decoration: underline;
+    color: var(--link-hover);
+    text-decoration: underline var(--link-decoration);
 }
 
 div.body h1,
@@ -230,7 +311,7 @@ a.headerlink {
 }
 
 a.headerlink:hover {
-    color: #444;
+    color: var(--link-hover);
     background: #EAEAEA;
 }
 
@@ -265,6 +346,10 @@ div.admonition p.last {
 
 div.highlight {
     background-color: #fff;
+}
+
+.highlight .c1 {
+    color: var(--code-comment)
 }
 
 dt:target, .highlight {
@@ -454,9 +539,10 @@ ul, ol {
 }
 
 pre {
-    background: #EEE;
+    background: var(--code-bg);
     padding: 7px 30px;
     margin: 15px 0px;
+    border: 1px solid var(--code-border);
     line-height: 1.3em;
 }
 
@@ -482,7 +568,7 @@ tt.xref, code.xref, a tt {
 
 a.reference {
     text-decoration: none;
-    border-bottom: 1px dotted #004B6B;
+    border-bottom: 1px dotted var(--link-decoration);
 }
 
 /* Don't put an underline on images */
@@ -491,7 +577,7 @@ a.image-reference, a.image-reference:hover {
 }
 
 a.reference:hover {
-    border-bottom: 1px solid #6D4100;
+    border-bottom: 1px solid var(--link-decoration);
 }
 
 a.footnote-reference {
@@ -509,6 +595,13 @@ a:hover tt, a:hover code {
     background: #EEE;
 }
 
+a {
+    color: var(--link);
+}
+
+a:visited {
+    color: var(--link-visited);
+}
 
 @media screen and (max-width: 870px) {
 
