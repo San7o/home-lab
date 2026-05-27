@@ -1,11 +1,11 @@
 Beautiful Proofs
 ================
 
-A collection of the most beautiful proofs I can find:
+A collection of the most beautiful proofs I found:
 
-- Proof of the Pythagorean theorem (geometric). There are many ways to prove
-  this. Prbably the simplest is a geometric proof, other cool ones in my opining
-  are from Einstein_, and Leonardo da Vinci
+- Proof of the Pythagorean theorem. There are many ways to prove this. Prbably
+  the simplest is a geometric proof, other cool ones in my opining are from
+  Einstein_, and Leonardo da Vinci
 
 .. _Einstein: https://www.youtube.com/watch?v=32zg2FGX4cA&t=434s
 

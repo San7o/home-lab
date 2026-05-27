@@ -16,18 +16,18 @@ Setup
   - proxmox-entry (LCX container)
   - windows-lab
 
-- VPN: tailscale / netbird        
+- VPN: tailscale / netbird
 
 - Monitoring: prometheus + grafana + node_exporter
-    
+
 - Security: wazuh
 
     https://san7o.github.io/giovanni-diary/programming/linux/security-management-solutions.html
-    
+
 - LLM Inference: ollama
 
     https://san7o.github.io/giovanni-diary/programming/notes/local-llms-guide.html
-    
+
 - Virtualization: qemu, libvirt
 - Contianers: dockerd, Dockhand dashboard
 - Firewall: firewalld, firewall-cmd
