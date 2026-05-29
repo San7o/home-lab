@@ -13,7 +13,7 @@ STAGING_QUERY='(l:linux-staging.vger.kernel.org OR l:linux-staging@lists.linux.d
 
 JANITORS_MAILBOX=~/Mail/kernel-janitors
 JANITORS_INBOX=https://lore.kernel.org/kernel-janitors/
-JANITORS_QUERY='rt:30.days.ago..'
+JANITORS_QUERY='l:kernel-janitors AND rt:30.days.ago..'
 
 EBPF_MAILBOX=~/Mail/bpf
 EBPF_INBOX=https://lore.kernel.org/bpf/
