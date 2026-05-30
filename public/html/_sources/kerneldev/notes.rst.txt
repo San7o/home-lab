@@ -88,3 +88,20 @@ Videos
 Greg explaining release cycle and patch flow from mailing list to stable:
 
     https://www.youtube.com/watch?v=vyenmLqJQjs
+
+Linus talking about linux:
+
+    https://www.youtube.com/watch?v=WVTWCPoUt8w
+
+    Some very interesting topic from Linus:
+
+    - Software is almost never designed, because rarely anymody knows exactly
+      what they want to do, or they don't after some time. Instead, software
+      evolves over time as many interests and goals shape the project as it
+      goes.
+      
+    - How much GPL is important for ensuring the evolution of linux. If comanies
+      (which are greedy) make modifications and keep them to themselves, then
+      linux would never be able to grow and evolve the way it does with
+      GPL. Same for closed source software, the company that manages the
+      software limits its potential and evolution.

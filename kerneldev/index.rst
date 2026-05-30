@@ -14,5 +14,6 @@ Kernel Development
    routine
    seL4
    u-boot
+   edk2
    resources
 

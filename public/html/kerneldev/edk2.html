@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>EDK II &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=fa8ba3e2" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="edk-ii">
+<h1>EDK II<a class="headerlink" href="#edk-ii" title="Link to this heading">¶</a></h1>
+<p>EDK II is the reference implementation of UEFI, it is the most popular UEFI
+firmware used in the real world. The project is open source but it is directed
+maily by Intel and other big corporations such as Microsoft and AMD.</p>
+<p>OVMF is the version of EDK II bootable by Qemu, it can be built from the EDKII
+repository.</p>
+<section id="building">
+<h2>Building<a class="headerlink" href="#building" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/tianocore/edk2.git
+<span class="nb">cd</span><span class="w"> </span>edk2
+
+make<span class="w"> </span>-C<span class="w"> </span>BaseTools
+mkdir<span class="w"> </span>-p<span class="w"> </span>Conf
+.<span class="w"> </span>edksetup.sh
+
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; Conf/target.txt</span>
+<span class="s">ACTIVE_PLATFORM       = OvmfPkg/OvmfPkgX64.dsc</span>
+<span class="s">TARGET                = RELEASE</span>
+<span class="s">TARGET_ARCH           = X64</span>
+<span class="s">TOOL_CHAIN_TAG        = GCC</span>
+<span class="s">BUILD_RULE_CONF       = Conf/build_rule.txt</span>
+<span class="s">EOF</span>
+
+build<span class="w"> </span>-DSECURE_BOOT_ENABLE<span class="w"> </span>-DNETWORK_TLS_ENABLE<span class="w"> </span>-DTPM2_ENABLE
+</pre></div>
+</div>
+<p>Binaries are generated in <cite>Build/Ovmfx64/RELEASE_GCC5/FV</cite>.</p>
+<p>You can boot the image with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qemu-system-x86_64<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-enable-kvm<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-m<span class="w"> </span>2G<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-smp<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cpu<span class="w"> </span>host<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,format<span class="o">=</span>raw,readonly<span class="o">=</span>on,file<span class="o">=</span>Build/OvmfX64/RELEASE_GCC/FV/OVMF_CODE.fd<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,format<span class="o">=</span>raw,file<span class="o">=</span>Build/OvmfX64/RELEASE_GCC/FV/OVMF_VARS.fd<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cdrom<span class="w"> </span>~/Downloads/Fedora-i3-Live-44-1.7.x86_64.iso<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-netdev<span class="w"> </span>user,id<span class="o">=</span>n1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-device<span class="w"> </span>virtio-net-pci,netdev<span class="o">=</span>n1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-vga<span class="w"> </span>std
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/kerneldev/edk2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
