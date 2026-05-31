@@ -17,3 +17,4 @@ Contents:
    sysadmin/index
    math/index
    TODO
+   blogs
