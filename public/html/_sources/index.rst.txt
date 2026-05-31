@@ -7,9 +7,10 @@ Scripts, configurations files and code examples are in the github page:
 
     https://github.com/San7o/home-lab
 
+Contents:
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    kerneldev/index
    networking/index

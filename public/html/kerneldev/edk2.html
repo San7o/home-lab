@@ -13,6 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kernel Dev Resources" href="resources.html" />
+    <link rel="prev" title="U-boot" href="u-boot.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -58,7 +60,7 @@ build<span class="w"> </span>-DSECURE_BOOT_ENABLE<span class="w"> </span>-DNETWO
 </pre></div>
 </div>
 <p>Binaries are generated in <cite>Build/Ovmfx64/RELEASE_GCC5/FV</cite>.</p>
-<p>You can boot the image with:</p>
+<p>To boot an image, for example Fedora, with qemu:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qemu-system-x86_64<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-enable-kvm<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-m<span class="w"> </span>2G<span class="w"> </span><span class="se">\</span>
@@ -93,8 +95,21 @@ build<span class="w"> </span>-DSECURE_BOOT_ENABLE<span class="w"> </span>-DNETWO
 
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Kernel Development</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">EDK II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
@@ -105,6 +120,10 @@ build<span class="w"> </span>-DSECURE_BOOT_ENABLE<span class="w"> </span>-DNETWO
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Kernel Development</a><ul>
+      <li>Previous: <a href="u-boot.html" title="previous chapter">U-boot</a></li>
+      <li>Next: <a href="resources.html" title="next chapter">Kernel Dev Resources</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

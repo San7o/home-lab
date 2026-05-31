@@ -32,7 +32,7 @@ Building
 
 Binaries are generated in `Build/Ovmfx64/RELEASE_GCC5/FV`.
 
-You can boot the image with:
+To boot an image, for example Fedora, with qemu:
 
 .. code-block:: bash
 
