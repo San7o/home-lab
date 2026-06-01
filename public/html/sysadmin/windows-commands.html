@@ -222,15 +222,33 @@ click or run <cite>start</cite> on it.</p>
 </div>
 </section>
 <section id="sysinternals">
-<h2>sysinternals<a class="headerlink" href="#sysinternals" title="Link to this heading">¶</a></h2>
+<h2>Sysinternals<a class="headerlink" href="#sysinternals" title="Link to this heading">¶</a></h2>
 <p>Useful tools for sysadmins:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://learn.microsoft.com/en-us/sysinternals/">https://learn.microsoft.com/en-us/sysinternals/</a></p>
 </div></blockquote>
+<p>Key tools in the sysinternals collection:</p>
+<ul class="simple">
+<li><p>WinObj: it shows the objects of the Windows Object Manager. Fundamentally, the
+Object Manager is a glorified, in-memory, hierarchical key-value store where
+the “keys” are object paths (like DeviceHarddiskVolume1) and the “values”
+are pointers to complex kernel object structures in memory (like a
+DEVICE_OBJECT). It is used like <cite>/sys</cite>, <cite>/dev</cite> or <cite>/proc</cite> in Linux, but more
+unified. On Windows, instead of using the VFS interface, we use special
+functions from WinAPI like <cite>NtQuerySystemInformation</cite> which fill strongly
+typed data. You can think of the Windows Object Model similarly to Linux’s
+kobjects. The main difference is that kobjects are explicitly stored inside
+other objects, while Windows Objects are prepended in an hidden header in pool
+memory.</p></li>
+<li><p>Process Explorer: advanced task manager, like looking at <cite>/proc</cite></p></li>
+<li><p>Process Monitor: read logs of all system activity</p></li>
+</ul>
 <p>Other tools include
 - total commander
 - FurMark2 (GPU benchmarks)
 - system informer</p>
+<p>Use <a class="reference external" href="https://ntdoc.m417z.com/">ntdoc</a> to explore documented and undocumented
+WinAPI functions.</p>
 </section>
 </section>
 

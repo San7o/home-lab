@@ -22,3 +22,14 @@ Kernel dev
 3. complete edu-driver
 4. make something custom boot with U-boot
 5. investigate IPU3
+
+Embedded
+--------
+
+1. Convert the raspberry pi pico 2 into a logic analyzer with `sigrok-pico` or
+   equivalent
+2. Start the new bootloader project
+
+  a. Boot a custom EFI application
+  b. Boot a program on the BeagleBone Black
+

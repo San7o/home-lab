@@ -257,14 +257,35 @@ Installing WSL is quite straight forward, just run:
 
      wsl --install
 
-sysinternals
+Sysinternals
 ------------
 
 Useful tools for sysadmins:
 
     https://learn.microsoft.com/en-us/sysinternals/
 
+Key tools in the sysinternals collection:
+
+* WinObj: it shows the objects of the Windows Object Manager. Fundamentally, the
+  Object Manager is a glorified, in-memory, hierarchical key-value store where
+  the "keys" are object paths (like \Device\HarddiskVolume1) and the "values"
+  are pointers to complex kernel object structures in memory (like a
+  DEVICE_OBJECT). It is used like `/sys`, `/dev` or `/proc` in Linux, but more
+  unified. On Windows, instead of using the VFS interface, we use special
+  functions from WinAPI like `NtQuerySystemInformation` which fill strongly
+  typed data. You can think of the Windows Object Model similarly to Linux's
+  kobjects. The main difference is that kobjects are explicitly stored inside
+  other objects, while Windows Objects are prepended in an hidden header in pool
+  memory.
+
+* Process Explorer: advanced task manager, like looking at `/proc`
+
+* Process Monitor: read logs of all system activity
+
 Other tools include
 - total commander
 - FurMark2 (GPU benchmarks)
 - system informer
+
+Use `ntdoc <https://ntdoc.m417z.com/>`_ to explore documented and undocumented
+WinAPI functions.
