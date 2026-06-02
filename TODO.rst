@@ -15,21 +15,26 @@ Kernel dev
 
 1. understand the yocto+devtool+kas workflow
 
-  a. boot a yocto BSP on a raspberry pi 3b
-  b. boot a yocto BSP on a beaglebone balck
+  a. Follow this course:
+
+      https://www.yoctoproject.org/wp-content/uploads/sites/32/2023/10/LinuxLAB-2018-Yocto-Koan-min.pdf
+
+  b. boot a yocto BSP on a raspberry pi 3b
+  c. boot a yocto BSP on a beaglebone balck
 
 2. work on tmp105 driver
+
 3. complete edu-driver
-4. make something custom boot with U-boot
-5. investigate IPU3
 
 Embedded
 --------
 
 1. Convert the raspberry pi pico 2 into a logic analyzer with `sigrok-pico` or
    equivalent
+
 2. Start the new bootloader project
 
   a. Boot a custom EFI application
-  b. Boot a program on the BeagleBone Black
+  b. Boot a bare-metal program on the BeagleBone Black
+  c. make something custom boot with U-boot
 
