@@ -9,6 +9,7 @@ Sysadmin
    linux-audio
    top-commands
    local-llms
+   llama
    terraform/terraform
    ssh-public-key-auth
    selinux/selinux

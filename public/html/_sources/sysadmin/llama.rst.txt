@@ -1,0 +1,79 @@
+llama.cpp
+=========
+
+llama.cpp is an enfirence engine for large language models. It is written
+primarely in C++, and it is composed of a server, a cli, and an execution engine
+`ggml`. Here are some notes about the project.
+
+* `app/llama.cpp` contains the entry point of the general `llama` program. The
+  way they split the commands is very clean:
+
+.. code-block:: cpp
+
+    struct command {
+        const char * name;
+        const char * desc;
+        std::vector<std::string> aliases;
+        bool hidden;
+        int (*func)(int, char **);
+    };
+
+    static const command cmds[] = {
+        {"serve",  "HTTP API server",                     {"server"}, false, llama_server },
+        {"cli",    "Command-line interactive interface",  {"client"}, false, llama_cli    },
+        {"update", "Update llama to the latest release",  {},         false, llama_update },
+        // ...
+    };
+
+    // ...
+
+    static int help(int argc, char ** argv) {
+      // ...
+    }
+
+    static bool matches(const std::string & arg, const command & cmd) {
+        if (arg == cmd.name) {
+            return true;
+        }
+        for (const auto & alias : cmd.aliases) {
+            if (arg == alias) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    int main(int argc, char ** argv) {
+        progname = argv[0];
+
+        const std::string arg = argc >= 2 ? argv[1] : "help";
+
+        for (const auto & cmd : cmds) {
+            if (matches(arg, cmd)) {
+                // keep cmd.name so the router's child processes re-invoke correctly
+    #ifdef _WIN32
+                _putenv_s("LLAMA_APP_CMD", cmd.name);
+    #else
+                setenv("LLAMA_APP_CMD", cmd.name, 1);
+    #endif
+                return cmd.func(argc - 1, argv + 1);
+            }
+        }
+
+        fprintf(stderr, "error: unknown command '%s'\n", arg.c_str());
+        return 1;
+    }
+
+* all execution engines are under `ggml/`. There is a general abstraction of a
+  backend in `ggml/include/ggml-backend.h`, where the key types are the device
+  `ggml_backend_dev_t`, the memory `ggml_backend_buffer_t` and the actual
+  execution unit (like a Vulkan implementation) `ggml_backend_t`.
+
+* there is a general model abstraction with `struct llama_model_base`
+
+* since different models and different accelerators requere different logic, the
+  execution is split between a graph building phase and a graph execution phase.
+  The building itself is composed of two passes, a model-dependent pass, and a
+  backend-dependent pass.
+
+* multimodal support is implemented in `tools/mtmd/`
