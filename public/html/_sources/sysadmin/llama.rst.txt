@@ -1,7 +1,7 @@
 llama.cpp
 =========
 
-llama.cpp is an enfirence engine for large language models. It is written
+llama.cpp is an inference engine for large language models. It is written
 primarely in C++, and it is composed of a server, a cli, and an execution engine
 `ggml`. Here are some notes about the project.
 
@@ -76,4 +76,6 @@ primarely in C++, and it is composed of a server, a cli, and an execution engine
   The building itself is composed of two passes, a model-dependent pass, and a
   backend-dependent pass.
 
-* multimodal support is implemented in `tools/mtmd/`
+* multimodal support is implemented in `tools/mtmd/`. The cool thing is that you
+  can use the same backends for all kinds of models, you just need to write the
+  graph building part.

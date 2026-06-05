@@ -100,6 +100,9 @@ Blogs that are maintained by groups of people:
 * `HackerNews <https://news.ycombinator.com/>`_: I browse HackerNews daily to
   see what people are talking about.
 
+* `Tom's Hardware <https://www.tomshardware.com/>`_: General hardware news
+
+* `The Daily Upside <https://www.thedailyupside.com/>`_: General finance news
 
 To discover blogs, I usually:
 

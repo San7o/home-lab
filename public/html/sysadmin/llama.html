@@ -34,7 +34,7 @@
             
   <section id="llama-cpp">
 <h1>llama.cpp<a class="headerlink" href="#llama-cpp" title="Link to this heading">¶</a></h1>
-<p>llama.cpp is an enfirence engine for large language models. It is written
+<p>llama.cpp is an inference engine for large language models. It is written
 primarely in C++, and it is composed of a server, a cli, and an execution engine
 <cite>ggml</cite>. Here are some notes about the project.</p>
 <ul class="simple">
@@ -106,7 +106,9 @@ execution unit (like a Vulkan implementation) <cite>ggml_backend_t</cite>.</p></
 execution is split between a graph building phase and a graph execution phase.
 The building itself is composed of two passes, a model-dependent pass, and a
 backend-dependent pass.</p></li>
-<li><p>multimodal support is implemented in <cite>tools/mtmd/</cite></p></li>
+<li><p>multimodal support is implemented in <cite>tools/mtmd/</cite>. The cool thing is that you
+can use the same backends for all kinds of models, you just need to write the
+graph building part.</p></li>
 </ul>
 </section>
 
