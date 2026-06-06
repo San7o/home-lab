@@ -1,5 +1,3 @@
-.. index:: Giovanni's Diary!Reading!Blogs
-
 Blogs
 =====
 

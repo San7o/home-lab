@@ -26,7 +26,7 @@ UBOOT_QUERY='l:u-boot.lists.denx.de: AND rt:30.days.ago..'
 
 BUILDROOT_MAILBOX=~/Mail/buildroot
 BUILDROOT_INBOX=https://lore.kernel.org/buildroot/
-BUILDROOT_QUERY='l:buildoor AND rt:30.days.ago..'
+BUILDROOT_QUERY='l:buildroot AND rt:30.days.ago..'
 
 # Staging
 if [ ! -d $STAGING_MAILBOX ]; then

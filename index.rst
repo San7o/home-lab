@@ -34,5 +34,5 @@ Contents
    networking/index
    sysadmin/index
    math/index
+   misc/index
    TODO
-   blogs
