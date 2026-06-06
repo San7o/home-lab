@@ -71,7 +71,7 @@ primarely in C++, and it is composed of a server, a cli, and an execution engine
 
 * there is a general model abstraction with `struct llama_model_base`
 
-* since different models and different accelerators requere different logic, the
+* since different models and different accelerators require different logic, the
   execution is split between a graph building phase and a graph execution phase.
   The building itself is composed of two passes, a model-dependent pass, and a
   backend-dependent pass.

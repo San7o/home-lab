@@ -7,7 +7,7 @@
 
     <title>llama.cpp &#8212; Notes  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=fa8ba3e2" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -102,7 +102,7 @@ backend in <cite>ggml/include/ggml-backend.h</cite>, where the key types are the
 <cite>ggml_backend_dev_t</cite>, the memory <cite>ggml_backend_buffer_t</cite> and the actual
 execution unit (like a Vulkan implementation) <cite>ggml_backend_t</cite>.</p></li>
 <li><p>there is a general model abstraction with <cite>struct llama_model_base</cite></p></li>
-<li><p>since different models and different accelerators requere different logic, the
+<li><p>since different models and different accelerators require different logic, the
 execution is split between a graph building phase and a graph execution phase.
 The building itself is composed of two passes, a model-dependent pass, and a
 backend-dependent pass.</p></li>

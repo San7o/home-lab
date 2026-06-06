@@ -12,6 +12,7 @@ vim.opt.number         = true
 vim.opt.relativenumber = true
 vim.opt.clipboard      = "unnamedplus" -- system clipboard
 vim.opt.expandtab      = true
+vim.opt.spell          = true
 vim.opt.shiftwidth     = 4
 vim.opt.tabstop        = 4
 vim.opt.colorcolumn    = '80'
