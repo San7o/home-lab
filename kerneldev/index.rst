@@ -15,5 +15,6 @@ Kernel Development
    seL4
    u-boot
    edk2
+   netbsd-custom-kernel
    resources
 
