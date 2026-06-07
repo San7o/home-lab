@@ -9,3 +9,5 @@ Notes that do not fall in other categories.
 
    blogs
    development-loop
+   wasm-c-ffi
+   institutions
