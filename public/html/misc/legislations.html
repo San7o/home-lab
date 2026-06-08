@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Legislations &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RSS Guide" href="rss.html" />
+    <link rel="prev" title="Tech Institutions" href="institutions.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="legislations">
+<h1>Legislations<a class="headerlink" href="#legislations" title="Link to this heading">¶</a></h1>
+<p>When publishing software, you need to follow some legislations.</p>
+<section id="eu-cyber-resilience-act-cra">
+<h2>EU Cyber Resilience Act (CRA)<a class="headerlink" href="#eu-cyber-resilience-act-cra" title="Link to this heading">¶</a></h2>
+<p>Focuses strictly on digital product security and software supply chain
+integrity. It applies to any product with digital elements sold in the EU.</p>
+<ul class="simple">
+<li><p>Mandatory SBOM: You must generate, sign, and maintain a machine-readable
+Software Bill of Materials (typically SPDX or CycloneDX formats) for every
+production release to track dependencies.</p></li>
+<li><p>Vulnerability Handling: You must have a coordinated vulnerability
+disclosure (CVD) process. Exploited vulnerabilities must be reported to
+ENISA/national authorities within 24 hours.</p></li>
+<li><p>Security Lifecycle: You must provide security patches for the expected
+lifetime of the product or for a minimum of 5 years.</p></li>
+<li><p>The Developer Takeaway: If you ship commercial binaries, you own the
+security debt of every upstream open-source component you pulled into your
+build.</p></li>
+</ul>
+</section>
+<section id="gdpr">
+<h2>GDPR<a class="headerlink" href="#gdpr" title="Link to this heading">¶</a></h2>
+<p>Focuses strictly on personal data privacy, sovereignty, and data protection by
+design.</p>
+<ul class="simple">
+<li><p>Scope: Regulates how personal identifiable information (PII) of EU citizens is
+collected, processed, stored, and deleted.</p></li>
+<li><p>Technical Measures: Article 32 mandates “appropriate technical and
+organisational measures.” While it does not explicitly mention software
+manifests, running an unpatched stack that leads to a data breach is legally
+evaluated as gross negligence.</p></li>
+<li><p>The Developer Takeaway: Data minimization is an architectural goal. If your
+database schema or log files store PII that your core logic doesn’t strictly
+need, you are carrying unnecessary compliance risk.</p></li>
+</ul>
+</section>
+<section id="eu-ai-act">
+<h2>EU AI Act<a class="headerlink" href="#eu-ai-act" title="Link to this heading">¶</a></h2>
+<p>A risk-based framework regulating machine learning, statistical models, and
+artificial intelligence systems.</p>
+<ul class="simple">
+<li><p>Risk Tiers: Classification ranges from Minimal Risk (spam filters) to
+High-Risk (critical infrastructure, employment software) and Prohibited
+(biometric surveillance).</p></li>
+<li><p>Transparency Mandate: Any generative output must be machine-readable and
+watermarked/labeled so humans know they are interacting with synthetic
+content.</p></li>
+<li><p>High-Risk Requirements: Requires robust data governance, detailed event
+logging, rigorous risk management, and human-in-the-loop oversight mechanisms.</p></li>
+<li><p>The Developer Takeaway: Even if you just wrap a third-party LLM API, you are
+legally responsible for transparency and classification compliance based on
+<em>your</em> application’s deployment context.</p></li>
+</ul>
+</section>
+<section id="nis2-directive">
+<h2>NIS2 Directive<a class="headerlink" href="#nis2-directive" title="Link to this heading">¶</a></h2>
+<p>Focuses on infrastructure, operational resilience, and supply chain security
+for critical entities. Transposed in Italy via <em>D.Lgs. 138/2024</em>.</p>
+<ul class="simple">
+<li><p>Scope: Targets “Essential” and “Important” sectors (energy, transport,
+banking, cloud computing, digital providers).</p></li>
+<li><p>Supply Chain Audits: Covered entities are legally forced to audit the security
+posture of their third-party software vendors.</p></li>
+<li><p>Incident Reporting: Mandates a strict 24-hour early warning window to CSIRT
+Italy / national authorities following a significant cyber incident.</p></li>
+<li><p>The Developer Takeaway: Your deployment pipelines and infrastructure must
+feature aggressive telemetry and logging. If your app gets breached, you must
+be able to generate a forensic trail within hours.</p></li>
+</ul>
+</section>
+<section id="digital-operational-resilience-act-dora">
+<h2>Digital Operational Resilience Act (DORA)<a class="headerlink" href="#digital-operational-resilience-act-dora" title="Link to this heading">¶</a></h2>
+<p>A specialized digital resilience framework explicitly targeting the financial
+sector and its critical ICT third-party service providers.</p>
+<ul class="simple">
+<li><p>Scope: Applies to banks, investment firms, and any tech company providing
+SaaS, cloud infrastructure, or critical software to financial institutions.</p></li>
+<li><p>Requirements: Mandates formal threat-led penetration testing (TLPT), real-time
+ICT risk management, and rigorous change-management tracking.</p></li>
+<li><p>The Developer Takeaway: Code updates to financial sector integrations cannot
+be cowboyed. Every merge requires an immutable audit trail of testing, peer
+review, and risk validation.</p></li>
+</ul>
+</section>
+<section id="european-conformity-ce">
+<h2>European Conformity (CE)<a class="headerlink" href="#european-conformity-ce" title="Link to this heading">¶</a></h2>
+<p>A mandatory legal declaration of product conformity required to place
+specific goods on the European Economic Area market. It is <em>not</em> a quality seal.</p>
+<ul class="simple">
+<li><p>The Process: To affix the CE mark, the manufacturer must compile a
+comprehensive <em>Technical Documentation File</em> (schematics, risk matrix, test
+logs) and sign an <em>EU Declaration of Conformity</em>.</p></li>
+<li><p>Conformity Modes: Low-risk products can self-certify. High-risk products
+require a third-party audit by an accredited <em>Notified Body</em>.</p></li>
+<li><p>The Convergence: Historically an electrical/hardware concern (EMC, RoHS),
+software is now integrated into CE marking via the CRA and AI Act. A digital
+product cannot bear the CE mark unless its software layer complies with those
+security baselines.</p></li>
+<li><p>The Developer Takeaway: You do not “become” CE compliant simply by following
+GDPR or DORA. CE marking is the formalized, signed compilation output proving
+you successfully passed every applicable directive’s verification check.</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Misc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blogs.html">Blogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development-loop.html">Development Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm-c-ffi.html">Wasm-C FFI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="institutions.html">Tech Institutions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Legislations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rss.html">RSS Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="groupsio.html">Groups.io Mailing Lists</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Misc</a><ul>
+      <li>Previous: <a href="institutions.html" title="previous chapter">Tech Institutions</a></li>
+      <li>Next: <a href="rss.html" title="next chapter">RSS Guide</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/misc/legislations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

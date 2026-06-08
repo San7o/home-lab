@@ -11,5 +11,6 @@ Notes that do not fall in other categories.
    development-loop
    wasm-c-ffi
    institutions
+   legislations
    rss
    groupsio
