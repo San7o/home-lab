@@ -21,4 +21,3 @@ Sysadmin
    linux-benchmarking
    monitoring
    perf-analysis
-   rss

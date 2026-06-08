@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Development Loop &#8212; Notes  documentation</title>
+    <title>Groups.io Mailing Lists &#8212; Notes  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
     <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
@@ -13,8 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Wasm-C FFI" href="wasm-c-ffi.html" />
-    <link rel="prev" title="Blogs" href="blogs.html" />
+    <link rel="next" title="TODO" href="../TODO.html" />
+    <link rel="prev" title="RSS Guide" href="rss.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -32,23 +32,47 @@
 
           <div class="body" role="main">
             
-  <section id="development-loop">
-<h1>Development Loop<a class="headerlink" href="#development-loop" title="Link to this heading">¶</a></h1>
-<p>Whatever you are working on, it usually follows this loop:</p>
-<ul class="simple">
-<li><p>Identify a problem</p></li>
-<li><p>Write a description of the problem and what the expected solution will be
-validated</p></li>
-<li><p>Figure out how to design and develop the solution</p></li>
-<li><p>Communicate / integrate the solution</p></li>
-<li><p>Repeat</p></li>
-</ul>
-<p>During the loop you may use specific tools depending on the problem, such as
-programming languages, debuggers, visualizations, etc… to assist you in your
-work. You may need to write your own tools because you can do better than the
-others.</p>
-<p>Do this process enough times and you will be an experienced professional. Add
-curiosity into the loop, and you will become an expert in a subject.</p>
+  <section id="groups-io-mailing-lists">
+<h1>Groups.io Mailing Lists<a class="headerlink" href="#groups-io-mailing-lists" title="Link to this heading">¶</a></h1>
+<p>Some projects use Groups.io to manage their mailing lists, such as new projects
+from the Linux Foundation like <a class="reference external" href="https://lists.elisa.tech/g/main">ELISA</a> and
+<a class="reference external" href="https://lists.zephyrproject.org/g/main/subgroups">ZephyrOS</a>. If you don’t
+want to subscribe to them with your email, and keep your workflow using good old
+mailboxes and lei, you need to do a bit of setup. I will use <cite>rss2email</cite> for
+this.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Mail/elisa-archive/<span class="o">{</span>cur,new,tmp<span class="o">}</span>
+r2e<span class="w"> </span>new<span class="w"> </span>dummy@localhost
+</pre></div>
+</div>
+<p>Add the following to <cite>.config/rss2email.cfg</cite>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[DEFAULT]
+date-header = True
+email-protocol = maildir
+imap-mailbox = INBOX
+maildir-path = /home/user/Mail/elisa-archive
+maildir-mailbox =
+</pre></div>
+</div>
+<p>Setup mailbox:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>r2e<span class="w"> </span>add<span class="w"> </span>elisa-devel<span class="w"> </span>https://lists.elisa.tech/g/devel/rss
+r2e<span class="w"> </span>run
+lei<span class="w"> </span>import<span class="w"> </span>maildir:<span class="nv">$HOME</span>/Mail/elisa-archive
+</pre></div>
+</div>
+<p>Now you can use any mail reader on <cite>~Mail/elisa-archive</cite>, like <cite>neomutt</cite>.</p>
+<p>You can add multiple feeds in the same mailbox, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>r2e<span class="w"> </span>add<span class="w"> </span>elisa-safety<span class="w"> </span>https://lists.elisa.tech/g/safety-architecture/rss
+r2e<span class="w"> </span>add<span class="w"> </span>elisa-automotive<span class="w"> </span>https://lists.elisa.tech/g/automotive/rss
+r2e<span class="w"> </span>add<span class="w"> </span>elisa-aerospace<span class="w"> </span>https://lists.elisa.tech/g/aerospace/rss
+r2e<span class="w"> </span>run
+</pre></div>
+</div>
+<p>If you want to remove a feed, do this instead of modifying the config file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>r2e<span class="w"> </span>deletel<span class="w"> </span>elisa-devel
+</pre></div>
+</div>
+<p>This is needed because <cite>rss2email</cite> keeps a database of the feeds, and it needs
+to be updated to register your change.</p>
 </section>
 
 
@@ -75,11 +99,11 @@ curiosity into the loop, and you will become an expert in a subject.</p>
 <li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Misc</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="blogs.html">Blogs</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Development Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development-loop.html">Development Loop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wasm-c-ffi.html">Wasm-C FFI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="institutions.html">Tech Institutions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rss.html">RSS Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="groupsio.html">Groups.io Mailing Lists</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Groups.io Mailing Lists</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
@@ -90,8 +114,8 @@ curiosity into the loop, and you will become an expert in a subject.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Misc</a><ul>
-      <li>Previous: <a href="blogs.html" title="previous chapter">Blogs</a></li>
-      <li>Next: <a href="wasm-c-ffi.html" title="next chapter">Wasm-C FFI</a></li>
+      <li>Previous: <a href="rss.html" title="previous chapter">RSS Guide</a></li>
+      <li>Next: <a href="../TODO.html" title="next chapter">TODO</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -126,7 +150,7 @@ curiosity into the loop, and you will become an expert in a subject.</p>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
-      <a href="../_sources/misc/development-loop.rst.txt"
+      <a href="../_sources/misc/groupsio.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

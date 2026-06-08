@@ -53,6 +53,8 @@ previous patch</p></li>
 <li><p>Thou shalt use devm_* functions whenever possible, as they are liked more</p></li>
 <li><p>Before touching a per-CPU variable, thou must disable preemption or
 interrupts using get_cpu_var() and release it with put_cpu_var()</p></li>
+<li><p>For most cases, use fsleep() for sleeping, instead of usleep_range(). Use
+udelay() in IRQ path</p></li>
 </ul>
 <section id="useful-commands">
 <h2>Useful commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h2>

@@ -20,6 +20,8 @@ The Kernel Commandments:
 - Thou shalt use devm_* functions whenever possible, as they are liked more
 - Before touching a per-CPU variable, thou must disable preemption or
   interrupts using get_cpu_var() and release it with put_cpu_var()
+- For most cases, use fsleep() for sleeping, instead of usleep_range(). Use
+  udelay() in IRQ path
 
 Useful commands
 ---------------
