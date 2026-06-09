@@ -62,7 +62,7 @@ Generate the ctags so you can jump to definitions in your code editor:
 Sending a patch
 ---------------
 
-Make your comifications (after running checkpatch and coccinelle):
+Make your modifications (after running checkpatch and coccinelle):
 
 .. code-block:: bash
 
@@ -91,7 +91,7 @@ Greg explaining release cycle and patch flow from mailing list to stable:
 
     https://www.youtube.com/watch?v=vyenmLqJQjs
 
-Linus talking about linux:
+Linus talking about Linux:
 
     https://www.youtube.com/watch?v=WVTWCPoUt8w
 

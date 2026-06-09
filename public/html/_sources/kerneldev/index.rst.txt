@@ -11,6 +11,7 @@ Kernel Development
    bsp
    io-interfaces
    notes
+   testing-linux
    routine
    seL4
    u-boot

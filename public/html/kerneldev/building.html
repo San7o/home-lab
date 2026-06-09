@@ -35,6 +35,10 @@
   <section id="building-linux">
 <h1>Building Linux<a class="headerlink" href="#building-linux" title="Link to this heading">¶</a></h1>
 <p>Some notes about building the Linux kernel.</p>
+<p>To build with clang:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>make -j4 W=1 ARCH=x86_64 HOSTCC=clang CC=clang
+</pre></div>
+</div>
 <section id="yocto">
 <h2>Yocto<a class="headerlink" href="#yocto" title="Link to this heading">¶</a></h2>
 <p>Yocto is a collection of tools and configurations for building Linux images.</p>
@@ -126,6 +130,10 @@ that uses the module.bbclass. Then to build it with the bitbake toolchain:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://layers.openembedded.org/layerindex/branch/master/layers/">https://layers.openembedded.org/layerindex/branch/master/layers/</a></p>
 </div></blockquote>
+<p>Useful commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bitbake-config-build<span class="w"> </span>list-fragments
+</pre></div>
+</div>
 </section>
 <section id="devtool">
 <h2>Devtool<a class="headerlink" href="#devtool" title="Link to this heading">¶</a></h2>
@@ -247,12 +255,6 @@ dump the stack trace</p>
 </li>
 </ul>
 </section>
-<section id="useful-commands">
-<h2>Useful commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bitbake-config-build<span class="w"> </span>list-fragments
-</pre></div>
-</div>
-</section>
 </section>
 
 
@@ -280,6 +282,7 @@ dump the stack trace</p>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>

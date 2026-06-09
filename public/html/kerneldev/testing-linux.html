@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Board Support Package &#8212; Notes  documentation</title>
+    <title>Testing Linux &#8212; Notes  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
     <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
@@ -13,8 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="I/O Interfaces" href="io-interfaces.html" />
-    <link rel="prev" title="Devicetree" href="devicetree.html" />
+    <link rel="next" title="Kernel Routine" href="routine.html" />
+    <link rel="prev" title="Linux Kernel Dev Notes" href="notes.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -32,27 +32,45 @@
 
           <div class="body" role="main">
             
-  <section id="board-support-package">
-<h1>Board Support Package<a class="headerlink" href="#board-support-package" title="Link to this heading">¶</a></h1>
-<p>A Board Support Package (BSP) is a collection of software that enables the
-operating system to interact with the hardware. People who manage BSP are
-essentially plumbers, they connect these software for a particular use case
-of a customer.</p>
-<p>This includes:</p>
-<ul class="simple">
-<li><p>the firmware: this is mostly closed source and embedded in the SoC (Boot ROM)
-or loaded (/lib/firmware), but you rarely need to write it</p></li>
-<li><p>the bootloader: usually U-boot, it boots the operating system</p></li>
-<li><p>the kernel: your fork of the linux kernel</p></li>
-<li><p>the device tree: this is custom makde for a specific application and lives
-inside the linux fork, it describes the hardware that is enabled in this BSP</p></li>
-<li><p>the machine image: root filesystem and the rest of the image</p></li>
-</ul>
-<p>Yocto is used to build the entire BSP. Developers may also need to extend the
-bootloader, or even write a driver (not the majority of cases, and it is
-usually not upstreamed).</p>
-<p>Who makes the package may also need to maintain the kernel since the
-manufacturers would never be so kind.</p>
+  <section id="testing-linux">
+<h1>Testing Linux<a class="headerlink" href="#testing-linux" title="Link to this heading">¶</a></h1>
+<p>There are many ways to test the Linux kernel.</p>
+<p>Official documentation:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://docs.kernel.org/dev-tools/testing-overview.html">https://docs.kernel.org/dev-tools/testing-overview.html</a></p>
+</div></blockquote>
+<section id="kunit">
+<h2>KUnit<a class="headerlink" href="#kunit" title="Link to this heading">¶</a></h2>
+<p>KUnit is a framework to run unit tests inside the kernel. They can access
+internal functions in the kernel, and it is relatively straight forward.</p>
+<p>This command will configure, build and run a Linux kernel with KUnit tests:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./tools/testing/kunit/kunit.py<span class="w"> </span>run
+</pre></div>
+</div>
+</section>
+<section id="kselftest">
+<h2>kselftest<a class="headerlink" href="#kselftest" title="Link to this heading">¶</a></h2>
+<p>Userspace tests.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>headers
+make<span class="w"> </span>-C<span class="w"> </span>tools/testing/selftests
+make<span class="w"> </span>-C<span class="w"> </span>tools/testing/selftests<span class="w"> </span>run_tests
+make<span class="w"> </span>kselftest
+</pre></div>
+</div>
+</section>
+<section id="kernelci">
+<h2>KernelCI<a class="headerlink" href="#kernelci" title="Link to this heading">¶</a></h2>
+<p>A distributed test automation system, where many systems run by companies or
+volunteers run tests automatically and periodically.</p>
+<blockquote>
+<div><p><a class="reference external" href="https://kernelci.org/">https://kernelci.org/</a></p>
+</div></blockquote>
+<p>If you want to run tests locally without sending data to KernelCI, you need to
+configure LAVA:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://gitlab.com/lava/lava">https://gitlab.com/lava/lava</a></p>
+</div></blockquote>
+</section>
 </section>
 
 
@@ -77,10 +95,10 @@ manufacturers would never be so kind.</p>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
@@ -101,8 +119,8 @@ manufacturers would never be so kind.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Kernel Development</a><ul>
-      <li>Previous: <a href="devicetree.html" title="previous chapter">Devicetree</a></li>
-      <li>Next: <a href="io-interfaces.html" title="next chapter">I/O Interfaces</a></li>
+      <li>Previous: <a href="notes.html" title="previous chapter">Linux Kernel Dev Notes</a></li>
+      <li>Next: <a href="routine.html" title="next chapter">Kernel Routine</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -137,7 +155,7 @@ manufacturers would never be so kind.</p>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
-      <a href="../_sources/kerneldev/bsp.rst.txt"
+      <a href="../_sources/kerneldev/testing-linux.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

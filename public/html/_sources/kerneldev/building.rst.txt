@@ -3,6 +3,13 @@ Building Linux
 
 Some notes about building the Linux kernel.
 
+To build with clang:
+
+.. code-block:: text
+
+   make -j4 W=1 ARCH=x86_64 HOSTCC=clang CC=clang
+
+
 Yocto
 -----
 
@@ -109,6 +116,12 @@ that uses the module.bbclass. Then to build it with the bitbake toolchain:
 Here is an index of many yocto layers:
 
    https://layers.openembedded.org/layerindex/branch/master/layers/ 
+
+Useful commands:
+
+.. code-block:: bash
+
+  bitbake-config-build list-fragments
 
 Devtool
 -------
@@ -248,11 +261,3 @@ Some build configs you should know about:
 
   If you accidentally put a process into an uninterruptible sleep, this will
   dump the stack trace
-
-Useful commands
----------------
-
-.. code-block:: bash
-
-  bitbake-config-build list-fragments
-

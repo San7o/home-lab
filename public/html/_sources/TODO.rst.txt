@@ -15,12 +15,16 @@ Kernel dev
 
 1. understand the yocto+devtool+kas workflow
 
-  a. Follow this course:
+  a. Follow this Yocto course:
 
       https://www.yoctoproject.org/wp-content/uploads/sites/32/2023/10/LinuxLAB-2018-Yocto-Koan-min.pdf
 
-  b. boot a yocto BSP on a raspberry pi 3b
-  c. boot a yocto BSP on a beaglebone balck
+  b. Follow this Device Tree course:
+
+      https://hosted-files.sched.co/ossindia2026/69/DTS%20101%20From%20Roots%20to%20Trees%2C%20aka%20Devicetree%20for%20Beginners%20-%20Krzysztof%20Kozlowski%2C%20Qualcomm%20-%20OSS%20India%202026.pdf
+
+  c. boot a yocto BSP on a raspberry pi 3b
+  d. boot a yocto BSP on a beaglebone balck
 
 2. work on tmp105 driver
 
