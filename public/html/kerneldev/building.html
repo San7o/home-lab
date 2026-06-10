@@ -134,6 +134,13 @@ that uses the module.bbclass. Then to build it with the bitbake toolchain:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bitbake-config-build<span class="w"> </span>list-fragments
 </pre></div>
 </div>
+<p>If you get errors like <cite>ERROR: Fetcher failure for URL:
+‘git://git.openembedded.org/bitbake…’. Unable to fetch URL from any source.</cite>,
+do this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>url.<span class="s2">&quot;https://git.yoctoproject.org/git/&quot;</span>.insteadOf<span class="w"> </span><span class="s2">&quot;git://git.yoctoproject.org/&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>url.<span class="s2">&quot;https://git.openembedded.org/&quot;</span>.insteadOf<span class="w"> </span><span class="s2">&quot;git://git.openembedded.org/&quot;</span>
+</pre></div>
+</div>
 </section>
 <section id="devtool">
 <h2>Devtool<a class="headerlink" href="#devtool" title="Link to this heading">¶</a></h2>

@@ -123,6 +123,15 @@ Useful commands:
 
   bitbake-config-build list-fragments
 
+If you get errors like `ERROR: Fetcher failure for URL:
+'git://git.openembedded.org/bitbake...'. Unable to fetch URL from any source.`,
+do this:
+
+.. code-block:: bash
+
+    git config --global url."https://git.yoctoproject.org/git/".insteadOf "git://git.yoctoproject.org/"
+    git config --global url."https://git.openembedded.org/".insteadOf "git://git.openembedded.org/"
+
 Devtool
 -------
 
