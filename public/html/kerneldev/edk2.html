@@ -41,10 +41,15 @@ maily by Intel and other big corporations such as Microsoft and AMD.</p>
 repository.</p>
 <section id="building">
 <h2>Building<a class="headerlink" href="#building" title="Link to this heading">¶</a></h2>
+<p>Clone the repo:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/tianocore/edk2.git
 <span class="nb">cd</span><span class="w"> </span>edk2
-
-make<span class="w"> </span>-C<span class="w"> </span>BaseTools
+</pre></div>
+</div>
+<p>Make sure you cloned with the <cite>–recursive</cite> flag. Or run <cite>git submodule update
+–init</cite> otherwise.</p>
+<p>Build:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-C<span class="w"> </span>BaseTools
 mkdir<span class="w"> </span>-p<span class="w"> </span>Conf
 .<span class="w"> </span>edksetup.sh
 
@@ -56,7 +61,18 @@ cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; Conf/target.txt</sp
 <span class="s">BUILD_RULE_CONF       = Conf/build_rule.txt</span>
 <span class="s">EOF</span>
 
-build<span class="w"> </span>-DSECURE_BOOT_ENABLE<span class="w"> </span>-DNETWORK_TLS_ENABLE<span class="w"> </span>-DTPM2_ENABLE
+build<span class="w"> </span>-D<span class="w"> </span><span class="nv">SECURE_BOOT_ENABLE</span><span class="o">=</span>FALSE<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-D<span class="w"> </span><span class="nv">NO_SHELL</span><span class="o">=</span>FALSE
+</pre></div>
+</div>
+<p>We need to disable secure boot if we want to enable the shell.</p>
+<p>You can also pass the configuration directly to the <cite>build</cite> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>build<span class="w"> </span>-p<span class="w"> </span>OvmfPkg/OvmfPkgX64.dsc<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-a<span class="w"> </span>X64<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-b<span class="w"> </span>RELEASE<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-t<span class="w"> </span>GCC<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-D<span class="w"> </span><span class="nv">NO_SHELL</span><span class="o">=</span>FALSE<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-D<span class="w"> </span><span class="nv">SECURE_BOOT_ENABLE</span><span class="o">=</span>FALSE
 </pre></div>
 </div>
 <p>Binaries are generated in <cite>Build/Ovmfx64/RELEASE_GCC5/FV</cite>.</p>

@@ -11,11 +11,20 @@ repository.
 Building
 --------
 
+Clone the repo:
+
 .. code-block:: bash
 
     git clone --recursive https://github.com/tianocore/edk2.git
     cd edk2
-    
+
+Make sure you cloned with the `--recursive` flag. Or run `git submodule update
+--init` otherwise.
+
+Build:
+
+.. code-block:: bash
+
     make -C BaseTools
     mkdir -p Conf
     . edksetup.sh
@@ -28,7 +37,21 @@ Building
     BUILD_RULE_CONF       = Conf/build_rule.txt
     EOF
     
-    build -DSECURE_BOOT_ENABLE -DNETWORK_TLS_ENABLE -DTPM2_ENABLE
+    build -D SECURE_BOOT_ENABLE=FALSE \
+          -D NO_SHELL=FALSE
+
+We need to disable secure boot if we want to enable the shell.
+
+You can also pass the configuration directly to the `build` command:
+
+.. code-block:: bash
+
+   build -p OvmfPkg/OvmfPkgX64.dsc \
+      -a X64 \
+      -b RELEASE \
+      -t GCC \
+      -D NO_SHELL=FALSE \
+      -D SECURE_BOOT_ENABLE=FALSE
 
 Binaries are generated in `Build/Ovmfx64/RELEASE_GCC5/FV`.
 
