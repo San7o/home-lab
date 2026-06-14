@@ -49,6 +49,7 @@ Plug('nvim-orgmode/orgmode', { ['commit'] = '4da28a0' }) -- org view
 Plug('nvim-mini/mini.icons', { ['branch'] = 'stable'})   -- some icons
 Plug('goolord/alpha-nvim')             -- Cool startup screen
 Plug('lewis6991/gitsigns.nvim')        -- Show modified lines
+Plug('SirVer/ultisnips')
 
 vim.call('plug#end')
 
@@ -60,12 +61,18 @@ vim.cmd([[colorscheme modus]])
 
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', telescope.find_files,
-                { desc = 'Telescope find files' }) vim.keymap.set('n', '<leader>fg', telescope.live_grep,
+                { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', telescope.live_grep,
                 { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', telescope.buffers,
                 { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', telescope.help_tags,
                 { desc = 'Telescope help tags' })
+
+vim.g.UltiSnipsSnippetDirectories = { 'my-snippets' }
+vim.g.UltiSnipsExpandTrigger = "<tab>"
+vim.g.UltiSnipsJumpForwardTrigger = "<c-b>"
+vim.g.UltiSnipsJumpBackwardTrigger = "<c-z>"
 
 require('nvim-web-devicons').setup()
 local tree = require('nvim-tree.api')
