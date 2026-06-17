@@ -5,7 +5,7 @@ Important
 ---------
 
 - archive of all mails from the mailing lists:
-  
+
     https://lore.kernel.org/
 
 - git trees:

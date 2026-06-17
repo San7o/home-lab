@@ -63,10 +63,15 @@ PC moderboards have different interfaces for different speeds:
 PCs also can also support interfaces commonly found also in embedded devices,
 like SMBus, UART and of course USB.
 
+We may refer to the "System Bus" as the main bus that connects the CPU with
+memory and I/O. It combines control bus, address bus and data bus. In reality
+(after the 80s), this is just a conceptual label, it is not a specific bus but
+the combination of other busses like PCIe and Infinity Fabric.
+
 Data
 ----
 
-It often happens that an external module supports one or more itnerfaces to work
+It often happens that an external module supports one or more interfaces to work
 with it. The interface is just how do we communicate with the piece of hardware,
 another problem is what to communicate. This is fundamentally dependent on each
 module, but there are some common patterns we find

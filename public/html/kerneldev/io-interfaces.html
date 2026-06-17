@@ -13,7 +13,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Linux Kernel Dev Notes" href="notes.html" />
+    <link rel="next" title="Renode" href="renode.html" />
     <link rel="prev" title="Board Support Package" href="bsp.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -85,10 +85,14 @@ GPU to the monitor or laptop panel.</p></li>
 </ul>
 <p>PCs also can also support interfaces commonly found also in embedded devices,
 like SMBus, UART and of course USB.</p>
+<p>We may refer to the “System Bus” as the main bus that connects the CPU with
+memory and I/O. It combines control bus, address bus and data bus. In reality
+(after the 80s), this is just a conceptual label, it is not a specific bus but
+the combination of other busses like PCIe and Infinity Fabric.</p>
 </section>
 <section id="data">
 <h2>Data<a class="headerlink" href="#data" title="Link to this heading">¶</a></h2>
-<p>It often happens that an external module supports one or more itnerfaces to work
+<p>It often happens that an external module supports one or more interfaces to work
 with it. The interface is just how do we communicate with the piece of hardware,
 another problem is what to communicate. This is fundamentally dependent on each
 module, but there are some common patterns we find</p>
@@ -128,6 +132,7 @@ read incoming data from the module.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
@@ -151,7 +156,7 @@ read incoming data from the module.</p></li>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Kernel Development</a><ul>
       <li>Previous: <a href="bsp.html" title="previous chapter">Board Support Package</a></li>
-      <li>Next: <a href="notes.html" title="next chapter">Linux Kernel Dev Notes</a></li>
+      <li>Next: <a href="renode.html" title="next chapter">Renode</a></li>
   </ul></li>
   </ul></li>
 </ul>

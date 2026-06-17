@@ -10,6 +10,7 @@ Kernel Development
    devicetree
    bsp
    io-interfaces
+   renode
    notes
    testing-linux
    routine

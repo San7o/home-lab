@@ -107,3 +107,10 @@ Linus talking about Linux:
       linux would never be able to grow and evolve the way it does with
       GPL. Same for closed source software, the company that manages the
       software limits its potential and evolution.
+
+Reverse engineering vendor firmware drivers for little fun and no profit [linux.conf.au 2014]
+
+    Scary horror adventure about the experience of reversing engineering a
+    binary.
+
+    https://www.youtube.com/watch?v=j5NciKpHZzs&list=LL&index=1&t=2310s
