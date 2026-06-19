@@ -16,22 +16,19 @@ Yocto
 Yocto is a collection of tools and configurations for building Linux images.
 
 The goal of yocto is to build a full Linux distribution. This includes the
-toolchain, bootloader, and kernel. Keep in mind that Yocto is not a particular
-tool, it is more of an umbrella project under the Linux Foundation. It uses the
-"OpenEmbedded" framework which provides tools and configurations to build Linux.
-The tool you use for building is called `BitBake`, and the reference base
-distribution you start with is called "poky".
+toolchain, bootloader, kernel and filesystem image. Keep in mind that Yocto is
+not a particular tool, it is more of an umbrella project under the Linux
+Foundation. It uses the "OpenEmbedded" framework which provides tools and
+configurations to build Linux. The tool you use for building is called
+`BitBake`, and the reference base distribution you start with is called "poky".
 
 What makes yocto different from other build systems is the use of "layers".
-Layers are directories that contain build instructions (like "recipes",
-"classes", "configuration" and "fragments"). You can create, add, remove and
-modify layers in your build. Openembedded already provides a lot of these for
-you, such as BSP (Board Support Package), UI (frameworks like qt), and distro
-layers (systemd..).
-
-This allows different teams / projects to share layers on the web. You can
-use an official layer from the raspberry pi team for example, or set up your
-custom one.
+Layers are directories that contain build instructions, such as BSP (Board
+Support Package), UI (frameworks like qt), and distro layers (systemd..). You
+can create, add, remove and modify layers in your build by editing the
+`bblayers.con` file. Openembedded already provides a lot of these for you, and
+you can find and share lots of layers online, like the official raspberry pi
+layer for example.
 
 By convention, a layer's directory starts with `meta-`. Here is an example
 layout.
@@ -50,6 +47,24 @@ layout.
          recipes-kernel/
            linux-raspberrypi.inc
            linux-raspberrypi-dev.bb
+
+Yocto uses the following file formats:
+
+* Recipes (.bb): describe build instructions for a single package. This includes
+  fetching, dependencies, configuration and compilation, output.
+
+
+* PackageGroups (special .bb): often used to group packages together for a FS
+  image.
+
+* Classes (.bbclass): inheritance mechanism for common functionality
+
+* Configuration (.conf): drives the overall behaviour of the build process
+
+* Appen files (.bbappend): define additional metadata for a similarly names .bb
+  file, add or override previously set values
+
+* Include files (.inc): files which are used with the `include` or `require` directive
 
 Yocto Getting started
 ---------------------
@@ -76,7 +91,7 @@ Do this to start a new project:
     bitbake-config-build enable-fragment core/yocto/root-login-with-empty-password
     bitbake-config-build enable-fragment core/yocto/sstate-mirror-cdn
 
-    # Build
+    # Build a recipe
     # You can build different images:
     # - core-image-minimal: bare essentials
     # - core-image-base: console only with drivers and firmware
@@ -122,6 +137,9 @@ Useful commands:
 .. code-block:: bash
 
   bitbake-config-build list-fragments
+  bitbake-layers -h
+  bitbake-layers create-layer meta-test
+  bitbake-layers show-layers
 
 If you get errors like `ERROR: Fetcher failure for URL:
 'git://git.openembedded.org/bitbake...'. Unable to fetch URL from any source.`,

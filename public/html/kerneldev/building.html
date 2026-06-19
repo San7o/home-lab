@@ -43,20 +43,18 @@
 <h2>Yocto<a class="headerlink" href="#yocto" title="Link to this heading">¶</a></h2>
 <p>Yocto is a collection of tools and configurations for building Linux images.</p>
 <p>The goal of yocto is to build a full Linux distribution. This includes the
-toolchain, bootloader, and kernel. Keep in mind that Yocto is not a particular
-tool, it is more of an umbrella project under the Linux Foundation. It uses the
-“OpenEmbedded” framework which provides tools and configurations to build Linux.
-The tool you use for building is called <cite>BitBake</cite>, and the reference base
-distribution you start with is called “poky”.</p>
+toolchain, bootloader, kernel and filesystem image. Keep in mind that Yocto is
+not a particular tool, it is more of an umbrella project under the Linux
+Foundation. It uses the “OpenEmbedded” framework which provides tools and
+configurations to build Linux. The tool you use for building is called
+<cite>BitBake</cite>, and the reference base distribution you start with is called “poky”.</p>
 <p>What makes yocto different from other build systems is the use of “layers”.
-Layers are directories that contain build instructions (like “recipes”,
-“classes”, “configuration” and “fragments”). You can create, add, remove and
-modify layers in your build. Openembedded already provides a lot of these for
-you, such as BSP (Board Support Package), UI (frameworks like qt), and distro
-layers (systemd..).</p>
-<p>This allows different teams / projects to share layers on the web. You can
-use an official layer from the raspberry pi team for example, or set up your
-custom one.</p>
+Layers are directories that contain build instructions, such as BSP (Board
+Support Package), UI (frameworks like qt), and distro layers (systemd..). You
+can create, add, remove and modify layers in your build by editing the
+<cite>bblayers.con</cite> file. Openembedded already provides a lot of these for you, and
+you can find and share lots of layers online, like the official raspberry pi
+layer for example.</p>
 <p>By convention, a layer’s directory starts with <cite>meta-</cite>. Here is an example
 layout.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>meta-my-layer/
@@ -73,6 +71,18 @@ layout.</p>
       linux-raspberrypi-dev.bb
 </pre></div>
 </div>
+<p>Yocto uses the following file formats:</p>
+<ul class="simple">
+<li><p>Recipes (.bb): describe build instructions for a single package. This includes
+fetching, dependencies, configuration and compilation, output.</p></li>
+<li><p>PackageGroups (special .bb): often used to group packages together for a FS
+image.</p></li>
+<li><p>Classes (.bbclass): inheritance mechanism for common functionality</p></li>
+<li><p>Configuration (.conf): drives the overall behaviour of the build process</p></li>
+<li><p>Appen files (.bbappend): define additional metadata for a similarly names .bb
+file, add or override previously set values</p></li>
+<li><p>Include files (.inc): files which are used with the <cite>include</cite> or <cite>require</cite> directive</p></li>
+</ul>
 </section>
 <section id="yocto-getting-started">
 <h2>Yocto Getting started<a class="headerlink" href="#yocto-getting-started" title="Link to this heading">¶</a></h2>
@@ -95,7 +105,7 @@ git<span class="w"> </span>clone<span class="w"> </span>https://git.openembedded
 bitbake-config-build<span class="w"> </span>enable-fragment<span class="w"> </span>core/yocto/root-login-with-empty-password
 bitbake-config-build<span class="w"> </span>enable-fragment<span class="w"> </span>core/yocto/sstate-mirror-cdn
 
-<span class="c1"># Build</span>
+<span class="c1"># Build a recipe</span>
 <span class="c1"># You can build different images:</span>
 <span class="c1"># - core-image-minimal: bare essentials</span>
 <span class="c1"># - core-image-base: console only with drivers and firmware</span>
@@ -132,6 +142,9 @@ that uses the module.bbclass. Then to build it with the bitbake toolchain:</p>
 </div></blockquote>
 <p>Useful commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bitbake-config-build<span class="w"> </span>list-fragments
+bitbake-layers<span class="w"> </span>-h
+bitbake-layers<span class="w"> </span>create-layer<span class="w"> </span>meta-test
+bitbake-layers<span class="w"> </span>show-layers
 </pre></div>
 </div>
 <p>If you get errors like <cite>ERROR: Fetcher failure for URL:
@@ -288,6 +301,7 @@ dump the stack trace</p>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>

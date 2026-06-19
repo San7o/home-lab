@@ -12,6 +12,7 @@ Sysadmin
    llama
    terraform/terraform
    ssh-public-key-auth
+   post-quantum-safety
    selinux/selinux
    ansible/ansible
    containers/docker-commands
