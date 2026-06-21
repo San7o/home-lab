@@ -24,10 +24,6 @@ UBOOT_MAILBOX=~/Mail/u-boot
 UBOOT_INBOX=https://lore.kernel.org/u-boot/
 UBOOT_QUERY='l:u-boot.lists.denx.de: AND rt:30.days.ago..'
 
-BUILDROOT_MAILBOX=~/Mail/buildroot
-BUILDROOT_INBOX=https://lore.kernel.org/buildroot/
-BUILDROOT_QUERY='l:buildroot AND rt:30.days.ago..'
-
 # Staging
 if [ ! -d $STAGING_MAILBOX ]; then
     echo "Setting up staging"
@@ -70,17 +66,6 @@ if [ ! -d $UBOOT_MAILBOX ]; then
 else
     echo "Fetching uboot"
     lei up $UBOOT_MAILBOX
-fi
-
-# Buildroot
-if [ ! -d $BUILDROOT_MAILBOX ]; then
-    echo "Setting up buildroot"
-    lei q -o $BUILDROOT_MAILBOX \
-        -I $BUILDROOT_INBOX \
-        --threads $BUILDROOT_QUERY
-else
-    echo "Fetching buildroot"
-    lei up $BUILDROOT_MAILBOX
 fi
 
 echo "Done"

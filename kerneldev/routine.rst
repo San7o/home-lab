@@ -9,11 +9,13 @@ Morning routine
 Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel devs, securtiy
 mailing lists and news...). I use gnus on emacs for this.
 
-Read latest patches of the subsystems I follow, I use `lei` and `neomutt`
+Read latest patches of the subsystems I follow, I use `lei` and `aerc`:
 
 .. code-block:: bash
 
     ./scripts/lei-update.sh
+    aerc
+    # or
     neomutt -f ~/Mail/<mailbox>/
 
 Apply patches from the mailing list. For a multi patch series, grab the
