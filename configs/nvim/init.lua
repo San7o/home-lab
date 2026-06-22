@@ -53,7 +53,8 @@ Plug('SirVer/ultisnips')
 
 vim.call('plug#end')
 
-require('modus-themes').setup({
+local modus = require('modus-themes')
+modus.setup({
     style = "modus_vivendi",  -- modus_vivendi or modus_operandi (dark and light)
     variants = "default",      -- default, tinted, deuteranopia, and tritanopia
 })
@@ -94,6 +95,22 @@ require('orgmode').setup({
 
 require('mini.icons').setup()
 require('alpha').setup(require('alpha.themes.startify').config)
+
+local function toggle_modus_theme()
+    -- Access the current style from the plugin's configuration
+    local current_style = require('modus-themes.config').options.style
+
+    if current_style == "modus_operandi" then
+        modus.setup({ style = "modus_vivendi" })
+    else
+        modus.setup({ style = "modus_operandi" })
+    end
+
+    -- Reload the colorscheme to apply changes
+    vim.cmd([[colorscheme modus]])
+end
+
+vim.api.nvim_create_user_command('ToggleTheme', toggle_modus_theme, {})
 
 --[[
 --
