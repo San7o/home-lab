@@ -92,6 +92,11 @@ clocks speed</p></li>
 <li><p>U-Boot: loads the operating system</p></li>
 <li><p>OS: the end (and the start of everything else)</p></li>
 </ul>
+<p>Devices are initialized in a staged approach: SPL handles essential hardware
+(clocks, pinmux, DRAM, watchdog), U-Boot Proper initializes most peripherals
+(MMC, network, storage) via the Driver Model, and the OS handles devices that
+U-Boot doesn’t use. The Driver Model uses lazy probing, meaning that devices are
+only initialized when actually accessed.</p>
 </section>
 <section id="testing-u-boot">
 <h2>Testing U-boot<a class="headerlink" href="#testing-u-boot" title="Link to this heading">¶</a></h2>

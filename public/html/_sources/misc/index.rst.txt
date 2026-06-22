@@ -14,3 +14,4 @@ Notes that do not fall in other categories.
    legislations
    rss
    groupsio
+   attribute

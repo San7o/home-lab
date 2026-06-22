@@ -69,6 +69,12 @@ This is what happens when you turn on the board:
 
 - OS: the end (and the start of everything else)
 
+Devices are initialized in a staged approach: SPL handles essential hardware
+(clocks, pinmux, DRAM, watchdog), U-Boot Proper initializes most peripherals
+(MMC, network, storage) via the Driver Model, and the OS handles devices that
+U-Boot doesn't use. The Driver Model uses lazy probing, meaning that devices are
+only initialized when actually accessed.
+
 Testing U-boot
 --------------
 
