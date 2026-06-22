@@ -41,19 +41,31 @@ The "expo" subsystem supports graphical / text display.
 Booting
 -------
 
-Firmware handoff is done in this order:
+This is what happens when you turn on the board:
 
-- Verified Program loader (VPL): the first stage of the boot loader. It loads
+- The CPU starts with low-power. A SoC specific ROM code gets executed
+
+- Teriary Program Loader (TPL, optional): very early init, as tiny as possible.
+  Loads the SPL or VPL if enabled.
+
+- Verifying Program loader (VPL, optional): the first stage of the boot loader. It loads
   the next stage and ensures that no one has tampered with the firmware.
 
-- Secondary Program Loader (SPL): miniature bootloader that lives entirely
-  within the SoC's internal SRAM. Its primary job is to initialize the DDR
-  memory controller so taht the main bootloader can be loaded.
+- Secondary Program Loader (SPL, optional): miniature bootloader that lives
+  entirely within the SoC's internal SRAM. Its primary job is to initialize the
+  DDR memory controller so taht the main bootloader can be loaded.
+
+  - It uses the SoC's power management module to set the right voltages and
+    clocks speed
+
+  - `board_init_f` is called before U-boot is loaded
+  - `relocate_code` moves U-boot to final location
+  - `board_init_r` called in post relocation
 
 - Trusted Firmware-A (TF-A, ARM) + Open Protable Trusted Execution Environment
   (OP-TEE): A secure software layer that processes sensitive security oprations
 
-- U-Boot: loads the oprerating system
+- U-Boot: loads the operating system
 
 - OS: the end (and the start of everything else)
 

@@ -69,16 +69,27 @@ configured at runtime.</p>
 </section>
 <section id="booting">
 <h2>Booting<a class="headerlink" href="#booting" title="Link to this heading">¶</a></h2>
-<p>Firmware handoff is done in this order:</p>
+<p>This is what happens when you turn on the board:</p>
 <ul class="simple">
-<li><p>Verified Program loader (VPL): the first stage of the boot loader. It loads
+<li><p>The CPU starts with low-power. A SoC specific ROM code gets executed</p></li>
+<li><p>Teriary Program Loader (TPL, optional): very early init, as tiny as possible.
+Loads the SPL or VPL if enabled.</p></li>
+<li><p>Verifying Program loader (VPL, optional): the first stage of the boot loader. It loads
 the next stage and ensures that no one has tampered with the firmware.</p></li>
-<li><p>Secondary Program Loader (SPL): miniature bootloader that lives entirely
-within the SoC’s internal SRAM. Its primary job is to initialize the DDR
-memory controller so taht the main bootloader can be loaded.</p></li>
+<li><p>Secondary Program Loader (SPL, optional): miniature bootloader that lives
+entirely within the SoC’s internal SRAM. Its primary job is to initialize the
+DDR memory controller so taht the main bootloader can be loaded.</p>
+<ul>
+<li><p>It uses the SoC’s power management module to set the right voltages and
+clocks speed</p></li>
+<li><p><cite>board_init_f</cite> is called before U-boot is loaded</p></li>
+<li><p><cite>relocate_code</cite> moves U-boot to final location</p></li>
+<li><p><cite>board_init_r</cite> called in post relocation</p></li>
+</ul>
+</li>
 <li><p>Trusted Firmware-A (TF-A, ARM) + Open Protable Trusted Execution Environment
 (OP-TEE): A secure software layer that processes sensitive security oprations</p></li>
-<li><p>U-Boot: loads the oprerating system</p></li>
+<li><p>U-Boot: loads the operating system</p></li>
 <li><p>OS: the end (and the start of everything else)</p></li>
 </ul>
 </section>
@@ -133,6 +144,7 @@ python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>

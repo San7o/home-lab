@@ -46,6 +46,103 @@ the DTS represents the rest of the board.</p>
 <p>Developers should keep their device trees in-kernel, maintaining their own fork
 of the kernel. Only the SoC manufacturers actually upstream their device trees
 as they represent the fully-featured description of their hardware.</p>
+<section id="dt-bindings">
+<h2>DT Bindings<a class="headerlink" href="#dt-bindings" title="Link to this heading">¶</a></h2>
+<p>Devicetree Bindings are yaml files that specify how the kernel should parse the
+Devicetree’s properties.</p>
+<p>For example, <cite>Documentation/devicetree/bindings/arm/rockchip.pmu.yaml</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># SPDX-License-Identifier: GPL-2.0</span>
+%YAML<span class="w"> </span><span class="m">1</span>.2
+---
+<span class="nv">$id</span>:<span class="w"> </span>http://devicetree.org/schemas/arm/rockchip/pmu.yaml#
+<span class="nv">$schema</span>:<span class="w"> </span>http://devicetree.org/meta-schemas/core.yaml#
+
+title:<span class="w"> </span>Rockchip<span class="w"> </span>Power<span class="w"> </span>Management<span class="w"> </span>Unit<span class="w"> </span><span class="o">(</span>PMU<span class="o">)</span>
+
+maintainers:
+<span class="w">  </span>-<span class="w"> </span>Elaine<span class="w"> </span>Zhang<span class="w"> </span>&lt;zhangqing@rock-chips.com&gt;
+<span class="w">  </span>-<span class="w"> </span>Heiko<span class="w"> </span>Stuebner<span class="w"> </span>&lt;heiko@sntech.de&gt;
+
+description:<span class="w"> </span><span class="p">|</span>
+<span class="w">  </span>The<span class="w"> </span>PMU<span class="w"> </span>is<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>turn<span class="w"> </span>on<span class="w"> </span>and<span class="w"> </span>off<span class="w"> </span>different<span class="w"> </span>power<span class="w"> </span>domains<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>SoCs.
+<span class="w">  </span>This<span class="w"> </span>includes<span class="w"> </span>the<span class="w"> </span>power<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>CPU<span class="w"> </span>cores.
+
+<span class="k">select</span>:
+<span class="w">  </span>properties:
+<span class="w">    </span>compatible:
+<span class="w">      </span>contains:
+<span class="w">        </span>enum:
+<span class="w">          </span>-<span class="w"> </span>rockchip,px30-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3066-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3128-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3288-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3368-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3399-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3528-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3562-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3568-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3576-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3588-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rv1126-pmu
+
+<span class="w">  </span>required:
+<span class="w">    </span>-<span class="w"> </span>compatible
+
+properties:
+<span class="w">  </span>compatible:
+<span class="w">    </span>items:
+<span class="w">      </span>-<span class="w"> </span>enum:
+<span class="w">          </span>-<span class="w"> </span>rockchip,px30-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3066-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3128-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3288-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3368-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3399-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3528-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3562-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3568-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3576-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rk3588-pmu
+<span class="w">          </span>-<span class="w"> </span>rockchip,rv1126-pmu
+<span class="w">      </span>-<span class="w"> </span>const:<span class="w"> </span>syscon
+<span class="w">      </span>-<span class="w"> </span>const:<span class="w"> </span>simple-mfd
+
+<span class="w">  </span>reg:
+<span class="w">    </span>maxItems:<span class="w"> </span><span class="m">1</span>
+
+<span class="w">  </span>power-controller:
+<span class="w">    </span>type:<span class="w"> </span>object
+
+<span class="w">  </span>reboot-mode:
+<span class="w">    </span>type:<span class="w"> </span>object
+
+required:
+<span class="w">  </span>-<span class="w"> </span>compatible
+<span class="w">  </span>-<span class="w"> </span>reg
+
+additionalProperties:<span class="w"> </span><span class="nb">false</span>
+
+examples:
+<span class="w">  </span>-<span class="w"> </span><span class="p">|</span>
+<span class="w">    </span>pmu@20004000<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="nv">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rockchip,rk3066-pmu&quot;</span>,<span class="w"> </span><span class="s2">&quot;syscon&quot;</span>,<span class="w"> </span><span class="s2">&quot;simple-mfd&quot;</span><span class="p">;</span>
+<span class="w">      </span><span class="nv">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;0x20004000<span class="w"> </span>0x100&gt;<span class="p">;</span>
+<span class="w">    </span><span class="o">}</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Validate a binding:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>dt_binding_check<span class="w"> </span><span class="nv">DT_SCHEMA_FILES</span><span class="o">=</span>trivial-devices.yaml
+</pre></div>
+</div>
+<p>Validate one DTS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">CHECK_DTBS</span><span class="o">=</span>y<span class="w"> </span>qcom/sm8450-hdk.dtb
+</pre></div>
+</div>
+<p>Validate one DTS against one binding:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">CHECK_DTBS</span><span class="o">=</span>y<span class="w"> </span>qcom/sm8450-hdk.dtb<span class="w"> </span><span class="nv">DT_SCHEMA_FILES</span><span class="o">=</span>trivial-devices.yaml
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -72,6 +169,7 @@ as they represent the fully-featured description of their hardware.</p>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
