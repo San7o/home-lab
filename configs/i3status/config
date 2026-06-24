@@ -1,0 +1,64 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        interval = 5
+        color_good = "#2AA198"
+        color_bad = "#DC322F"
+        color_degraded = "#CB4B16"
+}
+
+# The order of the modules appearing in the status bar
+order += "disk /"
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "battery all"
+order += "cpu_temperature 0"
+order += "load"
+order += "tztime local"
+
+wireless _first_ {
+        format_up = "Wlan: %essid (%quality)"
+        format_down = "Wlan: down"
+}
+
+ethernet _first_ {
+        format_up = "Eth: %ip (%speed)"
+        format_down = "Eth: down"
+}
+
+battery all {
+        format = "%status %percentage %remaining"
+        format_down = "No Bat"
+        status_chr = "CHR"
+        status_bat = "BAT"
+        status_unk = "UNK"
+        status_full = "FULL"
+        low_threshold = 10
+}
+
+disk "/" {
+        format = "Disk: %avail"
+}
+
+load {
+        format = "Load: %1min"
+}
+
+cpu_temperature 0 {
+        format = "Temp: %degrees °C"
+        # If this path doesn't update, swap it out for your specific 
+        # hwmon/temp1_input path found earlier.
+        path = "/sys/class/thermal/thermal_zone0/temp"
+        max_threshold = 75
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+}
