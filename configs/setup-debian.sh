@@ -14,7 +14,7 @@
 CORE="git curl gcc clang rustc"
 BROWSER=firefox-esr
 EDITOR="emacs neovim"
-WM="sway kitty dmenu i3status"
+WM="sway kitty dmenu i3status lm-sensors"
 UTILS="gh brightnessctl xwayland network-manager pipewire pipewire-pulse pipewire-alsa wireplumber alsa-utils pavucontrol xdg-utils"
 
 set -e
