@@ -4,11 +4,11 @@
 # Update lei mailbox, create one if it does not exist
 #
 
-set -e
+set -ex
 
 STAGING_MAILBOX=~/Mail/drivers-staging
 STAGING_INBOX=https://lore.kernel.org/linux-staging/
-#STAGING_QUERY='dfn:drivers/staging/ AND rt:30.days.ago..'
+# "dfn:" stands for diff filename
 STAGING_QUERY='(l:linux-staging.vger.kernel.org OR l:linux-staging@lists.linux.dev OR dfn:drivers/staging/) AND rt:30.days.ago..'
 
 JANITORS_MAILBOX=~/Mail/kernel-janitors
@@ -17,12 +17,14 @@ JANITORS_QUERY='l:kernel-janitors AND rt:30.days.ago..'
 
 EBPF_MAILBOX=~/Mail/bpf
 EBPF_INBOX=https://lore.kernel.org/bpf/
-#EBPF_QUERY='(dfn:kernel/bpf/ OR dfn:tools/lib/bpf/ OR dfn:tools/testing/selftests/bpf/) AND rt:30.days.ago..'
 EBPF_QUERY='(l:bpf@vger.kernel.org OR dfn:kernel/bpf/ OR dfn:tools/lib/bpf/ OR dfn:tools/testing/selftests/bpf/) AND rt:30.days.ago..'
 
 UBOOT_MAILBOX=~/Mail/u-boot
-UBOOT_INBOX=https://lore.kernel.org/u-boot/
-UBOOT_QUERY='l:u-boot.lists.denx.de: AND rt:30.days.ago..'
+UBOOT_INBOX=https://lore.kernel.org/u-boot/ UBOOT_QUERY='l:u-boot.lists.denx.de: AND rt:30.days.ago..'
+
+WATCHLIST_MAILBOX=~/Mail/watchlist/
+# [PATCH] media: cedrus: fix memory leak in cedrus_init_ctrls()
+WATCHLIST_MIDS='20260624085920.578446-1-dawei.feng@seu.edu.cn'
 
 # Staging
 if [ ! -d $STAGING_MAILBOX ]; then
@@ -30,9 +32,6 @@ if [ ! -d $STAGING_MAILBOX ]; then
     lei q -o $STAGING_MAILBOX \
         -I $STAGING_INBOX \
         --threads $STAGING_QUERY
-else
-    echo "Fetching staging"
-    lei up $STAGING_MAILBOX
 fi
 
 # Janitors
@@ -41,9 +40,6 @@ if [ ! -d $JANITORS_MAILBOX ]; then
     lei q -o $JANITORS_MAILBOX \
         -I $JANITORS_INBOX \
         --threads $JANITORS_QUERY
-else
-    echo "Fetching janitors"
-    lei up $JANITORS_MAILBOX
 fi
 
 # eBPF
@@ -52,9 +48,6 @@ if [ ! -d $EBPF_MAILBOX ]; then
     lei q -o $EBPF_MAILBOX \
         -I $EBPF_INBOX \
         --threads $EBPF_QUERY
-else
-    echo "Fetching ebpf"
-    lei up $EBPF_MAILBOX
 fi
 
 # U-boot
@@ -63,9 +56,17 @@ if [ ! -d $UBOOT_MAILBOX ]; then
     lei q -o $UBOOT_MAILBOX \
         -I $UBOOT_INBOX \
         --threads $UBOOT_QUERY
-else
-    echo "Fetching uboot"
-    lei up $UBOOT_MAILBOX
 fi
+
+# Watchlist
+if [ ! -d $WATCHLIST_MAILBOX ]; then
+    mkdir $WATCHLIST_MAILBOX
+fi
+
+echo "Updating watchlist"
+b4 mbox -M -o $WATCHLIST_MAILBOX \
+    $WATCHLIST_MIDS
+
+lei up --all
 
 echo "Done"
