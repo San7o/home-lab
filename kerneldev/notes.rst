@@ -22,6 +22,12 @@ The Kernel Commandments:
   interrupts using get_cpu_var() and release it with put_cpu_var()
 - For most cases, use fsleep() for sleeping, instead of usleep_range(). Use
   udelay() in IRQ path
+- beware of overlows. Use size_add(), size_mul(), array_size() and similar
+  functions when necessary.
+- Use `guard(mutex)(&mu_mutex)` instead of `mutex_lock(&my_mutex)` /
+  `mutex_unlock(&my_mutex)`
+- Do not break UAPI. For example, by changing the string formatting of a
+  `sysfs_emit()`
 
 Useful commands
 ---------------
@@ -58,6 +64,12 @@ Generate the ctags so you can jump to definitions in your code editor:
     make tags
     # For emacs gtags:
     make TAGS
+
+Check the offsets of a struct, and how it aligns with the cache:
+
+.. code-block:: bash
+
+   pahole -C sk_buff | less
 
 Sending a patch
 ---------------

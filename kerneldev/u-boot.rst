@@ -45,20 +45,23 @@ This is what happens when you turn on the board:
 
 - The CPU starts with low-power. A SoC specific ROM code gets executed
 
+  - `lowlevel_init` is called, which sets up things such as RTC and CAR.
+  - it may then jump to `s_init`. If SPL is not used, then this does what the
+    SPL would do like setting up DRAM, clear BSS, start a console.
+
 - Teriary Program Loader (TPL, optional): very early init, as tiny as possible.
-  Loads the SPL or VPL if enabled.
+  It loads the SPL or VPL if enabled. Some SoCs like Rockchip do DRAM
+  initialization here.
 
 - Verifying Program loader (VPL, optional): the first stage of the boot loader. It loads
   the next stage and ensures that no one has tampered with the firmware.
 
 - Secondary Program Loader (SPL, optional): miniature bootloader that lives
   entirely within the SoC's internal SRAM. Its primary job is to initialize the
-  DDR memory controller so taht the main bootloader can be loaded.
-
-  - It uses the SoC's power management module to set the right voltages and
-    clocks speed
+  DDR memory controller so that the main bootloader can be loaded.
 
   - `board_init_f` is called before U-boot is loaded
+    - Does the whole DRAM initialization, clear BSS and other necessary stuff.
   - `relocate_code` moves U-boot to final location
   - `board_init_r` called in post relocation
 
