@@ -100,6 +100,13 @@ Useful command:
 
     shh grep -rnE 'pr_err\(\s*"([^"\\]|\\.)*([^n]|[^\\].)"' .
 
+Important commands in aerc:
+
+.. code-block:: bash
+
+   :sort -r date
+   :toggle-thread
+
 Night routine
 -------------
 

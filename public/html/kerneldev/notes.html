@@ -55,6 +55,12 @@ previous patch</p></li>
 interrupts using get_cpu_var() and release it with put_cpu_var()</p></li>
 <li><p>For most cases, use fsleep() for sleeping, instead of usleep_range(). Use
 udelay() in IRQ path</p></li>
+<li><p>beware of overlows. Use size_add(), size_mul(), array_size() and similar
+functions when necessary.</p></li>
+<li><p>Use <cite>guard(mutex)(&amp;mu_mutex)</cite> instead of <cite>mutex_lock(&amp;my_mutex)</cite> /
+<cite>mutex_unlock(&amp;my_mutex)</cite></p></li>
+<li><p>Do not break UAPI. For example, by changing the string formatting of a
+<cite>sysfs_emit()</cite></p></li>
 </ul>
 <section id="useful-commands">
 <h2>Useful commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h2>
@@ -79,6 +85,10 @@ who modified the file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>tags
 <span class="c1"># For emacs gtags:</span>
 make<span class="w"> </span>TAGS
+</pre></div>
+</div>
+<p>Check the offsets of a struct, and how it aligns with the cache:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pahole<span class="w"> </span>-C<span class="w"> </span>sk_buff<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
 </pre></div>
 </div>
 </section>

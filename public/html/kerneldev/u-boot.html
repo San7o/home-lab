@@ -71,18 +71,24 @@ configured at runtime.</p>
 <h2>Booting<a class="headerlink" href="#booting" title="Link to this heading">¶</a></h2>
 <p>This is what happens when you turn on the board:</p>
 <ul class="simple">
-<li><p>The CPU starts with low-power. A SoC specific ROM code gets executed</p></li>
+<li><p>The CPU starts with low-power. A SoC specific ROM code gets executed</p>
+<ul>
+<li><p><cite>lowlevel_init</cite> is called, which sets up things such as RTC and CAR.</p></li>
+<li><p>it may then jump to <cite>s_init</cite>. If SPL is not used, then this does what the
+SPL would do like setting up DRAM, clear BSS, start a console.</p></li>
+</ul>
+</li>
 <li><p>Teriary Program Loader (TPL, optional): very early init, as tiny as possible.
-Loads the SPL or VPL if enabled.</p></li>
+It loads the SPL or VPL if enabled. Some SoCs like Rockchip do DRAM
+initialization here.</p></li>
 <li><p>Verifying Program loader (VPL, optional): the first stage of the boot loader. It loads
 the next stage and ensures that no one has tampered with the firmware.</p></li>
 <li><p>Secondary Program Loader (SPL, optional): miniature bootloader that lives
 entirely within the SoC’s internal SRAM. Its primary job is to initialize the
-DDR memory controller so taht the main bootloader can be loaded.</p>
+DDR memory controller so that the main bootloader can be loaded.</p>
 <ul>
-<li><p>It uses the SoC’s power management module to set the right voltages and
-clocks speed</p></li>
-<li><p><cite>board_init_f</cite> is called before U-boot is loaded</p></li>
+<li><p><cite>board_init_f</cite> is called before U-boot is loaded
+- Does the whole DRAM initialization, clear BSS and other necessary stuff.</p></li>
 <li><p><cite>relocate_code</cite> moves U-boot to final location</p></li>
 <li><p><cite>board_init_r</cite> called in post relocation</p></li>
 </ul>
