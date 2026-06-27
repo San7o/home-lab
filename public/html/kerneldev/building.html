@@ -35,10 +35,21 @@
   <section id="building-linux">
 <h1>Building Linux<a class="headerlink" href="#building-linux" title="Link to this heading">¶</a></h1>
 <p>Some notes about building the Linux kernel.</p>
+<section id="vanilla">
+<h2>Vanilla<a class="headerlink" href="#vanilla" title="Link to this heading">¶</a></h2>
+<p>Build with warnings:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-j4<span class="w"> </span><span class="nv">W</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
 <p>To build with clang:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>make -j4 W=1 ARCH=x86_64 HOSTCC=clang CC=clang
 </pre></div>
 </div>
+<p>Cross compile:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>make -j4 ARCH=x86_64 CROSS_COMPILE=/usr/bin/x86_64-pc-linux-gnu-
+</pre></div>
+</div>
+</section>
 <section id="yocto">
 <h2>Yocto<a class="headerlink" href="#yocto" title="Link to this heading">¶</a></h2>
 <p>Yocto is a collection of tools and configurations for building Linux images.</p>

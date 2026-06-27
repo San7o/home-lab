@@ -3,12 +3,26 @@ Building Linux
 
 Some notes about building the Linux kernel.
 
+Vanilla
+-------
+
+Build with warnings:
+
+.. code-block:: bash
+
+    make -j4 W=1
+
 To build with clang:
 
 .. code-block:: text
 
    make -j4 W=1 ARCH=x86_64 HOSTCC=clang CC=clang
 
+Cross compile:
+
+.. code-block:: text
+
+   make -j4 ARCH=x86_64 CROSS_COMPILE=/usr/bin/x86_64-pc-linux-gnu-
 
 Yocto
 -----

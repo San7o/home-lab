@@ -50,6 +50,33 @@
 <blockquote>
 <div><p><a class="reference external" href="https://lore.kernel.org/u-boot/">https://lore.kernel.org/u-boot/</a></p>
 </div></blockquote>
+<p>The U-boot development structure is very similar to Linux’s, so you will feel at
+home if you are already familiar with working on Linux.</p>
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">¶</a></h2>
+<p>See which boards are supported:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>u-boot
+ls<span class="w"> </span>configs
+</pre></div>
+</div>
+<p>Choose a config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>qemu_arm64_defconfig
+</pre></div>
+</div>
+<p>You can also use the good old <cite>menuconfig</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>menuconfig
+</pre></div>
+</div>
+<p>Build:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span>make<span class="w"> </span>-j4
+</pre></div>
+</div>
+<p>If you built a quemu config, the simplest way you can boot it is via the
+following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qemu-system-aarch64<span class="w"> </span>-machine<span class="w"> </span>virt<span class="w"> </span>-nographic<span class="w"> </span>-cpu<span class="w"> </span>cortex-a57<span class="w"> </span>-bios<span class="w"> </span>u-boot.bin
+</pre></div>
+</div>
+</section>
 <section id="architecture">
 <h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">¶</a></h2>
 <p>In order to boot many operating systems on many architectures, we need to setup
@@ -61,7 +88,7 @@ some abstractions.</p>
 </ul>
 <p>Additionally, uboot can provide an EFI layer, with secure boot support.</p>
 <p>A very cool layer is the Verified Boot for Embedded (VBE). This is a true UEFI
-elternative, where the key idea is that the operating system tells the
+alternative, where the key idea is that the operating system tells the
 bootloader what it needs and how it should be booted, so the bootloader can be
 configured at runtime.</p>
 <p>The “expo” subsystem supports graphical / text display.</p>

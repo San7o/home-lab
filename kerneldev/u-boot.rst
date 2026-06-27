@@ -17,6 +17,44 @@ Lore archive:
 
     https://lore.kernel.org/u-boot/
 
+The U-boot development structure is very similar to Linux's, so you will feel at
+home if you are already familiar with working on Linux.
+
+Quickstart
+----------
+
+See which boards are supported:
+
+.. code-block:: bash
+
+   cd u-boot
+   ls configs
+
+Choose a config:
+
+.. code-block:: bash
+
+   make qemu_arm64_defconfig
+
+You can also use the good old `menuconfig`:
+
+.. code-block:: bash
+
+   make menuconfig
+
+Build:
+
+.. code-block:: bash
+
+   CROSS_COMPILE=aarch64-linux-gnu- make -j4
+
+If you built a quemu config, the simplest way you can boot it is via the
+following command:
+
+.. code-block:: bash
+
+   qemu-system-aarch64 -machine virt -nographic -cpu cortex-a57 -bios u-boot.bin
+
 Architecture
 ------------
 
@@ -30,7 +68,7 @@ some abstractions.
 Additionally, uboot can provide an EFI layer, with secure boot support.
 
 A very cool layer is the Verified Boot for Embedded (VBE). This is a true UEFI
-elternative, where the key idea is that the operating system tells the
+alternative, where the key idea is that the operating system tells the
 bootloader what it needs and how it should be booted, so the bootloader can be
 configured at runtime.
 
