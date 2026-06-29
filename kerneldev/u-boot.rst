@@ -81,11 +81,14 @@ Booting
 
 This is what happens when you turn on the board:
 
-- The CPU starts with low-power. A SoC specific ROM code gets executed
+- The CPU starts with low-power. A SoC specific ROM code gets executed.
 
-  - `lowlevel_init` is called, which sets up things such as RTC and CAR.
-  - it may then jump to `s_init`. If SPL is not used, then this does what the
-    SPL would do like setting up DRAM, clear BSS, start a console.
+  - `lowlevel_init` is called, which sets up things such as RTC and CAR. Code
+    lives in `board/BOARD/lowlevel.S`.
+
+  - It may then jump to `s_init`. If SPL is not used, then this does what the
+    SPL would do like setting up muxing, clocks, DRAM, clear BSS, start a
+    console.
 
 - Teriary Program Loader (TPL, optional): very early init, as tiny as possible.
   It loads the SPL or VPL if enabled. Some SoCs like Rockchip do DRAM
@@ -98,10 +101,16 @@ This is what happens when you turn on the board:
   entirely within the SoC's internal SRAM. Its primary job is to initialize the
   DDR memory controller so that the main bootloader can be loaded.
 
-  - `board_init_f` is called before U-boot is loaded
-    - Does the whole DRAM initialization, clear BSS and other necessary stuff.
-  - `relocate_code` moves U-boot to final location
-  - `board_init_r` called in post relocation
+  * `board_init_f` is called before U-boot is loaded. Code lives in
+    `arch/ARCH/march-SOC/spl.c`.
+
+    * Does the whole DRAM initialization, clear BSS and other necessary stuff.
+
+    * Usually calls things like `board_early_init_f`, `spl_early_init_f` and all
+      the other inits.
+
+  * `relocate_code` moves U-boot to final location
+  * `board_init_r` called in post relocation
 
 - Trusted Firmware-A (TF-A, ARM) + Open Protable Trusted Execution Environment
   (OP-TEE): A secure software layer that processes sensitive security oprations
