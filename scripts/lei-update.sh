@@ -15,6 +15,10 @@ JANITORS_MAILBOX=~/Mail/kernel-janitors
 JANITORS_INBOX=https://lore.kernel.org/kernel-janitors/
 JANITORS_QUERY='l:kernel-janitors AND rt:30.days.ago..'
 
+IIO_MAILBOX=~/Mail/iio
+IIO_INBOX=https://lore.kernel.org/linux-iio/
+IIO_QUERY='l:linux-iio AND rt:30.days.ago..'
+
 EBPF_MAILBOX=~/Mail/bpf
 EBPF_INBOX=https://lore.kernel.org/bpf/
 EBPF_QUERY='(l:bpf@vger.kernel.org OR dfn:kernel/bpf/ OR dfn:tools/lib/bpf/ OR dfn:tools/testing/selftests/bpf/) AND rt:30.days.ago..'
@@ -40,6 +44,14 @@ if [ ! -d $JANITORS_MAILBOX ]; then
     lei q -o $JANITORS_MAILBOX \
         -I $JANITORS_INBOX \
         --threads $JANITORS_QUERY
+fi
+
+# Janitors
+if [ ! -d $IIO_MAILBOX ]; then
+    echo "Setting up iio"
+    lei q -o $IIO_MAILBOX \
+        -I $IIO_INBOX \
+        --threads $IIO_QUERY
 fi
 
 # eBPF

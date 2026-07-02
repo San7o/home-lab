@@ -9,6 +9,7 @@ Notes that do not fall in other categories.
 
    blogs
    development-loop
+   udev
    wasm-c-ffi
    institutions
    legislations

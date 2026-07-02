@@ -27,3 +27,7 @@ Embedded
 
 1. Convert the raspberry pi pico 2 into a logic analyzer with `sigrok-pico` or
    equivalent
+
+2. Play with the logic analyzer
+
+3. Play with JTAG
