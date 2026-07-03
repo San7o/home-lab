@@ -6,17 +6,18 @@ Kernel Development
    :caption: Contents:
 
    architecture
+   io-interfaces
+   memories
+   notes
    building
    devicetree
    bsp
-   io-interfaces
-   renode
-   notes
    testing-linux
    routine
    seL4
    u-boot
    edk2
    netbsd-custom-kernel
+   renode
    resources
 

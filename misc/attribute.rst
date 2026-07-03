@@ -1,7 +1,7 @@
-Attribute
-=========
+Compiler Attributes
+===================
 
-Compiler attributes attributes:
+Compiler attributes:
 
     https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html
 

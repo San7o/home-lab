@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Board Support Package &#8212; Notes  documentation</title>
+    <title>Memory Technologies &#8212; Notes  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
     <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
@@ -13,8 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Testing Linux" href="testing-linux.html" />
-    <link rel="prev" title="Devicetree" href="devicetree.html" />
+    <link rel="next" title="Linux Kernel Dev Notes" href="notes.html" />
+    <link rel="prev" title="I/O Interfaces" href="io-interfaces.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -32,27 +32,49 @@
 
           <div class="body" role="main">
             
-  <section id="board-support-package">
-<h1>Board Support Package<a class="headerlink" href="#board-support-package" title="Link to this heading">¶</a></h1>
-<p>A Board Support Package (BSP) is a collection of software that enables the
-operating system to interact with the hardware. People who manage BSP are
-essentially plumbers, they connect these software for a particular use case
-of a customer.</p>
-<p>This includes:</p>
+  <section id="memory-technologies">
+<h1>Memory Technologies<a class="headerlink" href="#memory-technologies" title="Link to this heading">¶</a></h1>
+<p>Types of memories:</p>
+<section id="volatile">
+<h2>Volatile<a class="headerlink" href="#volatile" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>the firmware: this is mostly closed source and embedded in the SoC (Boot ROM)
-or loaded (/lib/firmware), but you rarely need to write it</p></li>
-<li><p>the bootloader: usually U-boot, it boots the operating system</p></li>
-<li><p>the kernel: your fork of the linux kernel</p></li>
-<li><p>the device tree: this is custom makde for a specific application and lives
-inside the linux fork, it describes the hardware that is enabled in this BSP</p></li>
-<li><p>the machine image: root filesystem and the rest of the image</p></li>
+<li><p><cite>Static RAM</cite> (SRAM): Volatile memory that uses a six-transistor (6T) cell design
+to latch data; it is extremely fast, byte-addressable, does not require
+refreshing, and is primarily used for CPU L1/L2/L3 caches.</p></li>
+<li><p><cite>Dynamic RAM</cite> (DRAM): Volatile main memory that stores data in capacitors which
+naturally leak charge; it requires continuous electrical refreshing, operates
+with high density at a lower cost than SRAM, and requires complex timing
+initialization at boot.</p></li>
 </ul>
-<p>Yocto is used to build the entire BSP. Developers may also need to extend the
-bootloader, or even write a driver (not the majority of cases, and it is
-usually not upstreamed).</p>
-<p>Who makes the package may also need to maintain the kernel since the
-manufacturers would never be so kind.</p>
+</section>
+<section id="non-volatile">
+<h2>Non volatile<a class="headerlink" href="#non-volatile" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><cite>NOR Flash</cite>: Non-volatile memory utilizing parallel floating-gate transistor
+architecture; it is byte-addressable for reads, supports Execute In Place
+(XIP) directly from the memory bus, offers high read speeds, and is typically
+used for system BIOS and bootloaders.</p></li>
+<li><p><cite>NAND Flash</cite>: Non-volatile memory utilizing series floating-gate or
+charge-trap architectures; it is strictly block-addressable (reads/writes in
+pages, erases in blocks), lacks XIP capability, offers massive density at low
+cost, and forms the basis of modern SSDs, M.2 drives, and SD cards.</p></li>
+<li><p><cite>Mask ROM</cite>: Non-volatile memory with data physically and permanently etched
+into the silicon during semiconductor fabrication; it cannot be modified under
+any circumstances and is used for low-level SoC factory Boot ROMs.</p></li>
+<li><p><cite>EEPROM</cite>: Non-volatile, electrically erasable programmable read-only memory
+that allows data to be erased and rewritten byte by byte; it is slow and has
+low density, making it suitable for storing small configuration metrics or
+device serial numbers.</p></li>
+<li><p><cite>Phase-Change Memory</cite> (PCM / PRAM): Emerging non-volatile memory that stores
+data by altering the physical state of chalcogenide glass between crystalline
+(conductive) and amorphous (resistive) phases; it bridges the gap between DRAM
+and NAND by offering near-DRAM read speeds and byte-addressability.</p></li>
+<li><p><cite>Magnetoresistive RAM</cite> (MRAM): Emerging non-volatile memory that stores data
+using magnetic storage elements (magnetic tunnel junctions) rather than
+electric charge; it delivers high endurance, low power consumption, and
+near-SRAM operational speeds.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -76,11 +98,11 @@ manufacturers would never be so kind.</p>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Memory Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
@@ -103,8 +125,8 @@ manufacturers would never be so kind.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Kernel Development</a><ul>
-      <li>Previous: <a href="devicetree.html" title="previous chapter">Devicetree</a></li>
-      <li>Next: <a href="testing-linux.html" title="next chapter">Testing Linux</a></li>
+      <li>Previous: <a href="io-interfaces.html" title="previous chapter">I/O Interfaces</a></li>
+      <li>Next: <a href="notes.html" title="next chapter">Linux Kernel Dev Notes</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -139,7 +161,7 @@ manufacturers would never be so kind.</p>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
-      <a href="../_sources/kerneldev/bsp.rst.txt"
+      <a href="../_sources/kerneldev/memories.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
