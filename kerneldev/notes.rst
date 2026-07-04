@@ -3,31 +3,34 @@ Linux Kernel Dev Notes
 
 The Kernel Commandments:
 
-- Thou shalt not sleep neither call kmalloc(size, GFP_KERNEL) in interrupt context.
-- Thou shalt use rmb() and wmb() before or after iowrite() or ioread() to
+* Thou shalt not sleep neither call kmalloc(size, GFP_KERNEL) in interrupt context.
+* Thou shalt use rmb() and wmb() before or after iowrite() or ioread() to
   instruct o'slave compiler to produce the side effects, when you need them.
-- Dereferencing a __user pointer is strictly forbidden, even to the bravest and
+* Dereferencing a __user pointer is strictly forbidden, even to the bravest and
   enlighnened kernel developer.
-- A good C developer always cleans up its garbage, in reverse order.
-- Thou shalt synchronize an RCU data structure before writing to it
-- Thou shalt use floating point ops only in a special fpu context
-- Thou shalt never use sysfs API directly, unless he works deep in filesystems.
+* A good C developer always cleans up its garbage, in reverse order.
+* Thou shalt synchronize an RCU data structure before writing to it
+* Thou shalt use floating point ops only in a special fpu context
+* Thou shalt never use sysfs API directly, unless he works deep in filesystems.
   Always use groups, or you will create a race condition and made fun of.
-- Beware of the scary spectre when reading memory indexed by an user variable.
+* Beware of the scary spectre when reading memory indexed by an user variable.
   Use array_index_nospec() or speculation_barrier() when necessary.
-- Add "Fixes: <commmit-id> ("<commit-message>")" tag if you are fixing a
+* Add "Fixes: <commmit-id> ("<commit-message>")" tag if you are fixing a
   previous patch
-- Thou shalt use devm_* functions whenever possible, as they are liked more
-- Before touching a per-CPU variable, thou must disable preemption or
+* Thou shalt use devm_* functions whenever possible, as they are liked more
+* Before touching a per-CPU variable, thou must disable preemption or
   interrupts using get_cpu_var() and release it with put_cpu_var()
-- For most cases, use fsleep() for sleeping, instead of usleep_range(). Use
+* For most cases, use fsleep() for sleeping, instead of usleep_range(). Use
   udelay() in IRQ path
-- beware of overlows. Use size_add(), size_mul(), array_size() and similar
+* beware of overlows. Use size_add(), size_mul(), array_size() and similar
   functions when necessary.
-- Use `guard(mutex)(&mu_mutex)` instead of `mutex_lock(&my_mutex)` /
+* Use `guard(mutex)(&mu_mutex)` instead of `mutex_lock(&my_mutex)` /
   `mutex_unlock(&my_mutex)`
-- Do not break UAPI. For example, by changing the string formatting of a
+* Do not break UAPI. For example, by changing the string formatting of a
   `sysfs_emit()`
+* Use `if (err < 0) \n return dev_err_probe(...)` when checking for an error
+  during probing. Otherwise use `dev_err()`, `dev_warn()` and similar functions
+  when printing from a device, as they prepend the device name in the logs.
 
 Useful commands
 ---------------

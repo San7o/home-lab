@@ -61,6 +61,9 @@ functions when necessary.</p></li>
 <cite>mutex_unlock(&amp;my_mutex)</cite></p></li>
 <li><p>Do not break UAPI. For example, by changing the string formatting of a
 <cite>sysfs_emit()</cite></p></li>
+<li><p>Use <cite>if (err &lt; 0) n return dev_err_probe(…)</cite> when checking for an error
+during probing. Otherwise use <cite>dev_err()</cite>, <cite>dev_warn()</cite> and similar functions
+when printing from a device, as they prepend the device name in the logs.</p></li>
 </ul>
 <section id="useful-commands">
 <h2>Useful commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h2>

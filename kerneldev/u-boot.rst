@@ -154,3 +154,10 @@ Videos
 Recent Advances in U-Boot - Simon Glass, Google Inc.
 
     https://www.youtube.com/watch?v=YlJBsVZJkDI
+
+Notes
+-----
+
+- The established idiom across the tree is to ignore -ENOTSUPP and -ENOENT (see
+  drivers/i2c/designware_i2c.c, drivers/net/zynq_gem.c,
+  drivers/usb/host/xhci-dwc3.c, drivers/mmc/ zynq_sdhci.c, etc.). 

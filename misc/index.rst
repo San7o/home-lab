@@ -16,3 +16,4 @@ Notes that do not fall in other categories.
    rss
    groupsio
    attribute
+   swd
