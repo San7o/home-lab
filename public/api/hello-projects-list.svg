@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="90">
+  <style>
+    .link-text { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 14px; 
+      fill: #0969da; /* GitHub's standard blue link color */
+      text-decoration: none;
+    }
+    .link-text:hover {
+      text-decoration: underline;
+    }
+    .bullet {
+      font-family: sans-serif;
+      font-size: 14px;
+      fill: #2429f2; /* Matches GitHub's text color */
+    }
+  </style>
+
+  <!-- Link 1 -->
+  <g>
+    <text x="10" y="20" class="bullet">•</text>
+    <a href="https://yourwebsite.com/destination-1" target="_blank">
+      <text x="25" y="20" class="link-text">Dynamic Link 1</text>
+    </a>
+  </g>
+
+  <!-- Link 2 -->
+  <g>
+    <text x="10" y="50" class="bullet">•</text>
+    <a href="https://yourwebsite.com/destination-2" target="_blank">
+      <text x="25" y="50" class="link-text">Dynamic Link 2</text>
+    </a>
+  </g>
+
+  <!-- Link 3 -->
+  <g>
+    <text x="10" y="80" class="bullet">•</text>
+    <a href="https://yourwebsite.com/destination-3" target="_blank">
+      <text x="25" y="80" class="link-text">Dynamic Link 3</text>
+    </a>
+  </g>
+</svg>
