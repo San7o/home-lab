@@ -35,7 +35,7 @@ if [ ! -d $STAGING_MAILBOX ]; then
     echo "Setting up staging"
     lei q -o $STAGING_MAILBOX \
         -I $STAGING_INBOX \
-        --threads $STAGING_QUERY
+        --threads "$STAGING_QUERY"
 fi
 
 # Janitors
@@ -43,15 +43,15 @@ if [ ! -d $JANITORS_MAILBOX ]; then
     echo "Setting up janitors"
     lei q -o $JANITORS_MAILBOX \
         -I $JANITORS_INBOX \
-        --threads $JANITORS_QUERY
+        --threads "$JANITORS_QUERY"
 fi
 
-# Janitors
+# iio
 if [ ! -d $IIO_MAILBOX ]; then
     echo "Setting up iio"
     lei q -o $IIO_MAILBOX \
         -I $IIO_INBOX \
-        --threads $IIO_QUERY
+        --threads "$IIO_QUERY"
 fi
 
 # eBPF
@@ -59,7 +59,7 @@ if [ ! -d $EBPF_MAILBOX ]; then
     echo "Setting up ebpf"
     lei q -o $EBPF_MAILBOX \
         -I $EBPF_INBOX \
-        --threads $EBPF_QUERY
+        --threads "$EBPF_QUERY"
 fi
 
 # U-boot
@@ -67,7 +67,7 @@ if [ ! -d $UBOOT_MAILBOX ]; then
     echo "Setting up uboot"
     lei q -o $UBOOT_MAILBOX \
         -I $UBOOT_INBOX \
-        --threads $UBOOT_QUERY
+        --threads "$UBOOT_QUERY"
 fi
 
 # Watchlist

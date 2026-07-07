@@ -15,9 +15,6 @@ Kernel dev
 
 1. understand the yocto+devtool+kas workflow
 
-  c. boot a yocto BSP on a raspberry pi 3b
-  d. boot a yocto BSP on a beaglebone balck
-
 2. work on tmp105 driver
 
 3. complete edu-driver
