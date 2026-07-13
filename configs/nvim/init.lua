@@ -49,7 +49,9 @@ Plug('nvim-orgmode/orgmode', { ['commit'] = '4da28a0' }) -- org view
 Plug('nvim-mini/mini.icons', { ['branch'] = 'stable'})   -- some icons
 Plug('goolord/alpha-nvim')             -- Cool startup screen
 Plug('lewis6991/gitsigns.nvim')        -- Show modified lines
-Plug('SirVer/ultisnips')
+Plug('SirVer/ultisnips')               -- Completion snippets
+Plug('f-person/git-blame.nvim')        -- Show git blame inline
+Plug('folke/flash.nvim')               -- Jump around with overlay
 
 vim.call('plug#end')
 
@@ -59,6 +61,13 @@ modus.setup({
     variants = "default",      -- default, tinted, deuteranopia, and tritanopia
 })
 vim.cmd([[colorscheme modus]])
+
+-- Shortcuts
+-- ---------
+--
+-- Useful shortcuts:
+--   - CTRL-]: jump to definition
+--   - CTRL-T: go back to previous position
 
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', telescope.find_files,
@@ -95,6 +104,15 @@ require('orgmode').setup({
 
 require('mini.icons').setup()
 require('alpha').setup(require('alpha.themes.startify').config)
+
+require('gitblame').setup({
+    enabled = true,
+})
+
+require('flash').setup({
+    enabled = true,
+})
+require('flash').toggle()
 
 local function toggle_modus_theme()
     -- Access the current style from the plugin's configuration
