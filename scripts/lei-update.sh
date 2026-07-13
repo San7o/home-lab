@@ -19,6 +19,10 @@ IIO_MAILBOX=~/Mail/iio
 IIO_INBOX=https://lore.kernel.org/linux-iio/
 IIO_QUERY='l:linux-iio AND rt:30.days.ago..'
 
+NETDEV_MAILBOX=~/Mail/netdev
+NETDEV_INBOX=https://lore.kernel.org/netdev/
+NETDEV_QUERY='l:netdev AND rt:30.days.ago..'
+
 EBPF_MAILBOX=~/Mail/bpf
 EBPF_INBOX=https://lore.kernel.org/bpf/
 EBPF_QUERY='(l:bpf@vger.kernel.org OR dfn:kernel/bpf/ OR dfn:tools/lib/bpf/ OR dfn:tools/testing/selftests/bpf/) AND rt:30.days.ago..'
@@ -52,6 +56,14 @@ if [ ! -d $IIO_MAILBOX ]; then
     lei q -o $IIO_MAILBOX \
         -I $IIO_INBOX \
         --threads "$IIO_QUERY"
+fi
+
+# netdev
+if [ ! -d $NETDEV_MAILBOX ]; then
+    echo "Setting up netdev"
+    lei q -o $NETDEV_MAILBOX \
+        -I $NETDEV_INBOX \
+        --threads "$NETDEV_QUERY"
 fi
 
 # eBPF
