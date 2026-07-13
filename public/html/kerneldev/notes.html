@@ -36,6 +36,7 @@
 <h1>Linux Kernel Dev Notes<a class="headerlink" href="#linux-kernel-dev-notes" title="Link to this heading">¶</a></h1>
 <p>The Kernel Commandments:</p>
 <ul>
+<li><p>Don’t follow The Kernel Commandments blindly, use your brain</p></li>
 <li><p>Thou shalt not sleep nor call <cite>kmalloc(size, GFP_KERNEL)</cite> in interrupt
 context.</p></li>
 <li><p>Thou shalt use <cite>rmb()</cite> and <cite>wmb()</cite> before or after <cite>iowrite()</cite> or <cite>ioread()</cite>
@@ -47,17 +48,21 @@ order.</p></li>
 <li><p>Thou shalt synchronize an RCU data structure before writing to it</p></li>
 <li><p>Thou shalt use floating point ops only in a special fpu context</p></li>
 <li><p>Thou shalt never use sysfs API directly, unless he works deep in filesystems.
-Always use groups, or you will create a race condition and made fun of.</p></li>
+Always use groups, or you will create a race condition and made fun of
+(<cite>sysfs_create_group</cite>)</p></li>
 <li><p>Beware of the scary spectre when reading memory indexed by an user variable.
-Use <cite>array_index_nospec()</cite> or <cite>speculation_barrier()</cite> when necessary. * Add
-<cite>“Fixes: &lt;commmit-id&gt; (“&lt;commit-message&gt;”)”</cite> tag if you are fixing a previous
-patch</p></li>
+Use <cite>array_index_nospec()</cite> or <cite>speculation_barrier()</cite> when necessary.</p></li>
+<li><p>Add <cite>“Fixes: &lt;commmit-id&gt; (“&lt;commit-message&gt;”)”</cite> tag if you are fixing a
+previous patch</p></li>
+<li><p>Add <cite>Assisted-By: &lt;my-agent&gt;</cite> to tell that you had help from AI.</p></li>
 <li><p>Thou shalt use <cite>devm_*</cite> functions whenever possible, as they are less error
-prone</p></li>
+prone, but only if the device does not require explicit logic when
+de-initializing (i.e. if it has a custom <cite>.remove</cite> callback).</p></li>
 <li><p>Before touching a per-CPU variable, thou must disable preemption or interrupts
 using <cite>get_cpu_var()</cite> and release it with <cite>put_cpu_var()</cite></p></li>
 <li><p>For most cases, use <cite>fsleep()</cite> for sleeping, instead of <cite>usleep_range()</cite>. Use
 <cite>udelay()</cite> in IRQ path</p></li>
+<li><p>Document why you are sleeping and why that specific time</p></li>
 <li><p>beware of overflows. Use <cite>size_add()</cite>, <cite>size_mul()</cite>, <cite>array_size()</cite> and
 similar functions when necessary.</p></li>
 <li><p>Consider using macros from <cite>cleanup.h</cite>:</p>
@@ -66,15 +71,22 @@ similar functions when necessary.</p></li>
 <li><p>Use <cite>guard(mutex)(&amp;mu_mutex)</cite> instead of <cite>mutex_lock(&amp;my_mutex)</cite> /
 <cite>mutex_unlock(&amp;my_mutex)</cite></p></li>
 <li><p>Use things like <cite>struct pmu *pmu __free(pmu_unregister) = _pmu;</cite> and then
-when returning successfully <cite>_pmu = no_free_ptr(pmu);</cite></p></li>
+when returning successfully <cite>_pmu = no_free_ptr(pmu);</cite> or
+<cite>return_tr(pmu)</cite>.</p></li>
 </ul>
 </div></blockquote>
 </li>
+<li><p>Consider using the macros in <cite>bits.h</cite> and <cite>bitfield.h</cite>, like <cite>BIT()</cite>,
+<cite>GENMASK()</cite>, <cite>FIELD_GET()</cite>. If you have many registers, consider using
+<cite>regmap.h</cite>.</p></li>
 <li><p>Do not break UAPI. For example, by changing the string formatting of a
 <cite>sysfs_emit()</cite></p></li>
 <li><p>Use <cite>if (err &lt; 0) n return dev_err_probe(…)</cite> when checking for an error
 during probing. Otherwise use <cite>dev_err()</cite>, <cite>dev_warn()</cite> and similar functions
 when printing from a device, as they prepend the device name in the logs.</p></li>
+<li><p>Add trailing commas in all entries of an array or struct.</p></li>
+<li><p>If you are fixing a build error, show the build error in the patch (maybe
+after the <cite>—</cite>?)</p></li>
 </ul>
 <section id="useful-commands">
 <h2>Useful commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h2>

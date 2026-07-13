@@ -3,6 +3,8 @@ Linux Kernel Dev Notes
 
 The Kernel Commandments:
 
+* Don't follow The Kernel Commandments blindly, use your brain
+
 * Thou shalt not sleep nor call `kmalloc(size, GFP_KERNEL)` in interrupt
   context.
 
@@ -20,21 +22,28 @@ The Kernel Commandments:
 * Thou shalt use floating point ops only in a special fpu context
 
 * Thou shalt never use sysfs API directly, unless he works deep in filesystems.
-  Always use groups, or you will create a race condition and made fun of.
+  Always use groups, or you will create a race condition and made fun of
+  (`sysfs_create_group`)
 
 * Beware of the scary spectre when reading memory indexed by an user variable.
-  Use `array_index_nospec()` or `speculation_barrier()` when necessary. * Add
-  `"Fixes: <commmit-id> ("<commit-message>")"` tag if you are fixing a previous
-  patch
+  Use `array_index_nospec()` or `speculation_barrier()` when necessary.
+
+* Add `"Fixes: <commmit-id> ("<commit-message>")"` tag if you are fixing a
+  previous patch
+
+* Add `Assisted-By: <my-agent>` to tell that you had help from AI.
 
 * Thou shalt use `devm_*` functions whenever possible, as they are less error
-  prone
+  prone, but only if the device does not require explicit logic when
+  de-initializing (i.e. if it has a custom `.remove` callback).
 
 * Before touching a per-CPU variable, thou must disable preemption or interrupts
   using `get_cpu_var()` and release it with `put_cpu_var()`
 
 * For most cases, use `fsleep()` for sleeping, instead of `usleep_range()`. Use
   `udelay()` in IRQ path
+
+* Document why you are sleeping and why that specific time
 
 * beware of overflows. Use `size_add()`, `size_mul()`, `array_size()` and
   similar functions when necessary.
@@ -45,7 +54,12 @@ The Kernel Commandments:
       `mutex_unlock(&my_mutex)`
 
     * Use things like `struct pmu *pmu __free(pmu_unregister) = _pmu;` and then
-      when returning successfully `_pmu = no_free_ptr(pmu);`
+      when returning successfully `_pmu = no_free_ptr(pmu);` or
+      `return_tr(pmu)`.
+
+* Consider using the macros in `bits.h` and `bitfield.h`, like `BIT()`,
+  `GENMASK()`, `FIELD_GET()`. If you have many registers, consider using
+  `regmap.h`.
 
 * Do not break UAPI. For example, by changing the string formatting of a
   `sysfs_emit()`
@@ -53,6 +67,11 @@ The Kernel Commandments:
 * Use `if (err < 0) \n return dev_err_probe(...)` when checking for an error
   during probing. Otherwise use `dev_err()`, `dev_warn()` and similar functions
   when printing from a device, as they prepend the device name in the logs.
+
+* Add trailing commas in all entries of an array or struct.
+
+* If you are fixing a build error, show the build error in the patch (maybe
+  after the `---`?)
 
 Useful commands
 ---------------
