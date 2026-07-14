@@ -1,7 +1,8 @@
 Linux Kernel Dev Notes
 ======================
 
-The Kernel Commandments:
+The Kernel Commandments
+-----------------------
 
 * Don't follow The Kernel Commandments blindly, use your brain
 

@@ -34,7 +34,8 @@
             
   <section id="linux-kernel-dev-notes">
 <h1>Linux Kernel Dev Notes<a class="headerlink" href="#linux-kernel-dev-notes" title="Link to this heading">¶</a></h1>
-<p>The Kernel Commandments:</p>
+<section id="the-kernel-commandments">
+<h2>The Kernel Commandments<a class="headerlink" href="#the-kernel-commandments" title="Link to this heading">¶</a></h2>
 <ul>
 <li><p>Don’t follow The Kernel Commandments blindly, use your brain</p></li>
 <li><p>Thou shalt not sleep nor call <cite>kmalloc(size, GFP_KERNEL)</cite> in interrupt
@@ -88,6 +89,7 @@ when printing from a device, as they prepend the device name in the logs.</p></l
 <li><p>If you are fixing a build error, show the build error in the patch (maybe
 after the <cite>—</cite>?)</p></li>
 </ul>
+</section>
 <section id="useful-commands">
 <h2>Useful commands<a class="headerlink" href="#useful-commands" title="Link to this heading">¶</a></h2>
 <p>Get who owns what in the kernel. <cite>–nogit-fallback</cite> will not output developers

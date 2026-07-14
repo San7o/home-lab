@@ -6,8 +6,8 @@ I do this everyday to stay up to date with kernel changes and learn new things.
 Morning routine
 ---------------
 
-Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel devs, securtiy
-mailing lists and news...). I use gnus on emacs for this.
+Read latest RSS feeds (phoronix, LWN, lots of blogs from kernel devs, security
+mailing lists and news...). I use newsboat for this.
 
 Read latest patches of the subsystems I follow, I use `lei` and `aerc`:
 
@@ -37,7 +37,7 @@ Build the kernel:
     # Then build the kernel
     make -j4
 
-then test the patch with whatever tesing setup I am using.
+then test the patch with whatever testing setup I am using.
 
 Update my current working tree:
 
