@@ -22,3 +22,4 @@ Sysadmin
    linux-benchmarking
    monitoring
    perf-analysis
+   resize-vm-partition
