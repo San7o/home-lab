@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Yocto &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Buildroot" href="buildroot.html" />
+    <link rel="prev" title="Building Linux" href="building.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="yocto">
+<h1>Yocto<a class="headerlink" href="#yocto" title="Link to this heading">¶</a></h1>
+<p>Yocto is a collection of tools and configurations for building Linux images.</p>
+<p>The best resource is the Reference Manual:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://docs.yoctoproject.org/ref-manual/index.html">https://docs.yoctoproject.org/ref-manual/index.html</a></p>
+</div></blockquote>
+<p>You usually need at least 140 GB of free disk space if you want to work with
+yocto…</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The goal of yocto is to build a full Linux distribution. This includes the
+toolchain, bootloader, kernel and filesystem image. Yocto is not a particular
+tool, it is more of an umbrella project under the Linux Foundation. It uses the
+“OpenEmbedded” framework which provides tools and configurations to build Linux.
+The tool you use for building is called <cite>BitBake</cite>, and the reference base
+distribution you start with is called “poky”.</p>
+<p>What makes yocto different from other build systems is the use of “layers”.
+Layers are directories that contain build instructions, such as BSP (Board
+Support Package), UI (frameworks like qt), and distro layers (systemd..). You
+can create, add, remove and modify layers in your build by editing the
+<cite>bblayers.con</cite> file. Openembedded already provides a lot of these for you, and
+you can find and share lots of layers online, like the official raspberry pi
+layer for example.</p>
+</section>
+<section id="file-formats">
+<h2>File Formats<a class="headerlink" href="#file-formats" title="Link to this heading">¶</a></h2>
+<p>Yocto uses the following file formats:</p>
+<ul class="simple">
+<li><p>Recipes (<cite>.bb</cite>): describe build instructions for a single package. This includes
+fetching, dependencies, configuration and compilation, output. They can
+inherit from classes (<cite>.bbclass</cite>) via the <cite>inherit</cite> keyword.</p></li>
+<li><p>PackageGroups (special <cite>.bb</cite>): often used to group packages together for a FS
+image.</p></li>
+<li><p>Classes (<cite>.bbclass</cite>): class definitions to group common functionality. They
+must live under <cite>meta-my-layer/classes/</cite>.</p></li>
+<li><p>Configuration (<cite>.conf</cite>): drives the overall behaviour of the build process</p></li>
+<li><p>Append files (<cite>.bbappend</cite>): define additional metadata for a similarly names
+<cite>.bb</cite> file, add or override previously set values</p></li>
+<li><p>Include files (<cite>.inc</cite>): files which are used with the <cite>include</cite> or <cite>require</cite>
+directive</p></li>
+</ul>
+</section>
+<section id="source-directory-structure">
+<h2>Source Directory Structure<a class="headerlink" href="#source-directory-structure" title="Link to this heading">¶</a></h2>
+<p>By convention, a layer’s directory starts with <cite>meta-</cite>. Here is an example
+layout.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>meta-my-layer/
+  README.md
+  conf/
+    layer.conf
+    machine/
+      raspberrypi.conf
+  recipes-bsp/
+  recipes-core/
+  recipes-graphics/
+  recipes-kernel/
+    linux/
+      linux-raspberrypi.inc
+      linux-raspberrypi-dev.bb
+</pre></div>
+</div>
+<p>The layer contains a <cite>conf/layer.conf</cite> file which is the base configuration file
+which register all the others. We also have a <cite>config/machine/my-machine.conf</cite>
+for each machine this layer supports.</p>
+<p>The features this layer provides are implemented under recipes. The name of the
+recipes directories are standardized. See <a class="reference external" href="https://docs.yoctoproject.org/ref-manual/structure.html#the-openembedded-core-oe-core-metadata-meta">reference manual section 5.3</a>,
+standard names include <cite>recipes-connectivity</cite>, <cite>recipes-core</cite>, <cite>recipes-graphics</cite>, <cite>recipes-kernel</cite>. <cite>recipes-miltimedia</cite> etc.</p>
+<p>In Yocto, the underscore is the strict delimiter that separates the recipe name
+(<cite>PN</cite>) from the recipe version (<cite>PV</cite>). For example, <cite>my-app_1.0.bb</cite> sets <cite>PN</cite> to
+<cite>my-app</cite> and <cite>PV</cite> to <cite>1.0</cite>.</p>
+<p>To check that a layer is correct:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yocto-check-layer<span class="w"> </span>/path/to/meta-my-layer
+</pre></div>
+</div>
+</section>
+<section id="tasks">
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">¶</a></h2>
+<p>Yocto orchestates independent, isolated tasks. Each recipe goes through a
+pipeline of tasks. The standardizes tasks can be found on the <a class="reference external" href="https://docs.yoctoproject.org/ref-manual/tasks.html">reference manual
+chapter 7</a>, some of them are:</p>
+<ul class="simple">
+<li><p><cite>do_fetch</cite></p></li>
+<li><p><cite>do_unpack</cite></p></li>
+<li><p><cite>do_patch</cite></p></li>
+<li><p><cite>do_prepare_recipe_sysroot</cite></p></li>
+<li><p><cite>do_configure</cite></p></li>
+<li><p><cite>do_compile</cite></p></li>
+<li><p><cite>do_install</cite></p></li>
+<li><p><cite>do_package</cite></p></li>
+<li><p><cite>do_populate_sysroot</cite></p></li>
+<li><p><cite>do_package_qa</cite></p></li>
+<li><p><cite>do_package_write_*</cite></p></li>
+<li><p><cite>do_deploy</cite></p></li>
+<li><p>etc</p></li>
+</ul>
+<p>You define and registers tasks in <cite>.bb</cite>, <cite>.bbclass</cite> or <cite>.inc</cite> files, for
+example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>do_my_custom_cleanup<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="c1"># Custom engineering work here</span>
+<span class="w">  </span>bbnote<span class="w"> </span><span class="s2">&quot;Cleaning up custom artifacts&quot;</span>
+<span class="o">}</span>
+
+addtask<span class="w"> </span>my_custom_cleanup<span class="w"> </span>after<span class="w"> </span>do_compile<span class="w"> </span>before<span class="w"> </span>do_install
+</pre></div>
+</div>
+</section>
+<section id="fragments">
+<h2>Fragments<a class="headerlink" href="#fragments" title="Link to this heading">¶</a></h2>
+<p><a class="reference external" href="https://docs.yoctoproject.org/ref-manual/fragments.html">Fragments</a> are build configuration features that can be independently enabled and
+disabled using standard tooling.</p>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<p>Do this to start a new project:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup</span>
+mkdir<span class="w"> </span>yocto<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>yocto
+<span class="c1"># Install build dependencies</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>chrpath<span class="w"> </span>cpio<span class="w"> </span>debianutils<span class="w"> </span><span class="se">\</span>
+<span class="w">                     </span>diffstat<span class="w"> </span>file<span class="w"> </span>gawk<span class="w"> </span>gcc<span class="w"> </span>git<span class="w"> </span>iputils-ping<span class="w">  </span><span class="se">\</span>
+<span class="w">                     </span>libacl1<span class="w"> </span>locales<span class="w"> </span>python3<span class="w"> </span>python3-git<span class="w">      </span><span class="se">\</span>
+<span class="w">                     </span>python3-jinja2<span class="w"> </span>python3-pexpect<span class="w"> </span>python3-pip<span class="w"> </span><span class="se">\</span>
+<span class="w">                     </span>python3-subunit<span class="w"> </span>socat<span class="w"> </span>texinfo<span class="w"> </span>unzip<span class="w"> </span>wget<span class="w"> </span><span class="se">\</span>
+<span class="w">                     </span>xz-utils<span class="w"> </span>zstd
+<span class="c1"># Get bitbake</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://git.openembedded.org/bitbake
+
+<span class="c1"># Configure</span>
+./bitbake/bin/bitbake-setup<span class="w"> </span>init
+<span class="nb">source</span><span class="w"> </span>bitbake-builds/poky-wrynose/build/init-build-env
+bitbake-config-build<span class="w"> </span>enable-fragment<span class="w"> </span>core/yocto/root-login-with-empty-password
+bitbake-config-build<span class="w"> </span>enable-fragment<span class="w"> </span>core/yocto/sstate-mirror-cdn
+
+<span class="c1"># Build a recipe</span>
+<span class="c1"># You can build different images:</span>
+<span class="c1"># - core-image-minimal: bare essentials</span>
+<span class="c1"># - core-image-base: console only with drivers and firmware</span>
+<span class="c1"># - core-image-sato: includes X11 and some UI applications</span>
+<span class="c1"># - core-image-full-cmdlike: no GUI but lots of cli tools</span>
+bitbake<span class="w"> </span>core-image-minimal
+
+runqemu<span class="w"> </span>snapshot<span class="w"> </span>nographic
+</pre></div>
+</div>
+<p>Now that you have a linux image, to actually develop an out-of-tree kernel
+module, you can use bitbake to generate the cross compilationm environment for
+you (or use <cite>devtool</cite>, more on this later):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bitbake<span class="w"> </span>core-image-minimal<span class="w"> </span>-c<span class="w"> </span>populate_sdk
+</pre></div>
+</div>
+<p>This generates a shell script in build/tmp/deploy/sdk/ that you can execute to
+generate the sdk.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span>&lt;sdk_dir&gt;/environment-setup-x86-64-v3-poky-linux
+</pre></div>
+</div>
+<p>You then develop the module “normally”, using a Makefile. To test it, you run a
+virtual machine and <cite>scp</cite> the module inside it, or mount a network filesystem,
+or something similar. With this you can avoid restarting the image each time.</p>
+<p>Once you are done developing, you can integrate it to the image by adding the
+module inside the bitbake build system. You do this by creating a new recipe
+that uses the module.bbclass. Then to build it with the bitbake toolchain:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bitbake<span class="w"> </span>my-driver
+</pre></div>
+</div>
+<p>Here is an index of many yocto layers:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://layers.openembedded.org/layerindex/branch/master/layers/">https://layers.openembedded.org/layerindex/branch/master/layers/</a></p>
+</div></blockquote>
+<p>Useful commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bitbake-config-build<span class="w"> </span>list-fragments
+bitbake-layers<span class="w"> </span>-h
+bitbake-layers<span class="w"> </span>create-layer<span class="w"> </span>meta-test
+bitbake-layers<span class="w"> </span>show-layers
+</pre></div>
+</div>
+<p>If you get errors like <cite>ERROR: Fetcher failure for URL:
+‘git://git.openembedded.org/bitbake…’. Unable to fetch URL from any source.</cite>,
+do this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>url.<span class="s2">&quot;https://git.yoctoproject.org/git/&quot;</span>.insteadOf<span class="w"> </span><span class="s2">&quot;git://git.yoctoproject.org/&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>url.<span class="s2">&quot;https://git.openembedded.org/&quot;</span>.insteadOf<span class="w"> </span><span class="s2">&quot;git://git.openembedded.org/&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="devtool">
+<h2>Devtool<a class="headerlink" href="#devtool" title="Link to this heading">¶</a></h2>
+<p>We have seen that you can create the toolchain with yocto, and develop the
+module with make. To connect these two systems, you can use <cite>devtool</cite>. It does
+some setting up for you and it links the module with the yocto toolchain.</p>
+<p>To run the following commands you need to have sourced the bitbake environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate new recipes of the driver</span>
+devtool<span class="w"> </span>add<span class="w"> </span>&lt;recipe-name&gt;<span class="w"> </span>/path/to/driver
+<span class="c1"># Or modify existing ones</span>
+devtool<span class="w"> </span>modify<span class="w"> </span>&lt;recipe-name&gt;
+
+<span class="c1"># Now you can go to the new workspace directory to modify the</span>
+<span class="c1"># sources</span>
+<span class="nb">cd</span><span class="w"> </span>build/workspace/&lt;recipe-name&gt;/sources
+
+<span class="c1"># Iterative development</span>
+
+devtool<span class="w"> </span>build<span class="w"> </span>&lt;recipe-name&gt;
+devtool<span class="w"> </span>deploy-target<span class="w"> </span>&lt;recipe-name&gt;<span class="w"> </span>root@&lt;target-ip&gt;
+
+<span class="c1"># Commit changes</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;commit message&quot;</span>
+<span class="c1"># Update, keep the workspace active</span>
+devtool<span class="w"> </span>update-recipe<span class="w"> </span>&lt;recipe-name&gt;<span class="w"> </span>-a<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>custom<span class="w"> </span>layer&gt;
+
+<span class="c1"># Cleanup</span>
+
+<span class="c1"># Close the workspace</span>
+devtool<span class="w"> </span>finish<span class="w"> </span>&lt;recipe-name&gt;<span class="w"> </span>meta-custom-project
+</pre></div>
+</div>
+</section>
+<section id="kas">
+<h2>Kas<a class="headerlink" href="#kas" title="Link to this heading">¶</a></h2>
+<p>To setup the entire yocto project in a repeatable way, you can (and should) use
+a tool like Kas. It is not only really useful for CI, but also for local
+development. You can create a single <cite>project.yml</cite> file that describes your
+yocto setup, then enter it with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kas<span class="w"> </span>build<span class="w"> </span>project.yml
+kas<span class="w"> </span>shell<span class="w"> </span>project.yml
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Yocto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edk2.html">EDK II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netbsd-custom-kernel.html">Build a custom NetBSD Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Kernel Development</a><ul>
+      <li>Previous: <a href="building.html" title="previous chapter">Building Linux</a></li>
+      <li>Next: <a href="buildroot.html" title="next chapter">Buildroot</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/kerneldev/yocto.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -10,6 +10,8 @@ Kernel Development
    memories
    notes
    building
+   yocto
+   buildroot
    devicetree
    bsp
    testing-linux

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Building Linux &#8212; Notes  documentation</title>
+    <title>Buildroot &#8212; Notes  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
     <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
@@ -13,8 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Yocto" href="yocto.html" />
-    <link rel="prev" title="Linux Kernel Dev Notes" href="notes.html" />
+    <link rel="next" title="Devicetree" href="devicetree.html" />
+    <link rel="prev" title="Yocto" href="yocto.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -32,78 +32,17 @@
 
           <div class="body" role="main">
             
-  <section id="building-linux">
-<h1>Building Linux<a class="headerlink" href="#building-linux" title="Link to this heading">¶</a></h1>
-<p>Some notes about building the Linux kernel.</p>
-<section id="vanilla">
-<h2>Vanilla<a class="headerlink" href="#vanilla" title="Link to this heading">¶</a></h2>
-<p>Build with warnings:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-j4<span class="w"> </span><span class="nv">W</span><span class="o">=</span><span class="m">1</span>
-</pre></div>
-</div>
-<p>To build with clang:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>make -j4 W=1 ARCH=x86_64 HOSTCC=clang CC=clang
-</pre></div>
-</div>
-<p>Cross compile:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>make -j4 ARCH=x86_64 CROSS_COMPILE=/usr/bin/x86_64-pc-linux-gnu-
-</pre></div>
-</div>
-</section>
-<section id="tuxmake">
-<h2>Tuxmake<a class="headerlink" href="#tuxmake" title="Link to this heading">¶</a></h2>
-<p>If you just want to build the kernel and you don’t want to deal with
-dependencies, tuxmake is a great tool for this.</p>
-<p>You can go yo the kernel root directory and simply run <cite>tuxmake</cite> to build it.
-You can specify some configuration flags. Tuxmake will download a docker
-container for the build and configure the toolchain and .config based on the
-falgs.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>linux
-tuxmake
+  <section id="buildroot">
+<h1>Buildroot<a class="headerlink" href="#buildroot" title="Link to this heading">¶</a></h1>
+<p>Buildroot is quite straight forward to use.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># See which configs are available</span>
+ls<span class="w"> </span>configs/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>qemu
 
-<span class="c1"># or</span>
-tuxmake<span class="w"> </span>--target-arch<span class="o">=</span>arm64<span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>--toolchain<span class="o">=</span>gcc-10<span class="w">  </span><span class="se">\</span>
-<span class="w">        </span>--kconfig-add<span class="w"> </span>/path/to/my.config
+make<span class="w"> </span>menuconfig
+make<span class="w"> </span>linux-menuconfig
+make<span class="w"> </span>&lt;config&gt;
 </pre></div>
 </div>
-</section>
-<section id="build-configs">
-<h2>Build Configs<a class="headerlink" href="#build-configs" title="Link to this heading">¶</a></h2>
-<p>Some build configs you should know about:</p>
-<ul>
-<li><p>CONFIG_KASAN=y
-CONFIG_KASAN_GENERIC=y
-#CONFIG_KASAN_SW_TAGS=y
-#CONFIG_KASAN_HW_TAGS=y
-CONFIG_KASAN_VMALLOC=y</p>
-<p>Enable the generic kernel address sanitization, then pick the one you want.</p>
-</li>
-<li><p>CONFIG_UBSAN=y</p>
-<p>Enable runtime undefined behaviour checker.</p>
-</li>
-<li><p>CONFIG_LOCKDEP=y</p>
-<p>Catch deadlocks</p>
-</li>
-<li><p>CONFIG_DEBUG_VM=y</p>
-<p>Do this when touching memory management or DMA.</p>
-</li>
-<li><p>CONFIG_PROVE_RCU=y</p>
-<p>This ensures you are accessing RCU-protected memory properly</p>
-</li>
-<li><p>CONFIG_SLUB_DEBUG_ON=y</p>
-<p>Do more checks on the slab allocator</p>
-</li>
-<li><p>CONFIG_DEBUG_STACKOVERFLOW=y</p>
-<p>Check that we did not put huge object on the stack, because it is very
-limited.</p>
-</li>
-<li><p>CONFIG_DETECT_HUNG_TASK=y</p>
-<p>If you accidentally put a process into an uninterruptible sleep, this will
-dump the stack trace</p>
-</li>
-</ul>
-</section>
 </section>
 
 
@@ -129,9 +68,9 @@ dump the stack trace</p>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Building Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
-<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Buildroot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
@@ -156,8 +95,8 @@ dump the stack trace</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Kernel Development</a><ul>
-      <li>Previous: <a href="notes.html" title="previous chapter">Linux Kernel Dev Notes</a></li>
-      <li>Next: <a href="yocto.html" title="next chapter">Yocto</a></li>
+      <li>Previous: <a href="yocto.html" title="previous chapter">Yocto</a></li>
+      <li>Next: <a href="devicetree.html" title="next chapter">Devicetree</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -192,7 +131,7 @@ dump the stack trace</p>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
-      <a href="../_sources/kerneldev/building.rst.txt"
+      <a href="../_sources/kerneldev/buildroot.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
