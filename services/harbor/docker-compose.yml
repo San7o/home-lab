@@ -2,7 +2,7 @@ services:
   log:
     image: goharbor/harbor-log:v2.14.2
     container_name: harbor-log
-    restart: always
+    restart: unless-stopped
     security_opt:
       - label:disable
     cap_drop:

@@ -2,7 +2,7 @@ services:
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:lts
-    restart: always
+    restart: unless-stopped
     security_opt:
       - label:disable
     volumes:

@@ -15,6 +15,10 @@ JANITORS_MAILBOX=~/Mail/kernel-janitors
 JANITORS_INBOX=https://lore.kernel.org/kernel-janitors/
 JANITORS_QUERY='l:kernel-janitors AND rt:30.days.ago..'
 
+KSUMMIT_MAILBOX=~/Mail/ksummit
+KSUMMIT_INBOX=https://lore.kernel.org/ksummit/
+KSUMMIT_QUERY='l:ksummit AND rt:30.days.ago..'
+
 IIO_MAILBOX=~/Mail/iio
 IIO_INBOX=https://lore.kernel.org/linux-iio/
 IIO_QUERY='l:linux-iio AND rt:30.days.ago..'
@@ -48,6 +52,14 @@ if [ ! -d $JANITORS_MAILBOX ]; then
     lei q -o $JANITORS_MAILBOX \
         -I $JANITORS_INBOX \
         --threads "$JANITORS_QUERY"
+fi
+
+# Ksummit
+if [ ! -d $KSUMMIT_MAILBOX ]; then
+    echo "Setting up ksummit"
+    lei q -o $KSUMMIT_MAILBOX \
+        -I $KSUMMIT_INBOX \
+        --threads "$KSUMMIT_QUERY"
 fi
 
 # iio

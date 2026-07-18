@@ -38,6 +38,27 @@
 <h2>The Kernel Commandments<a class="headerlink" href="#the-kernel-commandments" title="Link to this heading">¶</a></h2>
 <ul>
 <li><p>Don’t follow The Kernel Commandments blindly, use your brain</p></li>
+<li><p>Use the proper memory allocation functions based on what you want:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>vmalloc()</cite> allocates virtually contiguous memory only. Physical pages can
+be scattered everywhere. Slower, but handles massive allocations. Cannot
+be called in IRQ context.</p></li>
+<li><p><cite>kmalloc()</cite> allocates physically and virtually contiguous memory. Fast, but
+limited in size.</p></li>
+<li><p><cite>kvmalloc()</cite> tries <cite>kmalloc()</cite> first for performance, and automatically
+falls back to <cite>vmalloc()</cite> if the contiguous allocation fails.</p></li>
+</ul>
+</div></blockquote>
+<p>Additionally, there are different ways to get the memory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>GFP_KERNEL</cite> in a process context, it may block / wait so use it when you
+can sleep</p></li>
+<li><p><cite>GFP_ATOMIC</cite> used in interrupt handlers, bottom halves, soft irqs.</p></li>
+</ul>
+</div></blockquote>
+</li>
 <li><p>Thou shalt not sleep nor call <cite>kmalloc(size, GFP_KERNEL)</cite> in interrupt
 context.</p></li>
 <li><p>Thou shalt use <cite>rmb()</cite> and <cite>wmb()</cite> before or after <cite>iowrite()</cite> or <cite>ioread()</cite>
@@ -88,6 +109,16 @@ when printing from a device, as they prepend the device name in the logs.</p></l
 <li><p>Add trailing commas in all entries of an array or struct.</p></li>
 <li><p>If you are fixing a build error, show the build error in the patch (maybe
 after the <cite>—</cite>?)</p></li>
+<li><p>Sort the headers alphabetically</p></li>
+<li><p>If a <cite>static struct</cite> never changes, mark it as <cite>static const struct</cite>. Show
+size of elf sections before and after the change.</p></li>
+</ul>
+<p>Networking:</p>
+<ul class="simple">
+<li><p>Do not register stuff in <cite>procfs</cite>, <cite>debugfs</cite> or <cite>ioctls</cite>, modern netdev uses
+only <cite>netlink</cite>.</p></li>
+<li><p>When declaring variables at the start of a function, netdev uses reverse
+christmas tree, longest lines first, shortest last.</p></li>
 </ul>
 </section>
 <section id="useful-commands">
@@ -102,7 +133,7 @@ who modified the file:</p>
 </pre></div>
 </div>
 <p>Always checkpatch before thinking about sending a patch:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/checkpatch.pl<span class="w"> </span>-f<span class="w"> </span>drivers/staging/your-driver/your-file.c
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/checkpatch.pl<span class="w"> </span>--strict<span class="w"> </span>-f<span class="w"> </span>drivers/staging/your-driver/your-file.c
 </pre></div>
 </div>
 <p>Also run coccinelle, a static code analysis tool:</p>

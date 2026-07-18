@@ -6,6 +6,25 @@ The Kernel Commandments
 
 * Don't follow The Kernel Commandments blindly, use your brain
 
+* Use the proper memory allocation functions based on what you want:
+
+    * `vmalloc()` allocates virtually contiguous memory only. Physical pages can
+      be scattered everywhere. Slower, but handles massive allocations. Cannot
+      be called in IRQ context.
+
+    * `kmalloc()` allocates physically and virtually contiguous memory. Fast, but
+      limited in size.
+
+    * `kvmalloc()` tries `kmalloc()` first for performance, and automatically
+      falls back to `vmalloc()` if the contiguous allocation fails.
+
+  Additionally, there are different ways to get the memory:
+
+    * `GFP_KERNEL` in a process context, it may block / wait so use it when you
+      can sleep
+
+    * `GFP_ATOMIC` used in interrupt handlers, bottom halves, soft irqs.
+
 * Thou shalt not sleep nor call `kmalloc(size, GFP_KERNEL)` in interrupt
   context.
 
@@ -74,6 +93,19 @@ The Kernel Commandments
 * If you are fixing a build error, show the build error in the patch (maybe
   after the `---`?)
 
+* Sort the headers alphabetically
+
+* If a `static struct` never changes, mark it as `static const struct`. Show
+  size of elf sections before and after the change.
+
+Networking:
+
+* Do not register stuff in `procfs`, `debugfs` or `ioctls`, modern netdev uses
+  only `netlink`.
+
+* When declaring variables at the start of a function, netdev uses reverse
+  christmas tree, longest lines first, shortest last.
+
 Useful commands
 ---------------
 
@@ -94,7 +126,7 @@ Always checkpatch before thinking about sending a patch:
 
 .. code-block:: bash
 
-    ./scripts/checkpatch.pl -f drivers/staging/your-driver/your-file.c
+    ./scripts/checkpatch.pl --strict -f drivers/staging/your-driver/your-file.c
 
 Also run coccinelle, a static code analysis tool:
 

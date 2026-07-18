@@ -10,6 +10,7 @@ Notes that do not fall in other categories.
    blogs
    development-loop
    udev
+   gstreamer
    wasm-c-ffi
    institutions
    legislations
