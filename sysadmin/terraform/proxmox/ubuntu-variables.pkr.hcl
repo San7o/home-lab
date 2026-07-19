@@ -1,0 +1,5 @@
+proxmox_api_url = "https://192.168.0.2:8006/api2/json"
+proxmox_api_username = "root@pam!packer-token"
+proxmox_ssh_username = "sysadmin"
+proxmox_ssh_password = "admin"
+proxmox_api_token_secret = "59077758-91af-4a25-bb66-49bc912bcffa"
