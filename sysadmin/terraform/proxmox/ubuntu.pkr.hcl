@@ -54,7 +54,7 @@ source "proxmox-iso" "ubuntu-server" {
     vm_name              = "ubuntu-2604-template"
     template_name        = "packer-ubuntu2604"
     template_description = "Packet template"
-    ssh_timeout          = "20m"
+    ssh_timeout          = "30m"
 
     boot_iso {
         type     = "scsi"

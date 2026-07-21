@@ -10,6 +10,11 @@ Server
 4. investigave Restic for backup
 5. make cgit work
 
+6. Install pve_exporter on an LXC container, and node_exporter on the host. Do
+   not run prometheus and grafana on proxmox.
+
+     https://github.com/prometheus-pve/prometheus-pve-exporter
+
 Kernel dev
 ----------
 

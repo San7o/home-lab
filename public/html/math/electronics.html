@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Electronics &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Beautiful Proofs" href="beautiful-proofs.html" />
+    <link rel="prev" title="Math" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="electronics">
+<h1>Electronics<a class="headerlink" href="#electronics" title="Link to this heading">¶</a></h1>
+<section id="charge">
+<h2>Charge<a class="headerlink" href="#charge" title="Link to this heading">¶</a></h2>
+<p>Charge is a fundamental property of matter, which is made out of
+fermions including electrons. An electron has charge <span class="math notranslate nohighlight">\(e =
+-1,602*10^{-14}\)</span>. Charge in all matter is quantized to be multiples of <cite>e</cite>.</p>
+<p>We denote charge with the letter <cite>Q</cite> or sometimes <cite>q</cite>. We measure charge in
+Coulomb <cite>C</cite>.</p>
+</section>
+<section id="current">
+<h2>Current<a class="headerlink" href="#current" title="Link to this heading">¶</a></h2>
+<p>Current in a medium is measured as the amount of charge over a period of time.</p>
+<div class="math notranslate nohighlight">
+\[I =^{def} \lim_{\Delta t \rightarrow 0} \frac{\Delta Q}{\Delta t} =
+\frac{d Q}{d t}\]</div>
+<p>We measure charge with Amperes <cite>A</cite> where <span class="math notranslate nohighlight">\(1 A = \frac{1 C}{1 s}\)</span>.</p>
+</section>
+<section id="voltage">
+<h2>Voltage<a class="headerlink" href="#voltage" title="Link to this heading">¶</a></h2>
+<p>Voltage or sometimes called “potential difference” or just “potential” is
+defined as:</p>
+<div class="math notranslate nohighlight">
+\[\Delta V = \frac{\Delta U}{Q}\]</div>
+<p>It is measured in Volts <cite>V</cite> where <span class="math notranslate nohighlight">\(1 V = \frac{1 joule}{1 C}\)</span>.</p>
+<p>This difference depends on where we set the extremes. Usually its value depends
+on the transformation of energy to heat or light.</p>
+<p>You can think about voltage with the classic example of water flow in a pipe.</p>
+</section>
+<section id="generalized-power-law">
+<h2>Generalized Power Law<a class="headerlink" href="#generalized-power-law" title="Link to this heading">¶</a></h2>
+<p>Since Power is defined as <span class="math notranslate nohighlight">\(P = \frac{d W}{d t}\)</span>, we have:</p>
+<div class="math notranslate nohighlight">
+\[P = \frac{d W}{d t} = \frac{d VQ}{d t} = d V I\]</div>
+</section>
+<section id="ohm-s-law">
+<h2>Ohm’s Law<a class="headerlink" href="#ohm-s-law" title="Link to this heading">¶</a></h2>
+<p>We define Resistance as:</p>
+<div class="math notranslate nohighlight">
+\[R = \frac{V}{I}\]</div>
+<p>We measure it in Ohms <span class="math notranslate nohighlight">\(\Omega = \frac{1 V}{1 A}\)</span></p>
+</section>
+<section id="resistivity-and-conductivity">
+<h2>Resistivity and Conductivity<a class="headerlink" href="#resistivity-and-conductivity" title="Link to this heading">¶</a></h2>
+<p>We define Resistivity as:</p>
+<div class="math notranslate nohighlight">
+\[\rho = R \frac{A}{L}\]</div>
+<p>Where A is the cross sectional area and L is the length of a wire.</p>
+<p>We define conductivity as <span class="math notranslate nohighlight">\(\sigma = \frac{1}{\rho}\)</span>.</p>
+<p>Then:</p>
+<div class="math notranslate nohighlight">
+\[V = IR = \rho \frac{L}{A} I\]</div>
+<p>It is also true that:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}P = VI = V ( \frac{V}{R} ) = \frac{V^2}{R} \\
+P = VI = I (RI) = I^2 R\end{split}\]</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Math</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Electronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="beautiful-proofs.html">Beautiful Proofs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenvalues-and-eigenvectors.html">Eigenvalues and Eigenvectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probability-basics.html">Probability Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lagrange-dual-function.html">The Lagrange dual Funciton</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Math</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Math</a></li>
+      <li>Next: <a href="beautiful-proofs.html" title="next chapter">Beautiful Proofs</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/math/electronics.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

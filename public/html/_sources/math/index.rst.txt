@@ -5,6 +5,7 @@ Math
    :maxdepth: 2
    :caption: Contents:
 
+   electronics
    beautiful-proofs
    eigenvalues-and-eigenvectors
    probability-basics
