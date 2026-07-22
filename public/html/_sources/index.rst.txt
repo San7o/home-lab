@@ -1,9 +1,9 @@
-Home Lab Notes
-==============
+Home Lab
+========
 
-A collection of my personal notes and other useful stuff.
+A collection of interesting experiments and notes.
 
-Scripts, configuration files and code examples are in the github page:
+Scripts, configuration files and code examples are in the github repo:
 
     https://github.com/San7o/home-lab
 
@@ -20,7 +20,7 @@ I do a lot of things, here is how I organize everything:
 
 - Technical notes are here in this website
 
-- `Giovanni's Diary <https://san7o.github.io/giovanni-diary/>`_ contains
+- `Giovanni's Diary <https://san7o.github.io/giovanni-diary/v2/>`_ contains
   non-technical blog posts and projects
 
 - I use `mastodon <https://mastodon.social/@santo7>`_ as social media. I have
@@ -28,8 +28,30 @@ I do a lot of things, here is how I organize everything:
 
 - You can email me at `giovanni.santini@proton.me <mailto:giovanni.santini@proton.me>`_
 
-Contents
---------
+Lab
+---
+
+* Hypervisor: Proxmox
+* Virtual Machines / Containers:
+
+  * fedora server
+  * proxmox-entry (LCX)
+  * windows-lab
+
+* VPN: tailscale / netbird
+* Monitoring: prometheus + grafana + node_exporter
+* Security: wazuh
+* LLM Inference: ollama
+* Virtualization: qemu, libvirt
+* Contianers: dockerd, Dockhand dashboard
+* Firewall: firewalld, firewall-cmd
+* Service manager: systemd
+* Identity management: Authentikit, FreeIPA (fedora only)
+* Music: navidrome
+* Project management: cgit
+
+Notes
+-----
 
 .. toctree::
    :maxdepth: 2
