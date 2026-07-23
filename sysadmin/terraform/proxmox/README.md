@@ -16,3 +16,13 @@ packer init -var-file='ubuntu-variables.pkr.hcl' ubuntu.pkr.hcl
 packer validate -var-file='ubuntu-variables.pkr.hcl' ubuntu.pkr.hcl
 packer build -var-file='ubuntu-variables.pkr.hcl' ubuntu.pkr.hcl
 ```
+
+## Terraform
+
+```bash
+terraform init
+terraform fmt
+terraform validate
+terraform plan
+terraform apply
+```
