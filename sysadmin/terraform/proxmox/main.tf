@@ -61,14 +61,14 @@ resource "proxmox_virtual_environment_vm" "kube_server_a" {
   }
 
   memory {
-    dedicated = 4096
+    dedicated = 8092
   }
 
   disk {
     datastore_id = "local-lvm"
     import_from  = proxmox_download_file.ubuntu_cloud_image.id
     interface    = "scsi0"
-    size         = 20   # GB I suppose
+    size         = 100  # GB
     discard      = "on" # ???
   }
 
