@@ -26,3 +26,5 @@ To run a specific task, specify a tag:
 .. code-block:: bash
 
     ansible-playbook -i inventory.ini -u lab playbooks/test.yaml --tags ping
+
+To specify an ssh private key, pass the argument `--private-key ~/.ssh/key`.
