@@ -1,24 +1,37 @@
 Linux Architecture Diagrams
 ===========================
 
-Rendering Stack
----------------
-
-.. image:: ../images/linux-rendering-stack.png
-
 Networking Stack
 ----------------
 
 .. image:: ../images/linux-networking-stack.png
 
-- NAPI_ (New API): poll packets from the NIC in bulk so that it does not
+Concepts:
+
+* NAPI_ (New API): poll packets from the NIC in bulk so that it does not
   interrupt the CPU too much
 
-- Netlink_: we use this to communicate with the kernel and configure the network
+* Netlink_: we use this to communicate with the kernel and configure the network
   stack
+
+* `TUN`: L3 virtual tunnel
+
+* `TAP`: L2 virtual tap
+
+* `veth`: virtual Ethernet devices. veth devices are always created in
+  interconnected pairs so that packets  transmitted on one device in the pair
+  are immediately received on the other device. A  particularly  interesting use
+  case is to place one end of a veth pair in one network namespace and the other
+  end in another network namespace, thus allowing communi‐ cation between
+  network namespaces. See `veth(4)`.
+
+Future developments:
+
+- `netkit`_: eBPF-programmable network device
 
 .. _NAPI: https://docs.kernel.org/networking/napi.html
 .. _Netlink: https://www.kernel.org/doc/html/next/userspace-api/netlink/intro.html)
+.. _netkit: https://lwn.net/Articles/949960/
 
 Storage Stack
 -------------
@@ -37,6 +50,14 @@ flushed to the device.
   NVMe devices
 
 .. _Storage Performance Development Kit: https://spdk.io/)
+
+Rendering Stack
+---------------
+
+TODO: I still need to do a deep down here. Here is my understanding after
+working with graphics in userspace.
+
+.. image:: ../images/linux-rendering-stack.png
 
 Unique Kernel Contributors per Subsystem
 ----------------------------------------
@@ -75,20 +96,3 @@ Unique Kernel Contributors per Subsystem
 +-----------------------+---------------+-------------------------------------+
 
 Source: gemini.
-
-Build systems
--------------
-
-.. image:: ../images/linux-build-systems.png
-
-- `Linux Kernel Module`_: raw kernel development quickstart
-
-- LKDE_: light kernel dev framework
-
-- tmp105-driver_: buildroot based driver
-
-- yocto: TODO
-
-.. _Linux Kernel Module: https://github.com/San7o/linux-kernel-module
-.. _LKDE: https://github.com/San7o/lkde-tool
-.. _tmp105-driver: https://github.com/San7o/tmp105-driver/

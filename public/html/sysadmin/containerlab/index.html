@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Ansible &#8212; Notes  documentation</title>
+    <title>Containerlab &#8212; Notes  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
     <link rel="stylesheet" type="text/css" href="../../_static/micro-style.css?v=3ee29fcc" />
     <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
@@ -13,8 +13,8 @@
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Docker commands" href="../containers/docker-commands.html" />
-    <link rel="prev" title="SELinux" href="../selinux/selinux.html" />
+    <link rel="next" title="ssh public key authentication" href="../ssh-public-key-auth.html" />
+    <link rel="prev" title="Terraform" href="../terraform/terraform.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -32,27 +32,16 @@
 
           <div class="body" role="main">
             
-  <section id="ansible">
-<h1>Ansible<a class="headerlink" href="#ansible" title="Link to this heading">¶</a></h1>
-<p>Ansible lets you run tasks on multiple machines. It does not require the
-machines to have any particular software installed other then ssh, only the
-control node needs to have ansible installed.</p>
-<p>You delcare your nodes in an inventory file (in this case <cite>inventory.ini</cite> or
-<cite>inventory.yaml</cite>). You define your tasks in a playbook (for example
-<cite>playbooks/test.yaml</cite>).</p>
-<p>Some actions require sudo (<cite>become: true</cite>), so you may need to setup a
-privileged user that is not prompted a password when using sudo (modify the
-<cite>/etc/sudoers</cite> file).</p>
-<p>You should be able to install ansible via your packet manager.</p>
-<p>To run a playbook:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory.ini<span class="w"> </span>-u<span class="w"> </span>lab<span class="w"> </span>playbooks/test.yaml
-</pre></div>
-</div>
-<p>To run a specific task, specify a tag:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory.ini<span class="w"> </span>-u<span class="w"> </span>lab<span class="w"> </span>playbooks/test.yaml<span class="w"> </span>--tags<span class="w"> </span>ping
-</pre></div>
-</div>
-<p>To specify an ssh private key, pass the argument <cite>–private-key ~/.ssh/key</cite>.</p>
+  <section id="containerlab">
+<h1>Containerlab<a class="headerlink" href="#containerlab" title="Link to this heading">¶</a></h1>
+<p>Website:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://containerlab.dev/">https://containerlab.dev/</a></p>
+</div></blockquote>
+<p>Installation:</p>
+<blockquote>
+<div><p>curl -sL <a class="reference external" href="https://containerlab.dev/setup">https://containerlab.dev/setup</a> | sudo -E bash -s “all”</p>
+</div></blockquote>
 </section>
 
 
@@ -82,11 +71,11 @@ privileged user that is not prompted a password when using sudo (modify the
 <li class="toctree-l2"><a class="reference internal" href="../local-llms.html">Local LLMs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../llama.html">llama.cpp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../terraform/terraform.html">Terraform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../containerlab/index.html">Containerlab</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Containerlab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ssh-public-key-auth.html">ssh public key authentication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../post-quantum-safety.html">Post Quantum Safety</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../selinux/selinux.html">SELinux</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ansible/ansible.html">Ansible</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../containers/docker-commands.html">Docker commands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../setup-minecraft-server.html">Setup a Minecraft Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../setup-irc-client.html">Setup an IRC client</a></li>
@@ -107,8 +96,8 @@ privileged user that is not prompted a password when using sudo (modify the
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Sysadmin</a><ul>
-      <li>Previous: <a href="../selinux/selinux.html" title="previous chapter">SELinux</a></li>
-      <li>Next: <a href="../containers/docker-commands.html" title="next chapter">Docker commands</a></li>
+      <li>Previous: <a href="../terraform/terraform.html" title="previous chapter">Terraform</a></li>
+      <li>Next: <a href="../ssh-public-key-auth.html" title="next chapter">ssh public key authentication</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -143,7 +132,7 @@ privileged user that is not prompted a password when using sudo (modify the
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
-      <a href="../../_sources/sysadmin/ansible/ansible.rst.txt"
+      <a href="../../_sources/sysadmin/containerlab/index.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

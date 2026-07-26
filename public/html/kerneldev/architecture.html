@@ -34,18 +34,27 @@
             
   <section id="linux-architecture-diagrams">
 <h1>Linux Architecture Diagrams<a class="headerlink" href="#linux-architecture-diagrams" title="Link to this heading">¶</a></h1>
-<section id="rendering-stack">
-<h2>Rendering Stack<a class="headerlink" href="#rendering-stack" title="Link to this heading">¶</a></h2>
-<img alt="../_images/linux-rendering-stack.png" src="../_images/linux-rendering-stack.png" />
-</section>
 <section id="networking-stack">
 <h2>Networking Stack<a class="headerlink" href="#networking-stack" title="Link to this heading">¶</a></h2>
 <img alt="../_images/linux-networking-stack.png" src="../_images/linux-networking-stack.png" />
+<p>Concepts:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://docs.kernel.org/networking/napi.html">NAPI</a> (New API): poll packets from the NIC in bulk so that it does not
 interrupt the CPU too much</p></li>
 <li><p><a class="reference external" href="https://www.kernel.org/doc/html/next/userspace-api/netlink/intro.html)">Netlink</a>: we use this to communicate with the kernel and configure the network
 stack</p></li>
+<li><p><cite>TUN</cite>: L3 virtual tunnel</p></li>
+<li><p><cite>TAP</cite>: L2 virtual tap</p></li>
+<li><p><cite>veth</cite>: virtual Ethernet devices. veth devices are always created in
+interconnected pairs so that packets  transmitted on one device in the pair
+are immediately received on the other device. A  particularly  interesting use
+case is to place one end of a veth pair in one network namespace and the other
+end in another network namespace, thus allowing communi‐ cation between
+network namespaces. See <cite>veth(4)</cite>.</p></li>
+</ul>
+<p>Future developments:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://lwn.net/Articles/949960/">netkit</a>: eBPF-programmable network device</p></li>
 </ul>
 </section>
 <section id="storage-stack">
@@ -61,6 +70,12 @@ flushed to the device.</p>
 <li><p><a class="reference external" href="https://spdk.io/)">Storage Performance Development Kit</a>: fast and modern API to interact with
 NVMe devices</p></li>
 </ul>
+</section>
+<section id="rendering-stack">
+<h2>Rendering Stack<a class="headerlink" href="#rendering-stack" title="Link to this heading">¶</a></h2>
+<p>TODO: I still need to do a deep down here. Here is my understanding after
+working with graphics in userspace.</p>
+<img alt="../_images/linux-rendering-stack.png" src="../_images/linux-rendering-stack.png" />
 </section>
 <section id="unique-kernel-contributors-per-subsystem">
 <h2>Unique Kernel Contributors per Subsystem<a class="headerlink" href="#unique-kernel-contributors-per-subsystem" title="Link to this heading">¶</a></h2>
@@ -117,16 +132,6 @@ rush” of first-time contributors.</p></td>
 </tbody>
 </table>
 <p>Source: gemini.</p>
-</section>
-<section id="build-systems">
-<h2>Build systems<a class="headerlink" href="#build-systems" title="Link to this heading">¶</a></h2>
-<img alt="../_images/linux-build-systems.png" src="../_images/linux-build-systems.png" />
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/San7o/linux-kernel-module">Linux Kernel Module</a>: raw kernel development quickstart</p></li>
-<li><p><a class="reference external" href="https://github.com/San7o/lkde-tool">LKDE</a>: light kernel dev framework</p></li>
-<li><p><a class="reference external" href="https://github.com/San7o/tmp105-driver/">tmp105-driver</a>: buildroot based driver</p></li>
-<li><p>yocto: TODO</p></li>
-</ul>
 </section>
 </section>
 

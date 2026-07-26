@@ -11,6 +11,7 @@ Sysadmin
    local-llms
    llama
    terraform/terraform
+   containerlab/index
    ssh-public-key-auth
    post-quantum-safety
    selinux/selinux
