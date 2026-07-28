@@ -15,6 +15,8 @@ Server
 
      https://github.com/prometheus-pve/prometheus-pve-exporter
 
+7. Try out suricata
+
 Kernel dev
 ----------
 

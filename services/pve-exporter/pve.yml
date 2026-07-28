@@ -1,0 +1,4 @@
+default:
+  user: root@pam!pve-exporter-token
+  token_name: pve-exporter-token
+  token_value: 1ad62ce3-c0ff-4716-b92b-e2a495b980ec

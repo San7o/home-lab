@@ -38,6 +38,10 @@ WATCHLIST_MAILBOX=~/Mail/watchlist/
 # [PATCH] media: cedrus: fix memory leak in cedrus_init_ctrls()
 WATCHLIST_MIDS='20260624085920.578446-1-dawei.feng@seu.edu.cn'
 
+QEMU_MAILBOX=~/Mail/qemu
+QEMU_INBOX=https://lore.kernel.org/qemu-devel/
+QEMU_QUERY='l:qemu-devel.nongnu.org AND rt:30.days.ago..'
+
 # Staging
 if [ ! -d $STAGING_MAILBOX ]; then
     echo "Setting up staging"
@@ -92,6 +96,14 @@ if [ ! -d $UBOOT_MAILBOX ]; then
     lei q -o $UBOOT_MAILBOX \
         -I $UBOOT_INBOX \
         --threads "$UBOOT_QUERY"
+fi
+
+# qemu
+if [ ! -d $QEMU_MAILBOX ]; then
+    echo "Setting up qemu"
+    lei q -o $QEMU_MAILBOX \
+        -I $QEMU_INBOX \
+        --threads "$QEMU_QUERY"
 fi
 
 # Watchlist

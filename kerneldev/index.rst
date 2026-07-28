@@ -5,10 +5,10 @@ Kernel Development
    :maxdepth: 2
    :caption: Contents:
 
+   notes
    architecture
    io-interfaces
    memories
-   notes
    building
    yocto
    buildroot
