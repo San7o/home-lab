@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="I/O Interfaces" href="io-interfaces.html" />
-    <link rel="prev" title="Kernel Development" href="index.html" />
+    <link rel="prev" title="Linux Kernel Dev Notes" href="notes.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -34,6 +34,8 @@
             
   <section id="linux-architecture-diagrams">
 <h1>Linux Architecture Diagrams<a class="headerlink" href="#linux-architecture-diagrams" title="Link to this heading">¶</a></h1>
+<p>Bird’s eye slice of the kernel:</p>
+<img alt="../_images/linux-kernel-map.png" src="../_images/linux-kernel-map.png" />
 <section id="networking-stack">
 <h2>Networking Stack<a class="headerlink" href="#networking-stack" title="Link to this heading">¶</a></h2>
 <img alt="../_images/linux-networking-stack.png" src="../_images/linux-networking-stack.png" />
@@ -77,61 +79,10 @@ NVMe devices</p></li>
 working with graphics in userspace.</p>
 <img alt="../_images/linux-rendering-stack.png" src="../_images/linux-rendering-stack.png" />
 </section>
-<section id="unique-kernel-contributors-per-subsystem">
-<h2>Unique Kernel Contributors per Subsystem<a class="headerlink" href="#unique-kernel-contributors-per-subsystem" title="Link to this heading">¶</a></h2>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Subsystem</p></th>
-<th class="head"><p>Percentage</p></th>
-<th class="head"><p>Info</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Drivers (General)</p></td>
-<td><p>~55% - 60%</p></td>
-<td><p>This includes GPU (about 30% of all
-drivers), Network, Multimedia, and
-Sound.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Networking (net/)</p></td>
-<td><p>8% - 10%</p></td>
-<td><p>Massive corporate focus from Meta,
-Google, and Mellanox/Nvidia. This
-is the core of the cloud.</p></td>
-</tr>
-<tr class="row-even"><td><p>Filesystems (fs/)</p></td>
-<td><p>~7% - 8%</p></td>
-<td><p>This is the “Data Integrity” tier.
-Recent spikes come from Bcachefs
-(Kent Overstreet) and cloud-scale
-optimizations for NVMe.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Core Kernel (kernel/,
-mm/)</p></td>
-<td><p>~5%</p></td>
-<td><p>The “Priesthood.” This is the
-smallest group of developers, but
-they have the highest gatekeeping
-standards. It includes scheduling
-and memory management.</p></td>
-</tr>
-<tr class="row-even"><td><p>eBPF (kernel/bpf)</p></td>
-<td><p>~4%</p></td>
-<td><p>This is the fastest-growing niche.
-eBPF is becoming the universal
-“glue” for observability and
-networking, drawing in engineers
-from Distributed Systems.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Arch Specific (arch/)</p></td>
-<td><p>~10%</p></td>
-<td><p>Mostly ARM64 and RISC-V churn.
-RISC-V is currently seeing a “gold
-rush” of first-time contributors.</p></td>
-</tr>
-</tbody>
-</table>
-<p>Source: gemini.</p>
+<section id="sankey-diagram">
+<h2>Sankey diagram<a class="headerlink" href="#sankey-diagram" title="Link to this heading">¶</a></h2>
+<p>Lines of code per area:</p>
+<img alt="../_images/linux-kernel-sankey-diagram.jpg" src="../_images/linux-kernel-sankey-diagram.jpg" />
 </section>
 </section>
 
@@ -154,10 +105,10 @@ rush” of first-time contributors.</p></td>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Linux Architecture Diagrams</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
 <li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
@@ -185,7 +136,7 @@ rush” of first-time contributors.</p></td>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Kernel Development</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Kernel Development</a></li>
+      <li>Previous: <a href="notes.html" title="previous chapter">Linux Kernel Dev Notes</a></li>
       <li>Next: <a href="io-interfaces.html" title="next chapter">I/O Interfaces</a></li>
   </ul></li>
   </ul></li>
