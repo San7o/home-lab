@@ -51,9 +51,9 @@ page. If data gets written to a page, the cache gets dirty, and it can be
 flushed to the device.
 
 - `Storage Performance Development Kit`_: fast and modern API to interact with
-  NVMe devices
+  NVMe devices. It depends on SPDK for network path.
 
-.. _Storage Performance Development Kit: https://spdk.io/)
+.. _Storage Performance Development Kit: https://spdk.io/
 
 Rendering Stack
 ---------------
@@ -62,6 +62,31 @@ TODO: I still need to do a deep down here. Here is my understanding after
 working with graphics in userspace.
 
 .. image:: ../images/linux-rendering-stack.png
+
+HPC
+---
+
+HPC Linux is very different than Embedded Linux or Desktop Linux or even
+Datacenter Linux. The main problem is performance, we want to bypass the kernel,
+DMA everything and not use locks. We have special hardware for HPC (e.g.
+infiniband) and standards to solve highly-specific HPC problems.
+
+Networking:
+
+* `Ultra Ethernet Consortium (UEC) Specification
+  1.0 <https://ultraethernet.org/wp-content/uploads/sites/20/2025/10/UE-Specification-1.0.1.pdf>`_:
+  open standard to compete with NVIDIA's infiniband with a solution based on
+  ethernet.
+
+* `libfabric <https://ofiwg.github.io/libfabric/>`_: userspace library used by
+  MPI, PyTorch and similar frameworks that manage HPC networking and compute.
+
+Storage:
+
+* `Distributed Asynchronous Object Storage (DAOS) <https://daos.io/>`_
+
+* `NVMe 2.0 <https://nvmexpress.org/specifications/>`_: modern specification to
+  access non-volatile memory, supporting NVMe-over-fabric (NVME-of) for HPC.
 
 Sankey diagram
 --------------

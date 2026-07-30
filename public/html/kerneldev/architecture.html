@@ -69,8 +69,8 @@ page cache. This is a copy-on-write cache which gets checked before accessing a
 page. If data gets written to a page, the cache gets dirty, and it can be
 flushed to the device.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://spdk.io/)">Storage Performance Development Kit</a>: fast and modern API to interact with
-NVMe devices</p></li>
+<li><p><a class="reference external" href="https://spdk.io/">Storage Performance Development Kit</a>: fast and modern API to interact with
+NVMe devices. It depends on SPDK for network path.</p></li>
 </ul>
 </section>
 <section id="rendering-stack">
@@ -78,6 +78,28 @@ NVMe devices</p></li>
 <p>TODO: I still need to do a deep down here. Here is my understanding after
 working with graphics in userspace.</p>
 <img alt="../_images/linux-rendering-stack.png" src="../_images/linux-rendering-stack.png" />
+</section>
+<section id="hpc">
+<h2>HPC<a class="headerlink" href="#hpc" title="Link to this heading">¶</a></h2>
+<p>HPC Linux is very different than Embedded Linux or Desktop Linux or even
+Datacenter Linux. The main problem is performance, we want to bypass the kernel,
+DMA everything and not use locks. We have special hardware for HPC (e.g.
+infiniband) and standards to solve highly-specific HPC problems.</p>
+<p>Networking:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ultraethernet.org/wp-content/uploads/sites/20/2025/10/UE-Specification-1.0.1.pdf">Ultra Ethernet Consortium (UEC) Specification
+1.0</a>:
+open standard to compete with NVIDIA’s infiniband with a solution based on
+ethernet.</p></li>
+<li><p><a class="reference external" href="https://ofiwg.github.io/libfabric/">libfabric</a>: userspace library used by
+MPI, PyTorch and similar frameworks that manage HPC networking and compute.</p></li>
+</ul>
+<p>Storage:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://daos.io/">Distributed Asynchronous Object Storage (DAOS)</a></p></li>
+<li><p><a class="reference external" href="https://nvmexpress.org/specifications/">NVMe 2.0</a>: modern specification to
+access non-volatile memory, supporting NVMe-over-fabric (NVME-of) for HPC.</p></li>
+</ul>
 </section>
 <section id="sankey-diagram">
 <h2>Sankey diagram<a class="headerlink" href="#sankey-diagram" title="Link to this heading">¶</a></h2>
