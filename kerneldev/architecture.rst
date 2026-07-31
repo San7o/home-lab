@@ -71,6 +71,21 @@ Datacenter Linux. The main problem is performance, we want to bypass the kernel,
 DMA everything and not use locks. We have special hardware for HPC (e.g.
 infiniband) and standards to solve highly-specific HPC problems.
 
+* `OpenBMC <https://www.openbmc.org/>`_: implementation of baseboard management
+  controllers (BMC) firmware stack, which controls a CPU in the context of a
+  dataceter / HPC cluster.
+
+* `OpenHPC <https://openhpc.community/>`_: a Linux distribution and set of tools
+  for HPC.
+
+* `OpenUCX <https://openucx.readthedocs.io/en/master/index.html>`_: set of
+  abstractions and primitives for high performance communication, using hardware
+  offload like RDMA, GPUs etc.
+
+* `Open Programmable Infrastructure (OPI) <https://opiproject.org/>`_:
+  standardization effort for DPU/IPU-based systems (network, storage and
+  security offload).
+
 Networking:
 
 * `Ultra Ethernet Consortium (UEC) Specification
