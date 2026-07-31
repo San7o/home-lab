@@ -1,7 +1,9 @@
 Linux Architecture Diagrams
 ===========================
 
-Bird's eye slice of the kernel:
+.. image:: ../images/linux-market.png
+
+Bird's eye view of the Linux kernel:
 
 .. image:: ../images/linux-kernel-map.png
 

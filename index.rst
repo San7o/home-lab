@@ -28,28 +28,6 @@ I do a lot of things, here is how I organize everything:
 
 - You can email me at `giovanni.santini@proton.me <mailto:giovanni.santini@proton.me>`_
 
-Lab
----
-
-* Hypervisor: Proxmox
-* Virtual Machines / Containers:
-
-  * fedora server
-  * proxmox-entry (LCX)
-  * windows-lab
-
-* VPN: tailscale / netbird
-* Monitoring: prometheus + grafana + node_exporter
-* Security: wazuh
-* LLM Inference: ollama
-* Virtualization: qemu, libvirt
-* Contianers: dockerd, Dockhand dashboard
-* Firewall: firewalld, firewall-cmd
-* Service manager: systemd
-* Identity management: Authentikit, FreeIPA (fedora only)
-* Music: navidrome
-* Project management: cgit
-
 Notes
 -----
 
