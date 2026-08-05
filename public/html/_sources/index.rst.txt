@@ -23,6 +23,9 @@ I do a lot of things, here is how I organize everything:
 - `Giovanni's Diary <https://san7o.github.io/giovanni-diary/v2/>`_ contains
   non-technical blog posts and projects
 
+- Private notes are saved `here <https://github.com/San7o/private>`_ (only I can
+  read it)
+
 - I use `mastodon <https://mastodon.social/@santo7>`_ as social media. I have
   other accounts like Linkedin or Reddit, but I don't post anything.
 
