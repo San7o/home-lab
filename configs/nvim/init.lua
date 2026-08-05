@@ -40,6 +40,7 @@ vim.call('plug#begin')
 
 -- Modus themes from Prot
 Plug('miikanissi/modus-themes.nvim')
+Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 Plug('nvim-lua/plenary.nvim')          -- dependency for telescope
 Plug('nvim-telescope/telescope.nvim', { ['commit'] = '3333a52'})  -- fuzz strings
 Plug('nvim-tree/nvim-web-devicons')    -- some icons
@@ -52,6 +53,7 @@ Plug('lewis6991/gitsigns.nvim')        -- Show modified lines
 Plug('SirVer/ultisnips')               -- Completion snippets
 Plug('f-person/git-blame.nvim')        -- Show git blame inline
 Plug('folke/flash.nvim')               -- Jump around with overlay
+Plug('3rd/image.nvim')                 -- Show images (requires kitty and imagemagick)
 
 vim.call('plug#end')
 
@@ -84,6 +86,12 @@ vim.g.UltiSnipsExpandTrigger = "<tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<c-b>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<c-z>"
 
+require('nvim-treesitter').setup {
+  -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
+  install_dir = vim.fn.stdpath('data') .. '/site'
+}
+require('nvim-treesitter').install { 'rst' }
+
 require('nvim-web-devicons').setup()
 local tree = require('nvim-tree.api')
 vim.keymap.set('n', '<C-n>', function() tree.tree.toggle() end,
@@ -113,6 +121,17 @@ require('flash').setup({
     enabled = true,
 })
 require('flash').toggle()
+
+require('image').setup({
+    enabled = true,
+    backend = 'kitty',
+    integrations = {
+      org = {
+        enabled = true,
+        filetypes = { "org" },
+      },
+    }
+})
 
 local function toggle_modus_theme()
     -- Access the current style from the plugin's configuration
