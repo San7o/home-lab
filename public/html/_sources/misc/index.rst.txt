@@ -11,6 +11,7 @@ Notes that do not fall in other categories.
    development-loop
    udev
    gstreamer
+   objdump
    wasm-c-ffi
    institutions
    legislations

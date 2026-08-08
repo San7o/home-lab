@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Readelf and Objdump &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Wasm-C FFI" href="wasm-c-ffi.html" />
+    <link rel="prev" title="Gstreamer" href="gstreamer.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="readelf-and-objdump">
+<h1>Readelf and Objdump<a class="headerlink" href="#readelf-and-objdump" title="Link to this heading">¶</a></h1>
+<p><cite>readelf</cite> and <cite>objdump</cite> are very useful tools to inspect ELF files. <cite>readelf</cite> is
+a better frontend to inspect ELF specific metadata, while <cite>objdump</cite> is better to
+disassemble code. Here I saved some important commands, and some notes on
+linking.</p>
+<section id="elf-inspection">
+<h2>ELF inspection<a class="headerlink" href="#elf-inspection" title="Link to this heading">¶</a></h2>
+<p>Disassemble contents of executable sections of an ELF file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>obdjump<span class="w"> </span>-d<span class="w"> </span>hello.o
+</pre></div>
+</div>
+<p>Read ELF file header:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>readelf<span class="w"> </span>-h<span class="w"> </span>hello.elf
+objdump<span class="w"> </span>-f<span class="w"> </span>hello.elf
+</pre></div>
+</div>
+<p>This will tell you which type of ELF file it is. The types of files are:</p>
+<ul class="simple">
+<li><p>Relocatable File (ET_REL / <cite>.o</cite>, <cite>.a</cite>): Unlinked compiler output containing
+raw code sections and static relocation records. Used by the static linker
+(ld) as input building blocks to build complete programs or libraries.</p></li>
+<li><p>Executable File (ET_EXEC): Legacy non-PIE executable binaries with fixed
+virtual memory load addresses. Fully linked and ready to be loaded and run
+directly by the OS kernel.</p></li>
+<li><p>Shared Object File (ET_DYN / <cite>.so</cite>, PIE binaries): Position-independent
+binaries loaded into process memory at arbitrary addresses by the dynamic
+loader (ld.so). This type includes two sub-categories:</p>
+<ul>
+<li><p>Shared Libraries (.so): Modular code libraries shared across multiple
+running processes.</p></li>
+<li><p>PIE Executables: Modern standalone application binaries compiled with
+Position Independent Execution to support ASLR (Address Space Layout
+Randomization).</p></li>
+</ul>
+</li>
+<li><p>Core Dump File (ET_CORE / core): Memory snapshots generated automatically by
+the OS kernel when a process crashes. Contains register states, thread stacks,
+and process RAM for post-mortem debugging in tools like GDB.</p></li>
+</ul>
+<p>List section headers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>readelf<span class="w"> </span>-S<span class="w"> </span>hello.elf
+objdump<span class="w"> </span>-h<span class="w"> </span>hello.elf
+</pre></div>
+</div>
+</section>
+<section id="symbols-and-relocations">
+<h2>Symbols and Relocations<a class="headerlink" href="#symbols-and-relocations" title="Link to this heading">¶</a></h2>
+<p>Relocations are addresses that the compiler does not know, so it needs to deffer
+its resolution to the linker, which has visibility over all the necessary
+symbols. Relocations can be jumps within a function, calls to other functions,
+references to stack or global data, etc.</p>
+<p>Show exported symbols of a relocatable file, aka the symbol table:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>readelf<span class="w"> </span>-s<span class="w"> </span>hello.o
+objdump<span class="w"> </span>-t<span class="w"> </span>hello.o
+</pre></div>
+</div>
+<p>Symbols can be local (static) or global (exported so other relocatable files can
+use them).</p>
+<p>Show relocation table of a relocatable file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>objdump<span class="w"> </span>-r<span class="w"> </span>hello.o
+</pre></div>
+</div>
+<p>Here we can use readelf with <cite>-r</cite>, but that will also show the dynamic
+relocation table.</p>
+<p>Show contents of the dynamic symbol stable of an ELF executable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>readelf<span class="w"> </span>--dyn-syms<span class="w"> </span>hello.elf
+objdump<span class="w"> </span>-T<span class="w"> </span>hello.elf
+</pre></div>
+</div>
+<p>This is used both for exported symbols (used primarily by shared object, but
+also ELF executables can export symbols) and for imported symbols (marked as
+<cite>UND</cite>, undefined). These are used by the dynamic linker.</p>
+<p>Show dynamic relocation entries of an executable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>readelf<span class="w"> </span>-r<span class="w"> </span>hello.elf
+objdump<span class="w"> </span>-R<span class="w"> </span>hello.elf
+</pre></div>
+</div>
+<p>From the previous four commands, we notice that there are two types of
+relocations. One is done right after compilation and is call static linking
+(<cite>ld</cite>), the other relocations are dynamically solved by a dynamic linker
+(<cite>ld-linux.so</cite>) and is used for shared libraries.</p>
+<p>How relocation works is that the compiler generates some placeholder values
+(usually all zeroes) for offset of symbols he does not know the location of. The
+compiler also generates an entry in the relocation table with the exact position
+of the code that needs to be relocated, the type and size of the value, and the
+symbol name. Then the linker will to do following:</p>
+<ul class="simple">
+<li><p>squash all sections from all object files into one big file</p></li>
+<li><p>look at all the relocation tables and all symbols</p></li>
+<li><p>patch all the values that have to be relocated with the actual offsets of the
+symbols in the squashed file.</p></li>
+</ul>
+<p>The difference between the static linker is that the static one modifies the
+binary file on disk, while the dynamic linker modifies the process memory in
+RAM. Another difference is that the dynamic linker does not modify the
+executable code because it is read-only in memory, so in order to resolve
+dynamic relocations, it uses a layer of indirection through the <cite>GOT</cite> (Global
+Offset Table). What happens is that the static linker patches dynamic
+relocations to use offsets from the <cite>GOT</cite>, then the dynamic linker generates the
+<cite>GOT</cite> with the correct values.</p>
+<p>When using using <cite>PIE</cite> (position independent executable) mode, which is the
+default now, then all the offsets are relative to the instruction pointer. For
+symbols resolved during dynamic linking, the <cite>GOT</cite> is also found relative to the
+instruction pointer.</p>
+<p>If you want to see the <cite>GOT</cite> (which will be empty before the program is loaded):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>objdump<span class="w"> </span>-s<span class="w"> </span>-j<span class="w"> </span>.got<span class="w"> </span>-j<span class="w"> </span>.got.plt<span class="w"> </span>hello.elf
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Misc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blogs.html">Blogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development-loop.html">Development Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="udev.html">Udev rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gstreamer.html">Gstreamer</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Readelf and Objdump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm-c-ffi.html">Wasm-C FFI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="institutions.html">Tech Institutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="legislations.html">Legislations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rss.html">RSS Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="groupsio.html">Groups.io Mailing Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="attribute.html">Compiler Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="swd.html">SWD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Misc</a><ul>
+      <li>Previous: <a href="gstreamer.html" title="previous chapter">Gstreamer</a></li>
+      <li>Next: <a href="wasm-c-ffi.html" title="next chapter">Wasm-C FFI</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/misc/objdump.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
