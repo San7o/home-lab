@@ -49,8 +49,8 @@ fedora, it is as easy as running:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>znc
 </pre></div>
 </div>
-<p>Fedora will also setup the systemd daemon that you can enable if you want. In
-order to setup the bouncer, run:</p>
+<p>Fedora will also setup the systemd daemon that you can enable if you want.</p>
+<p>In order to setup the bouncer, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>znc<span class="w"> </span>--makeconf
 </pre></div>
 </div>
@@ -88,7 +88,7 @@ libera and disable ssl because it gave me problems.</p>
 [ ** ]
 [ ?? ] Name [libera]: libera
 [ ?? ] Server host (host only): irc.libera.chat
-[ ?? ] Server uses SSL? (yes/no) [no]: no
+[ ?? ] Server uses SSL? (yes/no) [yes]: yes
 [ ?? ] Server port (1 to 65535) [6697]:
 [ ?? ] Server password (probably empty):
 [ ?? ] Initial channels: #linux
@@ -127,7 +127,8 @@ based, it is probably already packaged by your distribution.</p>
 </div>
 <p>Once you run weechat, you can connect to your server by first adding a server
 and connecting to it:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/server<span class="w"> </span>add<span class="w"> </span><span class="nb">local</span><span class="w"> </span>localhost/1025
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/set<span class="w"> </span>irc.server.local.tls<span class="w"> </span>off
+/server<span class="w"> </span>add<span class="w"> </span><span class="nb">local</span><span class="w"> </span>localhost/1025
 /connect<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-username<span class="o">=</span>santo_<span class="w"> </span>-password<span class="o">=</span>my-password
 </pre></div>
 </div>
@@ -138,12 +139,27 @@ nickname and you should login with <cite>/mng NickServ IDENTIFY username passwor
 or someone already registered that nickname and you need to change it. In this
 case, you can directly edit the ZNC config file in <cite>~/.znc/configs/znc.conf</cite> and
 restart the server with a different nickname.</p>
-<p>To join a channel use the =join= command:</p>
+</section>
+<section id="weechat-commands">
+<h2>Weechat Commands<a class="headerlink" href="#weechat-commands" title="Link to this heading">¶</a></h2>
+<p>To move between buffers you can use <cite>Alt+&lt;buffer&gt;</cite> or:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/buffer<span class="w"> </span>&lt;number&gt;
+</pre></div>
+</div>
+<p>To join a channel use the <cite>join</cite> command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/join<span class="w"> </span><span class="c1">#&lt;channel-name&gt;</span>
+</pre></div>
+</div>
+<p>Close a channel:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/close
 </pre></div>
 </div>
 <p>A useful command in weechat is to enable mouse support:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/mouse<span class="w"> </span><span class="nb">enable</span>
+</pre></div>
+</div>
+<p>Get help:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/help<span class="w"> </span>&lt;command&gt;
 </pre></div>
 </div>
 </section>
@@ -176,6 +192,7 @@ restart the server with a different nickname.</p>
 <li class="toctree-l2"><a class="reference internal" href="local-llms.html">Local LLMs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="llama.html">llama.cpp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="terraform/terraform.html">Terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="containerlab/index.html">Containerlab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ssh-public-key-auth.html">ssh public key authentication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="post-quantum-safety.html">Post Quantum Safety</a></li>
 <li class="toctree-l2"><a class="reference internal" href="selinux/selinux.html">SELinux</a></li>
@@ -187,6 +204,7 @@ restart the server with a different nickname.</p>
 <li class="toctree-l2"><a class="reference internal" href="linux-benchmarking.html">Linux Benchmarking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html">Monitoring Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perf-analysis.html">Performance Analysis on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resize-vm-partition.html">Resize VM Partition</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>

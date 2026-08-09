@@ -23,8 +23,9 @@ fedora, it is as easy as running:
 
     sudo dnf install znc
 
-Fedora will also setup the systemd daemon that you can enable if you want. In
-order to setup the bouncer, run:
+Fedora will also setup the systemd daemon that you can enable if you want.
+
+In order to setup the bouncer, run:
 
 .. code-block:: bash
 
@@ -67,7 +68,7 @@ libera and disable ssl because it gave me problems.
     [ ** ]
     [ ?? ] Name [libera]: libera
     [ ?? ] Server host (host only): irc.libera.chat
-    [ ?? ] Server uses SSL? (yes/no) [no]: no
+    [ ?? ] Server uses SSL? (yes/no) [yes]: yes
     [ ?? ] Server port (1 to 65535) [6697]:
     [ ?? ] Server password (probably empty):
     [ ?? ] Initial channels: #linux
@@ -113,6 +114,7 @@ and connecting to it:
 
 .. code-block:: bash
 
+    /set irc.server.local.tls off
     /server add local localhost/1025
     /connect local -username=santo_ -password=my-password
 
@@ -124,11 +126,26 @@ or someone already registered that nickname and you need to change it. In this
 case, you can directly edit the ZNC config file in `~/.znc/configs/znc.conf` and
 restart the server with a different nickname.
 
-To join a channel use the =join= command:
+Weechat Commands
+----------------
+
+To move between buffers you can use `Alt+<buffer>` or:
+
+.. code-block:: bash
+
+   /buffer <number>
+
+To join a channel use the `join` command:
 
 .. code-block:: bash
 
     /join #<channel-name>
+
+Close a channel:
+
+.. code-block:: bash
+
+   /close
 
 A useful command in weechat is to enable mouse support:
 
@@ -136,3 +153,8 @@ A useful command in weechat is to enable mouse support:
 
     /mouse enable
 
+Get help:
+
+.. code-block:: bash
+
+   /help <command>
