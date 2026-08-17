@@ -7,6 +7,14 @@ Bird's eye view of the Linux kernel:
 
 .. image:: ../images/linux-kernel-map.png
 
+Important things not mentioned in the image above:
+
+* DRM
+
+* virtualization / confidential computing
+
+* tracing e debugging
+
 Networking Stack
 ----------------
 
