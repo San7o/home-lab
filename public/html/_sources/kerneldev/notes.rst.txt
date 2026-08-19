@@ -4,6 +4,8 @@ Linux Kernel Dev Notes
 The Kernel Commandments
 -----------------------
 
+aka some things to keep in mind.
+
 * Don't follow The Kernel Commandments blindly, use your brain
 
 * Use the proper memory allocation functions based on what you want:
