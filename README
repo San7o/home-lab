@@ -8,6 +8,10 @@ Experiment, play, and learn.
 Setup
 -----
 
+I currently have a Proxmox VE node with some virtual machines and containers.
+Everything is IaC with terraform and ansible. This is very simple for now, but I
+will complicate things the more I play with this.
+
 - Hypervisor: Proxmox
 
 - Servers:
@@ -25,9 +29,6 @@ Setup
     https://san7o.github.io/giovanni-diary/programming/linux/security-management-solutions.html
 
 - LLM Inference: ollama
-
-    https://san7o.github.io/giovanni-diary/programming/notes/local-llms-guide.html
-
 - Virtualization: qemu, libvirt
 - Contianers: dockerd, Dockhand dashboard
 - Firewall: firewalld, firewall-cmd

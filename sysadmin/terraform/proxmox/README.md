@@ -19,6 +19,9 @@ packer build -var-file='ubuntu-variables.pkr.hcl' ubuntu.pkr.hcl
 
 ## Terraform
 
+This terraform module creates and configures virtual machines in Proxmox VE
+using bpg/proxmox provider. It supports cloud-init initialization.
+
 ```bash
 terraform init
 terraform fmt

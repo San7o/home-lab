@@ -5,6 +5,7 @@ Networking
    :maxdepth: 2
    :caption: Contents:
 
+   ccna
    firewalld
    free-dns-names
    iptables
