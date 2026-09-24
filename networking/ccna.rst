@@ -202,3 +202,30 @@ other port.
 Note (for the exam) that the term "Ethernet Shared Media" refers to designs that
 use hubs and require CSMA/CD and therefore share bandwidth. A point-to-point
 network instead is built with switches.
+
+Chap 3: Fundamentals of WANs and IP Routing
+-------------------------------------------
+
+To make computer communicate between different networks far away, we use Wide
+area networks (WANs) links. We discuss two types of links: leased-line WANs
+(legacy) and Ethernet WANs.
+
+Leased-Linx WANs
+++++++++++++++++
+
+To connect LANs using a WAN, the internetwork uses a router connected to each
+LAN, with a WAN link between the routers.
+
+The leased line service, a physical layer service, delivers bits in both
+directions, at a predetermined speed, using full-duplex logic. This link is
+setup and maintained by telecommunication companies (hence the name leased,
+because they lease it) which manage the transmission of data over long
+distances. They put their equipment in buildings called central offices (COs).
+
+Since leased lines have been around since the 60s, they are known with many
+names. Mainly: leased circuit, circuit, serial link, serial line, point-to-point
+link, point-to-point line, T1, WAN link, link, Private line.
+
+To make use of the leased line, the routers on the ends of the line use one or
+two data-link protocols: High-Level Data Link Control (HDLC) or Point-to-Point
+Protocol (PPP). They provide similar functions to Ethernet.

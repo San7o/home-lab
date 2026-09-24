@@ -30,6 +30,10 @@ leverages perf events, which are in-kernel special instrumentation that perf can
 hook into. You can get a list of all the available events in your kernel via the
 command `perf list`.
 
+.. code-block:: bash
+
+   perf list
+
 We will now focus out attention on two perf subcommands: `record` and `report`.
 
 In order to record performance data , you can use `perf record <command>`, or
