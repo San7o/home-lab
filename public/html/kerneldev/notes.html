@@ -59,6 +59,12 @@ can sleep</p></li>
 <li><p><cite>GFP_ATOMIC</cite> used in interrupt handlers, bottom halves, soft irqs.</p></li>
 </ul>
 </div></blockquote>
+<p>Historically, there have been multiple “slab” allocators known as <cite>SLAB</cite> (K&amp;R
+free-list based), <cite>SLOB</cite> (cache friendly) and <cite>SLUB</cite> (fast and simple), but
+now you should use only SLUB. Indeed, SLOB has been fully deprecated and SLAB
+is soon to be. There are of course other allocators like the page allocator
+and continuous memory allocator that are used by the various <cite>kmalloc</cite>
+functions.</p>
 </li>
 <li><p>Thou shalt not sleep nor call <cite>kmalloc(size, GFP_KERNEL)</cite> in interrupt
 context.</p></li>
