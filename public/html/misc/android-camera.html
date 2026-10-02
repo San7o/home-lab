@@ -52,16 +52,29 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 </pre></div>
 </div>
 <p>Load the module to create the virtual webcam:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>modprobe<span class="w"> </span>v4l2loopback
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>modprobe<span class="w"> </span>v4l2loopback<span class="w"> </span><span class="nv">exclusive_caps</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">card_label</span><span class="o">=</span><span class="s2">&quot;Android Camera&quot;</span><span class="w"> </span><span class="nv">video_nr</span><span class="o">=</span><span class="m">2</span>
 </pre></div>
 </div>
 <p>Download and run scrcpy, following the <a class="reference external" href="https://scrcpyapp.org/en/guides/linux/">documentation</a>, then unpack it and run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scrcpy<span class="w"> </span>--video-source<span class="o">=</span>camera<span class="w"> </span>--camera-size<span class="o">=</span>1920x1080<span class="w"> </span>--v4l2-sink<span class="o">=</span>/dev/video2
 </pre></div>
 </div>
-<p>Where <cite>/dev/video2</cite> is the device corresponding to the android device. And there
+<p>Where <cite>/dev/video2</cite> is the device corresponding to the android device, which
+corresponds to the <cite>video_nr</cite> parameter passed to the kernel module. And there
 we go. You can add <cite>–camera-facing=front</cite> if you want to get the front camera.
 The new camera should be available on Discord and other applications.</p>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<p>It may happen that after unplugging and plugging the android device, <cite>adb</cite> does
+not authorize the connection anymore. To solve this, first try to restart adb:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adb<span class="w"> </span>kill-server
+adb<span class="w"> </span>start-server
+</pre></div>
+</div>
+<p>If that did not work, go to you device and disable USB debug and remove all old
+authorizations for them. Then enable it again and connect the device to your
+Linux machine and see if it prompts you for permissions.</p>
+</section>
 </section>
 
 
