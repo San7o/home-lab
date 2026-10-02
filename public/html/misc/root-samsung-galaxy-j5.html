@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to root a Samsung Galaxy J5 (2016) &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TODO" href="../TODO.html" />
+    <link rel="prev" title="WARP" href="warp.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="how-to-root-a-samsung-galaxy-j5-2016">
+<h1>How to root a Samsung Galaxy J5 (2016)<a class="headerlink" href="#how-to-root-a-samsung-galaxy-j5-2016" title="Link to this heading">¶</a></h1>
+<p>Index:</p>
+<ul class="simple">
+<li><p>The processes</p></li>
+<li><ol class="arabic simple">
+<li><p>Boot a custom recovery image</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>Install a special applications</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="3">
+<li><p>Enjoy the power</p></li>
+</ol>
+</li>
+<li><p>Installing an alternative OS</p></li>
+</ul>
+<p>Rooting android your first time is a frustrating experience at best.
+It took me more than necessary to get root privileges on my phone,
+therefore I am writing a quick guide for my future self when he will
+need my assistance. This document explains the steps I took to
+successfully root my android phone.</p>
+<p>Note that the process may vary in several ways, mainly depending on
+the model of the phone you are trying to root. This guide is written
+specifically for the Samsung Galaxy J5 (2016), however most of the
+steps should be similar hopefully. It is advised to read this article
+first before attempting to root your phone.</p>
+<section id="the-process">
+<h2>The process<a class="headerlink" href="#the-process" title="Link to this heading">¶</a></h2>
+<p>To root a phone we need something with root privileges to grant us the same
+status. Of course, stock Android will never let us get even a glimpse of this
+power for security reasons so we need to find a workaround.  The solution is to
+boot a custom recovery image, which has high privileges, to install some
+applications with root status. We can leverage this to install a special app
+that gives permissions to other apps during normal system execution.</p>
+<p>To recap, we need to do the following to achieve root:</p>
+<ol class="arabic simple">
+<li><p>Boot a custom recovery image</p></li>
+<li><p>Install a special application</p></li>
+<li><p>Enjoy the power</p></li>
+</ol>
+<p>Note that you might mess things up and lose all your data, so be prepared.
+Probably you will also lose your device’s warranty.</p>
+<p>You have been warned :-)</p>
+</section>
+<section id="boot-a-custom-recovery-image">
+<h2>1. Boot a custom recovery image<a class="headerlink" href="#boot-a-custom-recovery-image" title="Link to this heading">¶</a></h2>
+<p>We need to download a custom recovery image for your phone model. There are many
+good alternatives, I used TWRP and it can be downloaded from the official
+website. Note that you need to choose the right version based on your phone.  I
+downloaded the <code class="docutils literal notranslate"><span class="pre">.img</span></code> file, compressed it in a tar archive and renamed it
+<code class="docutils literal notranslate"><span class="pre">recovery.tar</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://.../something.img
+tar<span class="w"> </span>-cf<span class="w"> </span>something.tar<span class="w"> </span>something.img
+mv<span class="w"> </span>something.img<span class="w"> </span>recovery.zip
+</pre></div>
+</div>
+<p>Now we need to put this into our device. We need to boot into download mode
+which on my smartphone is <code class="docutils literal notranslate"><span class="pre">VOL_DOWN</span> <span class="pre">+</span> <span class="pre">HOME</span> <span class="pre">+</span> <span class="pre">POWER</span></code>. After this we can
+interact with the device, I used <code class="docutils literal notranslate"><span class="pre">odin4</span></code> (linux version) for this. To check
+that oding can talk to the device, run <code class="docutils literal notranslate"><span class="pre">odin4</span> <span class="pre">-l</span></code> and expect some output. If
+it does not show anything I cannot help you, it is probably a driver problem,
+good luck, I believe in you, trust in yourself, you are strong. If you get some
+permission error, you need to set something on your udev, just follow closely
+the help output and you should be good to go.</p>
+<p>Then load the recovery mode with <code class="docutils literal notranslate"><span class="pre">odin4</span> <span class="pre">-a</span> <span class="pre">recovery.zip</span></code> and, IMMEDIATELY
+after it finishes, you need to boot in recovery mode, which on my phone is done
+via <code class="docutils literal notranslate"><span class="pre">VOL_UP</span> <span class="pre">+</span> <span class="pre">HOME</span> <span class="pre">+</span> <span class="pre">POWER</span></code>. You need to be QUICK, REALLY QUICK!!! Keep trying
+until you manage to do this. If everything was successful, you are now greeted
+with a cool recovery program.</p>
+</section>
+<section id="become-root">
+<h2>2. Become root<a class="headerlink" href="#become-root" title="Link to this heading">¶</a></h2>
+<p>We now need to install something that will make other things root. We can use
+Magisk, you can download the apk from the official github releases and rename it
+to a <code class="docutils literal notranslate"><span class="pre">.zip</span></code> file. We need to send it to the device and we will use <code class="docutils literal notranslate"><span class="pre">adb</span></code>
+from the official platform tools. Just extract the archive.</p>
+<p>On the device, select <code class="docutils literal notranslate"><span class="pre">advanced</span> <span class="pre">-&gt;</span> <span class="pre">sideload</span> <span class="pre">-&gt;</span> <span class="pre">swipe</span> <span class="pre">to</span> <span class="pre">start</span>
+<span class="pre">sideload</span></code>.  On your pc, run <code class="docutils literal notranslate"><span class="pre">adb</span> <span class="pre">sideload</span> <span class="pre">app-release.zip</span></code>, this
+should install magisk and it should show the installation on the
+phone. After this finishes, reboot your phone, go to your apps and
+open Magisk, it may ask to be installed again, just say yes, follow
+the installation instructions (just tap two buttons), maybe close it
+and reopen it, reboot and…  we are root!</p>
+<p>You can check this by installing RootChecker.</p>
+</section>
+<section id="enjoy-the-power">
+<h2>3. Enjoy the power<a class="headerlink" href="#enjoy-the-power" title="Link to this heading">¶</a></h2>
+<p>Now that you are root you can do a bunch of cool things like wipe out everything
+and install gentoo. A more useful thing would be to install an adblocker (I’d
+suggest <code class="docutils literal notranslate"><span class="pre">adAway</span></code>) so that you can actually read blogs and news in peace.</p>
+</section>
+<section id="installing-an-alternative-os">
+<h2>Installing an alternative OS<a class="headerlink" href="#installing-an-alternative-os" title="Link to this heading">¶</a></h2>
+<p>There are plenty of alternatives and variations of Android out there, the only
+constraint is that they need to support your phone.  You could theoretically
+make your own build but I have no idea how you would resolve drivers. I aplogize
+for my ignorance, you’ll have to figure it out some day.  I found <a class="reference external" href="https://community.e.foundation/t/unofficial-builds-samsung-galaxy-j5-series-for-e-os-r/56461/3">this</a>
+unofficial build of eOS, hopefully the link still works.</p>
+<p>After you have installed the custom recovery media, you can start the sideload
+just as you did for Makisk in the previous section, and load the downloaded
+archive. That is really it, you should have a working OS.  If the process fails
+and you cannot boot the OS correctly, you should be able to access the recovery
+mode on startup assuming that you can turn off your device. In my experience,
+when the boot broke, I could not power it off so I just removed the battery and
+rebooted. Unfortunately, you cannot do this in new phones (sight), so you may
+try to make it discharge until ti powerd off, gook luck.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Misc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blogs.html">Blogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development-loop.html">Development Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="udev.html">Udev rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pgp.html">Pgp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gstreamer.html">Gstreamer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objdump.html">Readelf and Objdump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm-c-ffi.html">Wasm-C FFI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="institutions.html">Tech Institutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="legislations.html">Legislations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rss.html">RSS Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="groupsio.html">Groups.io Mailing Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="attribute.html">Compiler Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="swd.html">SWD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="warp.html">WARP</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to root a Samsung Galaxy J5 (2016)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Misc</a><ul>
+      <li>Previous: <a href="warp.html" title="previous chapter">WARP</a></li>
+      <li>Next: <a href="../TODO.html" title="next chapter">TODO</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/misc/root-samsung-galaxy-j5.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

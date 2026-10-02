@@ -21,3 +21,5 @@ Notes that do not fall in other categories.
    attribute
    swd
    warp
+   root-samsung-galaxy-j5.rst
+

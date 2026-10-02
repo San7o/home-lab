@@ -1,0 +1,117 @@
+How to root a Samsung Galaxy J5 (2016)
+=====================================
+
+Index:
+
+* The processes
+* 1. Boot a custom recovery image
+* 2. Install a special applications
+* 3. Enjoy the power
+* Installing an alternative OS
+
+Rooting android your first time is a frustrating experience at best.
+It took me more than necessary to get root privileges on my phone,
+therefore I am writing a quick guide for my future self when he will
+need my assistance. This document explains the steps I took to
+successfully root my android phone.
+
+Note that the process may vary in several ways, mainly depending on
+the model of the phone you are trying to root. This guide is written
+specifically for the Samsung Galaxy J5 (2016), however most of the
+steps should be similar hopefully. It is advised to read this article
+first before attempting to root your phone.
+
+The process
+-----------
+
+To root a phone we need something with root privileges to grant us the same
+status. Of course, stock Android will never let us get even a glimpse of this
+power for security reasons so we need to find a workaround.  The solution is to
+boot a custom recovery image, which has high privileges, to install some
+applications with root status. We can leverage this to install a special app
+that gives permissions to other apps during normal system execution.
+
+To recap, we need to do the following to achieve root:
+
+1. Boot a custom recovery image
+2. Install a special application
+3. Enjoy the power
+
+Note that you might mess things up and lose all your data, so be prepared.
+Probably you will also lose your device's warranty.
+
+You have been warned :-)
+
+1. Boot a custom recovery image
+------------------------------
+
+We need to download a custom recovery image for your phone model. There are many
+good alternatives, I used TWRP and it can be downloaded from the official
+website. Note that you need to choose the right version based on your phone.  I
+downloaded the ``.img`` file, compressed it in a tar archive and renamed it
+``recovery.tar``.
+
+.. code-block:: bash
+
+   wget https://.../something.img
+   tar -cf something.tar something.img
+   mv something.img recovery.zip
+
+Now we need to put this into our device. We need to boot into download mode
+which on my smartphone is ``VOL_DOWN + HOME + POWER``. After this we can
+interact with the device, I used ``odin4`` (linux version) for this. To check
+that oding can talk to the device, run ``odin4 -l`` and expect some output. If
+it does not show anything I cannot help you, it is probably a driver problem,
+good luck, I believe in you, trust in yourself, you are strong. If you get some
+permission error, you need to set something on your udev, just follow closely
+the help output and you should be good to go.
+
+Then load the recovery mode with ``odin4 -a recovery.zip`` and, IMMEDIATELY
+after it finishes, you need to boot in recovery mode, which on my phone is done
+via ``VOL_UP + HOME + POWER``. You need to be QUICK, REALLY QUICK!!! Keep trying
+until you manage to do this. If everything was successful, you are now greeted
+with a cool recovery program.
+
+2. Become root
+--------------
+
+We now need to install something that will make other things root. We can use
+Magisk, you can download the apk from the official github releases and rename it
+to a ``.zip`` file. We need to send it to the device and we will use ``adb``
+from the official platform tools. Just extract the archive.
+
+On the device, select ``advanced -> sideload -> swipe to start
+sideload``.  On your pc, run ``adb sideload app-release.zip``, this
+should install magisk and it should show the installation on the
+phone. After this finishes, reboot your phone, go to your apps and
+open Magisk, it may ask to be installed again, just say yes, follow
+the installation instructions (just tap two buttons), maybe close it
+and reopen it, reboot and...  we are root!
+
+You can check this by installing RootChecker.
+
+3. Enjoy the power
+------------------
+
+Now that you are root you can do a bunch of cool things like wipe out everything
+and install gentoo. A more useful thing would be to install an adblocker (I'd
+suggest ``adAway``) so that you can actually read blogs and news in peace.
+
+Installing an alternative OS
+----------------------------
+
+There are plenty of alternatives and variations of Android out there, the only
+constraint is that they need to support your phone.  You could theoretically
+make your own build but I have no idea how you would resolve drivers. I aplogize
+for my ignorance, you'll have to figure it out some day.  I found `this
+<https://community.e.foundation/t/unofficial-builds-samsung-galaxy-j5-series-for-e-os-r/56461/3>`_
+unofficial build of eOS, hopefully the link still works.
+
+After you have installed the custom recovery media, you can start the sideload
+just as you did for Makisk in the previous section, and load the downloaded
+archive. That is really it, you should have a working OS.  If the process fails
+and you cannot boot the OS correctly, you should be able to access the recovery
+mode on startup assuming that you can turn off your device. In my experience,
+when the boot broke, I could not power it off so I just removed the battery and
+rebooted. Unfortunately, you cannot do this in new phones (sight), so you may
+try to make it discharge until ti powerd off, gook luck.
