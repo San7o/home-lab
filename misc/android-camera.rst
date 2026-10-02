@@ -35,7 +35,7 @@ Download and run scrcpy, following the `documentation
 
 .. code-block:: bash
 
-    ./scrcpy --video-source=camera --camera-size=1920x1080 --v4l2-sink=/dev/video2
+    ./scrcpy --video-source=camera --camera-size=1920x1080 --v4l2-sink=/dev/video2 --no-audio
 
 Where `/dev/video2` is the device corresponding to the android device, which
 corresponds to the `video_nr` parameter passed to the kernel module. And there

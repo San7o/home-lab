@@ -143,6 +143,25 @@ examples:
 </pre></div>
 </div>
 </section>
+<section id="dump-dt-from-a-running-kernel">
+<h2>Dump DT from a running kernel<a class="headerlink" href="#dump-dt-from-a-running-kernel" title="Link to this heading">¶</a></h2>
+<p>Do the following to dump the DT from a running ARM kernel.</p>
+<p>First, create a tarball of the contents of <cite>/proc/device-tree</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>-czf<span class="w"> </span>devicetree.tar.gz<span class="w"> </span>/proc/device-tree
+</pre></div>
+</div>
+<p>Move this file to your development Linux machine. You should know how. For
+example, to copy a file from an Android device, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>adb<span class="w"> </span>pull<span class="w"> </span>/storage/self/primary/devicetree.tar.gz<span class="w"> </span>/tmp/devicetree.tar.gz
+</pre></div>
+</div>
+<p>Finally extract this tarball and create a plaintext file with <cite>dtc</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>-xzf<span class="w"> </span>devicetree.tar.gz
+dtc<span class="w"> </span>-I<span class="w"> </span>fs<span class="w"> </span>-O<span class="w"> </span>dts<span class="w"> </span>-o<span class="w"> </span>complete_devicetree.dts<span class="w"> </span>./proc/device-tree
+</pre></div>
+</div>
+<p>And volia’, you have dumped the device tree!</p>
+</section>
 </section>
 
 
@@ -164,10 +183,10 @@ examples:
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
 <li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>

@@ -122,3 +122,30 @@ Validate one DTS against one binding:
 .. code-block:: bash
 
    make CHECK_DTBS=y qcom/sm8450-hdk.dtb DT_SCHEMA_FILES=trivial-devices.yaml
+
+Dump DT from a running kernel
+------------------------------------
+
+Do the following to dump the DT from a running ARM kernel.
+
+First, create a tarball of the contents of `/proc/device-tree`:
+
+.. code-block:: bash
+
+   tar -czf devicetree.tar.gz /proc/device-tree
+
+Move this file to your development Linux machine. You should know how. For
+example, to copy a file from an Android device, run:
+
+.. code-block:: bash
+
+   adb pull /storage/self/primary/devicetree.tar.gz /tmp/devicetree.tar.gz
+
+Finally extract this tarball and create a plaintext file with `dtc`:
+
+.. code-block:: bash
+
+   tar -xzf devicetree.tar.gz
+   dtc -I fs -O dts -o complete_devicetree.dts ./proc/device-tree
+
+And volia', you have dumped the device tree!
