@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Linux Architecture Diagrams" href="architecture.html" />
-    <link rel="prev" title="Kernel Development" href="index.html" />
+    <link rel="prev" title="History" href="history.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -69,13 +69,94 @@ functions.</p>
 <li><p>Thou shalt not sleep nor call <cite>kmalloc(size, GFP_KERNEL)</cite> in interrupt
 context.</p></li>
 <li><p>Thou shalt use <cite>rmb()</cite> and <cite>wmb()</cite> before or after <cite>iowrite()</cite> or <cite>ioread()</cite>
-to instruct o’slave compiler to produce the side effects when you need them.</p></li>
+to instruct o’slave compiler to produce the side effects when you need them.
+An <cite>udelay()</cite> after the write may be good to have, to wait for the operation
+to complete.</p></li>
 <li><p>Dereferencing a <cite>__user</cite> pointer is strictly forbidden, even to the bravest
-and enlightened kernel developer.</p></li>
+and enlightened kernel developer. You need to read from an user pointer with
+<cite>copy_from_user()</cite> and write with <cite>copy_to_user()</cite>.</p></li>
 <li><p>A good C developer always cleans up its garbage, in reverse initialization
 order.</p></li>
-<li><p>Thou shalt synchronize an RCU data structure before writing to it</p></li>
-<li><p>Thou shalt use floating point ops only in a special fpu context</p></li>
+<li><p>Thou shalt synchronize an RCU data structure before writing to it. The RCU api
+is the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>rcu_read_lock()</cite>: used by a reader to inform the reclaimer that the
+reader is enetering an RCU read-side critical section. It is illegal to
+block while in an RCU read-side critical-section, tough kernels built with
+<cite>CONFIG_PREEMPT_RCU</cite> can preempt RCU read-side critical sections.</p></li>
+<li><p><cite>rcu_read_unlock()</cite>: used by a reader to inform the relcaimer that the
+reader is exiting an RCU read-size critical section.</p></li>
+<li><p><cite>synchronize_rcu()</cite> / <cite>call_rcu()</cite>: mark the end of updater code and the
+beginning of reclaimer code. It does this by blocking until all
+pre-existing RCU read-side critical sections on all CPUs have completed.
+Use <cite>call_rcu()</cite> if the thread cannot block, which will call a callback.</p></li>
+<li><p><cite>rcu_assign_pointer()</cite>: the updater uses this macro to assign a new value
+to an RCU-protected pointer, in order to safely communicate the change in
+value from the updater to the reader.</p></li>
+<li><p><cite>rcu_dereference()</cite>: the reader uses this macro to fetch an RCU-protected
+pointer, which returns a value that may then be safely dereferenced.</p></li>
+<li><p>Other specific apis, such as for lists</p></li>
+</ul>
+</div></blockquote>
+<p>For example, a reader would look like the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">rcu_read_lock</span><span class="p">();</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rcu_dereference</span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="p">);</span>
+<span class="c1">// Do stuff with p ...</span>
+<span class="n">rcu_read_unlock</span><span class="p">();</span>
+<span class="c1">// Cannout use p anymore</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">address</span><span class="p">;</span><span class="w"> </span><span class="cm">/* BUG!!! */</span>
+<span class="n">rcu_read_lock</span><span class="p">();</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span><span class="w">    </span><span class="cm">/* BUG!!! */</span>
+<span class="n">rcu_read_unlock</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Example writer:</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">my_node</span><span class="w"> </span><span class="o">*</span><span class="n">old_node</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">new_node</span><span class="p">;</span>
+
+<span class="c1">// Allocate and populate the replacement object</span>
+<span class="n">new_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">new_node</span><span class="p">),</span><span class="w"> </span><span class="n">GFP_KERNEL</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">new_node</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xDEADBEEF</span><span class="p">;</span>
+<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+
+<span class="c1">// Acquire the writer lock to serialize concurrent updates</span>
+<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">writer_lock</span><span class="p">);</span>
+
+<span class="c1">// Grab the current pointer safely (under the writer lock)</span>
+<span class="n">old_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rcu_dereference_protected</span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="p">,</span><span class="w"> </span><span class="n">lockdep_is_held</span><span class="p">(</span><span class="o">&amp;</span><span class="n">writer_lock</span><span class="p">));</span>
+
+<span class="c1">// Link the new node into the structure</span>
+<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_node</span><span class="p">;</span>
+<span class="n">rcu_assign_pointer</span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="p">,</span><span class="w"> </span><span class="n">new_node</span><span class="p">);</span>
+
+<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">writer_lock</span><span class="p">);</span>
+
+<span class="c1">// Wait for all pre-existing readers to finish their critical sections</span>
+<span class="n">synchronize_rcu</span><span class="p">();</span>
+
+<span class="c1">// Safe to free the old node now that no reader can possibly see it</span>
+<span class="n">kfree</span><span class="p">(</span><span class="n">old_node</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The real power of RCU is zero-cost read sides. You could implement this
+through “smart pointers” and reference counting, but that would mean that
+readers need to interact with a variable (the counter) across CPUs and cause
+lots of cache misses. With RCU, a reader only increases its own per-CPU
+counter, and all CPUs are synchronized during reclaim time (after a grace
+period) in <cite>synchronize_rcu()</cite>. This traces space-time complexity at read time
+for asynchronous tracking at reclaim time.</p>
+</div></blockquote>
+<ul>
+<li><p>Thou shalt use floating point ops only in a special fpu context. Relevant
+functions are: <cite>kernel_fpu_available()</cite>, <cite>kernel_fpu_begin()</cite>,
+<cite>kernel_fpu_end()</cite>.</p></li>
+<li><p>Lists are of type <cite>struct list_head</cite>, an element can be accessed via
+<cite>container_of()</cite>. Hash maps are of type <cite>struct hlist_head</cite>.</p></li>
 <li><p>Thou shalt never use sysfs API directly, unless he works deep in filesystems.
 Always use groups, or you will create a race condition and made fun of
 (<cite>sysfs_create_group</cite>)</p></li>
@@ -115,7 +196,7 @@ during probing. Otherwise use <cite>dev_err()</cite>, <cite>dev_warn()</cite> an
 when printing from a device, as they prepend the device name in the logs.</p></li>
 <li><p>Add trailing commas in all entries of an array or struct.</p></li>
 <li><p>If you are fixing a build error, show the build error in the patch (maybe
-after the <cite>—</cite>?)</p></li>
+after the three <cite>-</cite>?)</p></li>
 <li><p>Sort the headers alphabetically</p></li>
 <li><p>If a <cite>static struct</cite> never changes, mark it as <cite>static const struct</cite>. Show
 size of elf sections before and after the change.</p></li>
@@ -124,8 +205,8 @@ size of elf sections before and after the change.</p></li>
 <ul class="simple">
 <li><p>Do not register stuff in <cite>procfs</cite>, <cite>debugfs</cite> or <cite>ioctls</cite>, modern netdev uses
 only <cite>netlink</cite>.</p></li>
-<li><p>When declaring variables at the start of a function, netdev uses reverse
-christmas tree, longest lines first, shortest last.</p></li>
+<li><p>When declaring variables at the start of a function, netdev use an autistic
+order called reverse christmas tree: longest lines first, shortest last.</p></li>
 </ul>
 </section>
 <section id="useful-commands">
@@ -161,7 +242,7 @@ make<span class="w"> </span>TAGS
 <section id="sending-a-patch">
 <h2>Sending a patch<a class="headerlink" href="#sending-a-patch" title="Link to this heading">¶</a></h2>
 <p>Make your modifications (after running checkpatch and coccinelle):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure your ~/.gitconfig is correct</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure your ~/.gitconfig is correct and can send emails</span>
 git<span class="w"> </span>commit<span class="w"> </span>-s
 </pre></div>
 </div>
@@ -229,23 +310,30 @@ binary.</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interrupts.html">Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mm.html">Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
-<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edk2.html">EDK II</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netbsd-custom-kernel.html">Build a custom NetBSD Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
@@ -260,7 +348,7 @@ binary.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Kernel Development</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Kernel Development</a></li>
+      <li>Previous: <a href="history.html" title="previous chapter">History</a></li>
       <li>Next: <a href="architecture.html" title="next chapter">Linux Architecture Diagrams</a></li>
   </ul></li>
   </ul></li>

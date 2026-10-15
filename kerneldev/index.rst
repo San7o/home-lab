@@ -1,25 +1,53 @@
 Kernel Development
 ==================
 
+    The operating system is a resource manager under the hood, and an user
+    interface on top
+
+Hardware fundamentals:
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+
+   memories
+   io-interfaces
+   interrupts
+   renode
+
+Operating systems fundamentals:
+
+.. toctree::
+   :maxdepth: 2
+
+   mm
+   history
+
+Linux:
+
+.. toctree::
+   :maxdepth: 2
 
    notes
    architecture
-   io-interfaces
-   memories
    building
-   yocto
-   buildroot
    devicetree
    bsp
+   yocto
+   buildroot
    testing-linux
    routine
+   resources
+   possible-improvements
+
+Friends:
+
+.. toctree::
+   :maxdepth: 2
+
    seL4
    u-boot
    edk2
    netbsd-custom-kernel
-   renode
    resources
-
+   possible-improvements
+   history

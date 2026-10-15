@@ -13,7 +13,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Linux Kernel Dev Notes" href="notes.html" />
+    <link rel="next" title="Memory Technologies" href="memories.html" />
     <link rel="prev" title="Home Lab" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -34,8 +34,48 @@
             
   <section id="kernel-development">
 <h1>Kernel Development<a class="headerlink" href="#kernel-development" title="Link to this heading">¶</a></h1>
+<blockquote>
+<div><p>The operating system is a resource manager under the hood, and an user
+interface on top</p>
+</div></blockquote>
+<p>Hardware fundamentals:</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="memories.html">Memory Technologies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memories.html#volatile">Volatile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memories.html#non-volatile">Non volatile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html#embedded-interfaces">Embedded Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html#pc-interfaces">PC Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html#data">Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interrupts.html">Interrupts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renode.html">Renode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="renode.html#commands">Commands</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Operating systems fundamentals:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mm.html">Memory Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#generations">Generations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#unix">Unix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#bsd">BSD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#minix">Minix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#nt">NT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#linux">Linux</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Linux:</p>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="notes.html#the-kernel-commandments">The Kernel Commandments</a></li>
@@ -52,23 +92,18 @@
 <li class="toctree-l2"><a class="reference internal" href="architecture.html#sankey-diagram">Sankey diagram</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html#embedded-interfaces">Embedded Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html#pc-interfaces">PC Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html#data">Data</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="memories.html">Memory Technologies</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="memories.html#volatile">Volatile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="memories.html#non-volatile">Non volatile</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building Linux</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="building.html#vanilla">Vanilla</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html#tuxmake">Tuxmake</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html#build-configs">Build Configs</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="devicetree.html">Devicetree</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="devicetree.html#dt-bindings">DT Bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devicetree.html#dump-dt-from-a-running-kernel">Dump DT from a running kernel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yocto.html">Yocto</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="yocto.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="yocto.html#file-formats">File Formats</a></li>
@@ -81,12 +116,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="devicetree.html">Devicetree</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="devicetree.html#dt-bindings">DT Bindings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="devicetree.html#dump-dt-from-a-running-kernel">Dump DT from a running kernel</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing-linux.html">Testing Linux</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html#kunit">KUnit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html#kselftest">kselftest</a></li>
@@ -98,6 +127,20 @@
 <li class="toctree-l2"><a class="reference internal" href="routine.html#night-routine">Night routine</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Kernel Dev Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="resources.html#important">Important</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html#secondary-but-important">Secondary but important</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html#good-documentation">Good documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html#others">Others</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html#notable-patches">Notable patches</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+</ul>
+</div>
+<p>Friends:</p>
+<div class="toctree-wrapper compound">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="seL4.html">seL4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="u-boot.html">U-boot</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="u-boot.html#quickstart">Quickstart</a></li>
@@ -119,16 +162,22 @@
 <li class="toctree-l2"><a class="reference internal" href="netbsd-custom-kernel.html#installing-the-new-kernel">Installing the new kernel</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="renode.html">Renode</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="renode.html#commands">Commands</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="resources.html">Kernel Dev Resources</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="resources.html#important">Important</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resources.html#secondary-but-important">Secondary but important</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resources.html#good-documentation">Good documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resources.html#others">Others</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resources.html#notable-patches">Notable patches</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#generations">Generations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#unix">Unix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#bsd">BSD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#minix">Minix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#nt">NT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#linux">Linux</a></li>
 </ul>
 </li>
 </ul>
@@ -154,23 +203,30 @@
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Kernel Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interrupts.html">Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mm.html">Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
-<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edk2.html">EDK II</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netbsd-custom-kernel.html">Build a custom NetBSD Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
@@ -185,7 +241,7 @@
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="../index.html" title="previous chapter">Home Lab</a></li>
-      <li>Next: <a href="notes.html" title="next chapter">Linux Kernel Dev Notes</a></li>
+      <li>Next: <a href="memories.html" title="next chapter">Memory Technologies</a></li>
   </ul></li>
 </ul>
 </div>
