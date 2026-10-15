@@ -13,7 +13,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="History" href="history.html" />
+    <link rel="next" title="Deadlocks" href="deadlocks.html" />
     <link rel="prev" title="Renode" href="renode.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -34,7 +34,30 @@
             
   <section id="memory-management">
 <h1>Memory Management<a class="headerlink" href="#memory-management" title="Link to this heading">¶</a></h1>
-<p>TODO: <a class="reference external" href="https://www.youtube.com/watch?v=j4rMF6kDdDo">https://www.youtube.com/watch?v=j4rMF6kDdDo</a></p>
+<p>A great book to understand memory management is “The Linux Memory Manager” by
+Lorenzo Stoakes (maintainer of the mm subsystem).</p>
+<p>There is also <a class="reference external" href="https://www.youtube.com/watch?v=j4rMF6kDdDo">this youtube channel</a> with interesting videos.</p>
+<section id="physical-memory">
+<h2>Physical Memory<a class="headerlink" href="#physical-memory" title="Link to this heading">¶</a></h2>
+<p>Physical memory describes all of the memory on a system which can be addressed
+arbitrarily by at least one core. Physical memory is represented by the
+<cite>phys_addr_t</cite> type and is divided into blocks called <cite>pages</cite>, each one of
+<cite>PAGE_SIZE</cite> bytes (which is the hardware minimum supported page size depending
+on the architecture). We hay have multiple CPU sockets with some memory attached
+to a CPU and some other memory on another CPU. These systems are said to have
+non-uniform memory access (NUMA). Therefore, we divide the memory into
+physically continuous <cite>nodes</cite> (a page belongs to one and only one node), which
+are further divided into <cite>ranges</cite> known as <cite>zones</cite> (which may overlap nodes).
+For efficiency, the kernel allocates memory in power-of-two number of pages at a
+time, with the <cite>order</cite> of an allocated page being equal to the power number (an
+order-3 allocation consists of 2^3 pages). Each base page of physical memory has
+metadata associated with it, stored in a <cite>struct page</cite> object, with aggregate
+blocks of one or more base pages represented as a <cite>struct folio</cite> object. A <em>page
+frame number</em> is the physical address divided by the page size. Memory is
+further divided into <cite>page blocks</cite> of order <cite>pageblock_order</cite> (9 on x86-64),
+which are the smallest number of pages which can have a <cite>migraty type</cite> applied
+to them so they can be <cite>migrated</cite> i.e. moved around.</p>
+</section>
 </section>
 
 
@@ -61,9 +84,10 @@
 <li class="toctree-l2"><a class="reference internal" href="interrupts.html">Interrupts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deadlocks.html">Deadlocks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
@@ -76,6 +100,8 @@
 <li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edk2.html">EDK II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="armbian.html">Armbian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openwrt.html">OpenWRT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netbsd-custom-kernel.html">Build a custom NetBSD Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
@@ -95,7 +121,7 @@
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Kernel Development</a><ul>
       <li>Previous: <a href="renode.html" title="previous chapter">Renode</a></li>
-      <li>Next: <a href="history.html" title="next chapter">History</a></li>
+      <li>Next: <a href="deadlocks.html" title="next chapter">Deadlocks</a></li>
   </ul></li>
   </ul></li>
 </ul>

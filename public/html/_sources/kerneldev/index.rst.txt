@@ -28,8 +28,8 @@ Linux:
 .. toctree::
    :maxdepth: 2
 
-   notes
    architecture
+   notes
    building
    devicetree
    bsp

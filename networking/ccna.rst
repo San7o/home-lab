@@ -7,8 +7,8 @@ To access the digital version of the book (you must have paid it):
 
     https://www.ciscopress.com/
 
-Chap. 1: Introduction to TCP/IP networking
-------------------------------------------
+Chap 1: Introduction to TCP/IP networking
+-----------------------------------------
 
 Chapter 1 introduces the basics of the TCP/IP networking model with the ISO/OSI
 nomenclature (link, network, transport, application), the concept of

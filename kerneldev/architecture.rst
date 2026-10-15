@@ -13,7 +13,7 @@ Important things not mentioned in the image above:
 
 * virtualization / confidential computing
 
-* tracing e debugging
+* tracing and debugging
 
 Networking Stack
 ----------------
