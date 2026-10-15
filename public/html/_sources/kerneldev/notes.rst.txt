@@ -122,10 +122,17 @@ Example writer:
   The real power of RCU is zero-cost read sides. You could implement this
   through "smart pointers" and reference counting, but that would mean that
   readers need to interact with a variable (the counter) across CPUs and cause
-  lots of cache misses. With RCU, a reader only increases its own per-CPU
+  lots of cache misses. With RCU, a reader only increases its own per-task
   counter, and all CPUs are synchronized during reclaim time (after a grace
   period) in `synchronize_rcu()`. This traces space-time complexity at read time
   for asynchronous tracking at reclaim time.
+
+  Note that a new solution called Hazard Pointers can be used instead of RCU for
+  some situations. This solves the ABA problem where you may have multiple
+  writers swapping the structure's pointer atomically, without synchronizing
+  each other, so the changes on one of them would be lost. So writers usually
+  use a lock, or use hazard pointers instead of RCU. More info:
+  https://lwn.net/Articles/1084015/
 
 * Thou shalt use floating point ops only in a special fpu context. Relevant
   functions are: `kernel_fpu_available()`, `kernel_fpu_begin()`,

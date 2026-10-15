@@ -20,6 +20,7 @@ Operating systems fundamentals:
    :maxdepth: 2
 
    mm
+   deadlocks
    history
 
 Linux:
@@ -47,6 +48,8 @@ Friends:
    seL4
    u-boot
    edk2
+   armbian
+   openwrt
    netbsd-custom-kernel
    resources
    possible-improvements

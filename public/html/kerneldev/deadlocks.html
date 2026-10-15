@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Deadlocks &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="History" href="history.html" />
+    <link rel="prev" title="Memory Management" href="mm.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="deadlocks">
+<h1>Deadlocks<a class="headerlink" href="#deadlocks" title="Link to this heading">¶</a></h1>
+<p>Before introducing the contents of this book, a good review of the most
+important notions on deadlocks is necessary. The contents of this chapter are
+mostly based on chapter 6 of “Modern Operating Systems” by Andrew S. Tanenbaum
+and Herbert Bos, Fourth Edition.</p>
+<p>For many applications, a process needs exclusive access to several resources. A
+<em>resource</em> can be of different type such as devices, data records, files, etc. A
+resource can be <em>preemptable</em> if it can be taken away from the process owning it
+with no ill effect, otherwise it is <em>nonpreemptable</em> (a Blu-ray CD cannot be
+taken from one writing process to the other without it becoming malformed). A
+set of processes is <em>deadlocked</em> if each process in the set is waiting for an
+event that only another process in the set can cause. In most cases, the event
+that each process is waiting for is the release of some resource currently
+possessed by another member of the set; such deadlocks are called <em>resource
+deadlocks</em>.</p>
+<p>In general, deadlocks involve non-preemptable resources. The abstract sequence
+of events required to use a resource is given below:</p>
+<ol class="arabic simple">
+<li><p>Request the resource</p></li>
+<li><p>Use the resource</p></li>
+<li><p>Release the resource</p></li>
+</ol>
+<p>For example, this pseudocode shows a function that requests and releases a
+semaphore.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">semaphore</span><span class="p">;</span>
+<span class="n">semaphore</span><span class="w"> </span><span class="n">resource_1</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">process_A</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">use_resource_1</span><span class="p">();</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If the resource is not available when it is requested, the requesting process is
+forced to wait.</p>
+<p>An example deadlock is the following. Notice the order of how resources are
+requested and try to think when a deadlock may happen:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">semaphore</span><span class="w"> </span><span class="n">resource_1</span><span class="p">;</span>
+<span class="n">semaphore</span><span class="w"> </span><span class="n">resource_2</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">process_A</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">use_both_resources</span><span class="p">();</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">process_B</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">use_both_resources</span><span class="p">();</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">resource_2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/gridlock.png"><img alt="../_images/gridlock.png" src="../_images/gridlock.png" style="width: 50%;" />
+</a>
+<section id="deadlock-conditions">
+<h2>Deadlock Conditions<a class="headerlink" href="#deadlock-conditions" title="Link to this heading">¶</a></h2>
+<p>Coffman et al. (1971) showed that four conditions must hold for there to be a
+(resource) deadlock:</p>
+<ul class="simple">
+<li><p><em>mutual exclusion condition</em>: each resource is either currently assigned to
+exactly one process or is available.</p></li>
+<li><p><em>hold-and-wait condition</em>: processes currently holding resources that were
+granted earlier can request new resources.</p></li>
+<li><p><em>non-preemption condition</em>: resources previously granted cannot be forcibly
+taken away from a process. They must be explicitly released by the process
+holding them.</p></li>
+<li><p><em>circular wait condition</em>: there must be a circular list of two or more
+processes, each of which is waiting for a resource held by the next member of
+the chain.</p></li>
+</ul>
+</section>
+<section id="deadlock-modeling">
+<h2>Deadlock Modeling<a class="headerlink" href="#deadlock-modeling" title="Link to this heading">¶</a></h2>
+<p>Holt (1972) showed how these four conditions can be modeled using directed
+graphs. The graphs have two kinds of nodes: processes and resources. A directed
+arc from a resource node to a process node means that the resource has
+previously been requested by, granted to, and is currently held by that process.
+A directed arc from a process to a resource means that the process is currently
+blocked waiting for that resource. A cycle in the graph means that there is a
+deadlock involving the processes and resources in the cycle.</p>
+<p>In general, four strategies are used for dealing with deadlocks:</p>
+<ol class="arabic simple">
+<li><p>Ostrich algorithm: Stick your head in the sand and just ignore the problem.
+Maybe if you ignore it, it will ignore you.</p></li>
+<li><p>Detection and recovery: Let them occur, detect them, and take actions.</p></li>
+<li><p>Dynamic avoidance by careful resource allocation.</p></li>
+<li><p>Prevention, by structurally negating one of the four conditions.</p></li>
+</ol>
+</section>
+<section id="deadlock-detection">
+<h2>Deadlock Detection<a class="headerlink" href="#deadlock-detection" title="Link to this heading">¶</a></h2>
+<p>Let us analyze a situation with only one resource of each type (one scanner, one
+plotter, one tape drive, etc.). To detect a deadlock, we can build the directed
+graph of processes and resources as explained earlier and check for a cycle (via
+a DFS or BFS).</p>
+<p>Let us now consider the more general case with multiple copies of the same
+resource, which requires a different approach. We will now present a
+matrix-based algorithm for detecting deadlock among <span class="math notranslate nohighlight">\(n\)</span> processes,
+<span class="math notranslate nohighlight">\(P_1\)</span> through <span class="math notranslate nohighlight">\(P_n\)</span>.</p>
+<ul class="simple">
+<li><p>Let the number of resource classes be <span class="math notranslate nohighlight">\(m\)</span>, with <span class="math notranslate nohighlight">\(E_1\)</span> resources of
+class <span class="math notranslate nohighlight">\(1\)</span>, <span class="math notranslate nohighlight">\(E_2\)</span> resources of class <span class="math notranslate nohighlight">\(2\)</span>, and generally,
+<span class="math notranslate nohighlight">\(E_i\)</span> resources of class <span class="math notranslate nohighlight">\(i\)</span> (<span class="math notranslate nohighlight">\(1 \le i \le m\)</span>). <span class="math notranslate nohighlight">\(E\)</span> is
+the <em>existing resource vector</em>. It gives the total number of instances of each
+resource in existence. For example, if class <span class="math notranslate nohighlight">\(1\)</span> is tape drives, then
+<span class="math notranslate nohighlight">\(E_1=2\)</span> means the system has two tape drives.</p></li>
+<li><p>At any instant, some of the resources are assigned and are not available. Let
+<span class="math notranslate nohighlight">\(A\)</span> be the <em>available resource vector</em>, with <span class="math notranslate nohighlight">\(A_i\)</span> giving the
+number of instances of resource <span class="math notranslate nohighlight">\(i\)</span> that are currently available (i.e.,
+unassigned). If both of our two tape drives are assigned, <span class="math notranslate nohighlight">\(A_i\)</span> will be
+<span class="math notranslate nohighlight">\(0\)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(C\)</span> be the <em>current allocation matrix</em>. The <span class="math notranslate nohighlight">\(i\)</span>-th row of
+<span class="math notranslate nohighlight">\(C\)</span> tells how many instances of each resource class <span class="math notranslate nohighlight">\(P_i\)</span>
+currently holds. Thus, <span class="math notranslate nohighlight">\(C_{ij}\)</span> is the number of instances of resource
+<span class="math notranslate nohighlight">\(j\)</span> that are held by process <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(R\)</span> be the <em>request matrix</em>. Similarly to <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(R_{ij}\)</span>
+is the number of instances of resource <span class="math notranslate nohighlight">\(j\)</span> that <span class="math notranslate nohighlight">\(P_i\)</span> wants.</p></li>
+</ul>
+<p>These four data structures are shown in the following figure.</p>
+<a class="reference internal image-reference" href="../_images/deadlock-detection.png"><img alt="../_images/deadlock-detection.png" src="../_images/deadlock-detection.png" style="width: 110%;" />
+</a>
+<p>An important invariant holds for these four data structures. In particular,
+every resource is either allocated or is available. This observation means that:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^n C_{ij} + A_{j}= E_j\]</div>
+<p>In other words, if we add up all the instances of the resource <span class="math notranslate nohighlight">\(j\)</span> that
+have been allocated and to this add all the instances that are available, the
+result is the number of instances of that resource class that exist.</p>
+<p>The deadlock detection algorithm is based on comparing vectors. Let us define
+the relation <span class="math notranslate nohighlight">\(A \le B\)</span> on two vectors <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> to mean that
+each element of <span class="math notranslate nohighlight">\(A\)</span> is less than or equal to the corresponding element of
+<span class="math notranslate nohighlight">\(B\)</span>. Mathematically, <span class="math notranslate nohighlight">\(A \le B\)</span> holds if and only if <span class="math notranslate nohighlight">\(A_i \le
+B_i\)</span> for <span class="math notranslate nohighlight">\(1 \le i \le m\)</span>.</p>
+<p>Each process is initially said to be unmarked. As the algorithm progresses,
+processes will be marked, indicating that they are able to complete and are thus
+not deadlocked. When the algorithm terminates, any unmarked processes are known
+to be deadlocked. This algorithm assumes a worst-case scenario: all processes
+keep all acquired resources until they exit.</p>
+<p>The deadlock detection algorithm can now be given as follows:</p>
+<ol class="arabic simple">
+<li><p>Look for an unmarked process, <span class="math notranslate nohighlight">\(P_i\)</span>, for which the <span class="math notranslate nohighlight">\(i\)</span>-th row of
+<span class="math notranslate nohighlight">\(R\)</span> is less than or equal to <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p>If such a process is found, add the <span class="math notranslate nohighlight">\(i\)</span>-th row of <span class="math notranslate nohighlight">\(C\)</span> to
+<span class="math notranslate nohighlight">\(A\)</span>, mark the process, and go back to step 1.</p></li>
+<li><p>If no such process exists, the algorithm terminates.</p></li>
+</ol>
+<p>When the algorithm finishes, all the unmarked processes, if any, are deadlocked.
+The key is in the first step: it means that if a process wants more resources
+than are available, then it is deadlocked. If a process is not considered
+deadlocked, then its used resources are added to the available ones. This
+algorithm is non-deterministic because processes can run in any order, but the
+result is always the same. It is the same because step 2 runs on all unmarked
+processes, instead of just checking a process and considering it as deadlocked
+immediately: if process <span class="math notranslate nohighlight">\(X\)</span> requests too many resources, it is skipped and
+another one is tested, which may add resources to <span class="math notranslate nohighlight">\(A\)</span> so when <span class="math notranslate nohighlight">\(X\)</span>
+will be tested again with more resources; on step 3, there are processes which
+take more resources than the total available ones.</p>
+<p>Through this algorithm we know if a deadlock exists, but when do we look for
+these, considering that it may be an expensive operation? It may be checked
+every time a resource request is made, or every <span class="math notranslate nohighlight">\(k\)</span> minutes, or perhaps
+only when the CPU utilization has dropped below some threshold.</p>
+</section>
+<section id="deadlock-recovery">
+<h2>Deadlock Recovery<a class="headerlink" href="#deadlock-recovery" title="Link to this heading">¶</a></h2>
+<p>What do we do after detecting a deadlock to recover the system?</p>
+<ul class="simple">
+<li><p><em>preemption</em>: in some cases, it may be possible to temporarily take a resource
+away from its current owner and give it to another process, but this depends
+on the nature of the resource. Recovering this way is frequently difficult or
+impossible.</p></li>
+<li><p><em>rollback</em>: if the system designers and machine operators know that deadlocks
+are likely, they can arrange to have processes checkpointed periodically. When
+a deadlock is detected, a process that owns a needed resource is rolled back
+to a point in time before it acquired that resource by starting at one of its
+earlier checkpoints.</p></li>
+<li><p><em>killing processes</em>: the crudest but simplest way to break a deadlock is to
+kill one or more processes. One possibility is to kill processes in the cycle
+until the cycle is broken. Alternatively, a process is carefully chosen
+because it is holding resources that some process in the cycle needs. When
+possible, it is best to kill a process that can be rerun from the beginning
+with no ill effects.</p></li>
+</ul>
+</section>
+<section id="deadlock-avoidance">
+<h2>Deadlock Avoidance<a class="headerlink" href="#deadlock-avoidance" title="Link to this heading">¶</a></h2>
+<p>When a process asks for a resource, the system may be able to decide whether
+granting a resource is safe or not and make the allocation only when it is safe.
+In this section we will examine algorithms that can always avoid deadlock by
+making the right choice all the time, but only if certain information is
+available in advance.</p>
+<p>A state is said to be <em>safe</em> if there is some scheduling order in which every
+process can run to completion even if all of them suddenly request their maximum
+number of resources immediately. To do this we need to know how many resources
+any process has, how many do they want at most, and the number of free
+resources. This is called the <em>Banker’s Algorithm</em> (Dijkstra, 1965): the first
+process gets its maximum resources, then frees them, gets popped from the queue,
+and the algorithm is run again until there are no more processes in the queue.
+If the first process cannot get its resources, then we are in a non-safe state
+and we cancel the allocation. Note that an unsafe state does not have to lead to
+a deadlock, but because it might it gets discarded. This can be generalized to
+multiple resources.</p>
+<p>In practice, “it is essentially useless” because processes rarely know in
+advance what their maximum resource needs will be. Therefore, in practice, few,
+if any, existing systems use the banker’s algorithm for avoiding deadlocks. Some
+systems use heuristics; for instance, networks may throttle traffic when buffer
+utilization reaches higher than, say, 70%, estimating that the remaining 30%
+will be sufficient for current users to complete their service and return their
+resources.</p>
+</section>
+<section id="deadlock-prevention">
+<h2>Deadlock Prevention<a class="headerlink" href="#deadlock-prevention" title="Link to this heading">¶</a></h2>
+<p>Since we have seen that deadlock avoidance is not useful in practice, we can try
+to negate one of the four conditions stated by Coffman et al. If we can ensure
+that at least one of these conditions is never satisfied, then deadlocks will be
+structurally impossible (Havender, 1968).</p>
+<ul class="simple">
+<li><p><em>attacking mutual exclusion</em>: we could assign a resource so that it is not
+mutually exclusive, such as making it read-only. But this can only be applied
+in some cases, as writers would have to synchronize with each other.</p></li>
+<li><p><em>attacking hold-and-wait</em>: we could prevent processes from waiting for more
+resources by requesting all of them at the start of the execution. This has
+two problems: first, most processes don’t know how many resources they will
+need beforehand; second, this would lead to holding many resources that are
+not used for most of the process, which is bad.</p></li>
+<li><p><em>attacking no-preemption</em>: we can take away the resource from a process by
+force. But this is not always possible; for example, if a printer is printing
+something, and we assign its output to a different process, then the printed
+page will look corrupted as it will print some parts of the first process and
+some other parts of the other process.</p></li>
+<li><p><em>attacking circular wait</em>: we can say that a process is entitled to hold only
+a single resource at any moment, and it must release it before getting a
+second one. This is not possible in many situations. Another way to avoid the
+circular wait is to provide a global numbering of all the resources. Now the
+rule is: processes can request resources whenever they want to, but all
+requests must be made in numerical order. If the order is: printer, plotter,
+tape drive, then a process may request first a printer and then a tape drive,
+but it may not request first a plotter and then a printer. With this rule, the
+resource allocation graph can never have cycles. Alternatively, any process
+could request only a resource lower than what it is already holding. Although
+numerically ordering the resources eliminates the problem of deadlocks, it may
+be impossible to find an ordering that satisfies everyone as the number of
+potential resources may be quite big.</p></li>
+</ul>
+</section>
+<section id="synchronization-primitives">
+<h2>Synchronization Primitives<a class="headerlink" href="#synchronization-primitives" title="Link to this heading">¶</a></h2>
+<p>TODO: the producer-consumer problem</p>
+<p>TODO: semaphores</p>
+<p>TODO: mutexes</p>
+<p>TODO: futexes</p>
+<p>TODO: monitors</p>
+</section>
+<section id="classic-ipc-problems">
+<h2>Classic IPC Problems<a class="headerlink" href="#classic-ipc-problems" title="Link to this heading">¶</a></h2>
+<p>Here are some classic problems about synchronization methods.</p>
+<section id="the-dining-philosophers">
+<h3>The Dining Philosophers<a class="headerlink" href="#the-dining-philosophers" title="Link to this heading">¶</a></h3>
+<p>The problem can be stated in the following way. Five philosophers are seated
+around a circular table. Each philosopher has a plate of spaghetti. The
+spaghetti is so slippery that a philosopher needs two forks to eat it. Between
+each pair of plates is one fork. The life of a philosopher consists of
+alternating periods of eating and thinking. When a philosopher gets sufficiently
+hungry, she tries to acquire her left and right forks, one at a time, in either
+order. If successful in acquiring two forks, she eats for a while, then puts
+down the forks, and continues to think. The key question is: Can you write a
+program for each philosopher that does what it is supposed to do and never gets
+stuck?</p>
+<p>We could tell each philosopher to wait for the fork on his right, and then on
+his left. This is problematic because it may happen that each philosopher picks
+up the fork on his right, and, since they are in a circle, one’s right fork is
+another’s left fork, and they go into deadlock. If all philosophers fail to make
+any progress, it is called <em>starvation</em>. A solution could be to wait a random
+amount of time and try again, which would work in practice. Indeed this is how
+Ethernet does it when multiple writers are trying to write to the same medium,
+but for other applications a more reliable solution that does not depend on
+randomness would be preferred. We could have a global lock for picking up forks,
+which would solve deadlocks, but would degrade performance since only one
+philosopher can be eating at an instant.</p>
+<p>The solution that allows the maximum parallelism for an arbitrary number of
+philosophers uses an array of states and a semaphore for each philosopher. Each
+philosopher can either be in the eating, thinking, or hungry (trying to acquire
+forks) state. Hungry philosophers can block if the needed forks are busy.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define N         5</span>
+<span class="cp">#define LEFT      (i+N-1)%N</span>
+<span class="cp">#define RIGHT     (i+1)%N</span>
+<span class="cp">#define THINKING  0</span>
+<span class="cp">#define HUNGRY    1</span>
+<span class="cp">#define EATING    2</span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">semaphore</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">state</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="n">semaphore</span><span class="w"> </span><span class="n">mutex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// guards &quot;state&quot;, only one philosopher can modify it</span>
+<span class="n">semaphore</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">philosopher</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">TRUE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">think</span><span class="p">();</span>
+<span class="w">    </span><span class="n">take_forks</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="n">eat</span><span class="p">();</span>
+<span class="w">    </span><span class="n">put_forks</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">take_forks</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HUNGRY</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// take fork</span>
+<span class="w">  </span><span class="n">test</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">  </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// block if forks were not acquired, we will be</span>
+<span class="w">  </span><span class="c1">// unblocked by the philosopher when he is done &quot;put_forks&quot;</span>
+<span class="w">  </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">put_forks</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">THINKING</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// See if neighbors can now eat</span>
+<span class="w">  </span><span class="c1">// wakes up neighbours</span>
+<span class="w">  </span><span class="n">test</span><span class="p">(</span><span class="n">LEFT</span><span class="p">);</span>
+<span class="w">  </span><span class="n">test</span><span class="p">(</span><span class="n">RIGHT</span><span class="p">);</span>
+<span class="w">  </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// guarded by &quot;mutex&quot;</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// check left and right</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HUNGRY</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">state</span><span class="p">[</span><span class="n">LEFT</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">EATING</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">state</span><span class="p">[</span><span class="n">RIGHT</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">EATING</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EATING</span><span class="p">;</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="readers-and-writers-problem">
+<h3>Readers and Writers Problem<a class="headerlink" href="#readers-and-writers-problem" title="Link to this heading">¶</a></h3>
+<p>Imagine, for example, an airline reservation system, with many competing
+processes wishing to read and write it. It is acceptable to have multiple
+processes reading the database at the same time, but if one process is updating
+(writing) the database, no other processes may have access to the database, not
+even readers. How do you program the readers and writers? The following is one
+solution:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">rc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">          </span><span class="c1">// # of processes reading or writing to</span>
+<span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">semaphore</span><span class="p">;</span>
+<span class="n">semaphore</span><span class="w"> </span><span class="n">mutex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// guards rc</span>
+<span class="n">semaphore</span><span class="w"> </span><span class="n">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">    </span><span class="c1">// guards access to the database</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">reader</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">while</span><span class="p">(</span><span class="n">TRUE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">    </span><span class="n">rc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// If this is the first reader, lock the db</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">db</span><span class="p">);</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">    </span><span class="n">read_data_base</span><span class="p">();</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">    </span><span class="n">rc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// if this is the last reader, unlock the db</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">db</span><span class="p">);</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">    </span><span class="n">use_data_read</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">writer</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">TRUE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">think_up_data</span><span class="p">();</span>
+<span class="w">    </span><span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">db</span><span class="p">);</span><span class="w">    </span><span class="c1">// exclusive access when no readers are there</span>
+<span class="w">    </span><span class="n">write_data_base</span><span class="p">();</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">db</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This solution allows multiple readers to happen at the same time, and readers
+will continue to have access to the resource as long as they exist. This may
+lead to starvation for the writer. Alternatively, we could write this solution
+so that, when a reader arrives and a writer is waiting, the reader is suspended
+behind the writer instead of being admitted immediately; the disadvantage here
+is that it achieves less concurrency.</p>
+</section>
+</section>
+<section id="linux-lockdep">
+<h2>Linux Lockdep<a class="headerlink" href="#linux-lockdep" title="Link to this heading">¶</a></h2>
+<p>Every mutex calls lockdep’s <cite>__lock_acquire()</cite> when locked, and
+<cite>__lock_release()</cite> when unlocked. There is a <cite>__bfs()</cite> function that should be
+investigated, also a <cite>check_deadlock()</cite> function, called by <cite>validate_chain()</cite>,
+called in <cite>__lock_acquire()</cite>. This <cite>validate_chain</cite> also calls <cite>__bfs()</cite>.</p>
+<p>TODO</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interrupts.html">Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mm.html">Memory Management</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Deadlocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edk2.html">EDK II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="armbian.html">Armbian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openwrt.html">OpenWRT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netbsd-custom-kernel.html">Build a custom NetBSD Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Kernel Development</a><ul>
+      <li>Previous: <a href="mm.html" title="previous chapter">Memory Management</a></li>
+      <li>Next: <a href="history.html" title="next chapter">History</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/kerneldev/deadlocks.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
