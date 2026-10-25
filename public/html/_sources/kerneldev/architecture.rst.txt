@@ -65,6 +65,19 @@ flushed to the device.
 
 .. _Storage Performance Development Kit: https://spdk.io/
 
+Maybe here is a good place to talk about *zswap* and *zram*:
+
+* `zswap` sits in front of the disk swap, compresses pages in RAM, and tiers
+  cold data to disk. It integrates directly with the kernel's memory management
+  and distributes pressure gracefully.
+
+* `zram` is a compressed RAM block device with an hard capacity limit. It only
+  makes sense for extremely memory-constrained embedded systems.
+
+In general, do not use `zram` alongside `zswap`. In such cases, zram fills fast
+RAM with cold, stale pages while pushing your active working set into slow disk,
+which is bad.
+
 Rendering Stack
 ---------------
 

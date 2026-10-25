@@ -79,6 +79,17 @@ flushed to the device.</p>
 <li><p><a class="reference external" href="https://spdk.io/">Storage Performance Development Kit</a>: fast and modern API to interact with
 NVMe devices. It depends on SPDK for network path.</p></li>
 </ul>
+<p>Maybe here is a good place to talk about <em>zswap</em> and <em>zram</em>:</p>
+<ul class="simple">
+<li><p><cite>zswap</cite> sits in front of the disk swap, compresses pages in RAM, and tiers
+cold data to disk. It integrates directly with the kernel’s memory management
+and distributes pressure gracefully.</p></li>
+<li><p><cite>zram</cite> is a compressed RAM block device with an hard capacity limit. It only
+makes sense for extremely memory-constrained embedded systems.</p></li>
+</ul>
+<p>In general, do not use <cite>zram</cite> alongside <cite>zswap</cite>. In such cases, zram fills fast
+RAM with cold, stale pages while pushing your active working set into slow disk,
+which is bad.</p>
 </section>
 <section id="rendering-stack">
 <h2>Rendering Stack<a class="headerlink" href="#rendering-stack" title="Link to this heading">¶</a></h2>

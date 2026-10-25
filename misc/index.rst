@@ -10,6 +10,7 @@ Notes that do not fall in other categories.
    blogs
    development-loop
    udev
+   postgresql
    pgp
    gstreamer
    objdump
