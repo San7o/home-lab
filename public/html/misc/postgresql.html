@@ -34,6 +34,296 @@
             
   <section id="postgresql">
 <h1>PostgreSQL<a class="headerlink" href="#postgresql" title="Link to this heading">¶</a></h1>
+<p>PostgreSQL is an object-relational database management system. A relation is
+essentially a mathematical term for a table, which is a collection of rows
+containing the same set of named columns. It uses a client-server design where
+the sever manages the data and the client send queries to the server.</p>
+<section id="compiling">
+<h2>Compiling<a class="headerlink" href="#compiling" title="Link to this heading">¶</a></h2>
+<p>After downloading the sources, you can build the project with automake:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure
+make
+su
+make<span class="w"> </span>install
+adduser<span class="w"> </span>postgres
+mkdir<span class="w"> </span>-p<span class="w"> </span>/usr/local/pgsql/data
+chown<span class="w"> </span>postgres<span class="w"> </span>/usr/local/pgsql/data
+su<span class="w"> </span>-<span class="w"> </span>postgres
+/usr/local/pgsql/bin/initdb<span class="w"> </span>-D<span class="w"> </span>/usr/local/pgsql/data
+/usr/local/pgsql/bin/pg_ctl<span class="w"> </span>-D<span class="w"> </span>/usr/local/pgsql/data<span class="w"> </span>-l<span class="w"> </span>logfile<span class="w"> </span>start
+/usr/local/pgsql/bin/createdb<span class="w"> </span><span class="nb">test</span>
+/usr/local/pgsql/bin/psql<span class="w"> </span><span class="nb">test</span>
+</pre></div>
+</div>
+</section>
+<section id="basic-commands">
+<h2>Basic commands<a class="headerlink" href="#basic-commands" title="Link to this heading">¶</a></h2>
+<p>Create a database:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>createdb<span class="w"> </span>mydb
+</pre></div>
+</div>
+<p>Delete a database:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dropdb<span class="w"> </span>mydb
+</pre></div>
+</div>
+<p>To access a database:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>psql<span class="w"> </span>mydb
+</pre></div>
+</div>
+<section id="sql-commands">
+<h3>SQL Commands<a class="headerlink" href="#sql-commands" title="Link to this heading">¶</a></h3>
+<p>Create a table:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CREATE<span class="w"> </span>TABLE<span class="w"> </span>weather<span class="w"> </span><span class="o">(</span>
+<span class="w">  </span>city<span class="w">            </span>varchar<span class="o">(</span><span class="m">80</span><span class="o">)</span>,
+<span class="w">  </span>temp_lo<span class="w">         </span>int,<span class="w">           </span>--<span class="w"> </span>low<span class="w"> </span>temperature
+<span class="w">  </span>temp_hi<span class="w">         </span>int,<span class="w">           </span>--<span class="w"> </span>high<span class="w"> </span>temperature
+<span class="w">  </span>prcp<span class="w">            </span>real,<span class="w">          </span>--<span class="w"> </span>precipitation
+<span class="w">  </span>date<span class="w">            </span>date
+<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Delete a table:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DROP<span class="w"> </span>TABLE<span class="w"> </span>tablename<span class="p">;</span>
+</pre></div>
+</div>
+<p>Inserting an element into the table:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>INSERT<span class="w"> </span>INTO<span class="w"> </span>weather<span class="w"> </span>VALUES<span class="w"> </span><span class="o">(</span><span class="s1">&#39;San Francisco&#39;</span>,<span class="w"> </span><span class="m">46</span>,<span class="w"> </span><span class="m">50</span>,<span class="w"> </span><span class="m">0</span>.25,<span class="w"> </span><span class="s1">&#39;1994-11-27&#39;</span><span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>To quickly insert values from a file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>COPY<span class="w"> </span>weather<span class="w"> </span>FROM<span class="w"> </span><span class="s1">&#39;/home/user/weather.txt&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Selecting elements:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SELECT<span class="w"> </span>city,<span class="w"> </span>temp_lo,<span class="w"> </span>temp_hi,<span class="w"> </span>prcp,<span class="w"> </span>date<span class="w"> </span>FROM<span class="w"> </span>weather<span class="p">;</span>
+SELECT<span class="w"> </span>DISTINCT<span class="w"> </span>city<span class="w"> </span>FROM<span class="w"> </span>weather<span class="p">;</span>
+SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>weather<span class="w"> </span>JOIN<span class="w"> </span>cities<span class="w"> </span>ON<span class="w"> </span><span class="nv">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>name<span class="p">;</span>
+</pre></div>
+</div>
+<p>Aggregate functions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SELECT<span class="w"> </span>max<span class="o">(</span>temp_lo<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>weather<span class="p">;</span>
+SELECT<span class="w"> </span>city,<span class="w"> </span>count<span class="o">(</span>*<span class="o">)</span>,<span class="w"> </span>max<span class="o">(</span>temp_lo<span class="o">)</span><span class="w"> </span>FROM<span class="w"> </span>weather<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>city<span class="p">;</span>
+SELECT<span class="w"> </span>city,<span class="w"> </span>count<span class="o">(</span>*<span class="o">)</span><span class="w"> </span>FILTER<span class="w"> </span><span class="o">(</span>WHERE<span class="w"> </span>temp_lo<span class="w"> </span>&lt;<span class="w"> </span><span class="m">45</span><span class="o">)</span>,<span class="w"> </span>max<span class="o">(</span>temp_lo<span class="o">)</span>
+<span class="w">   </span>FROM<span class="w"> </span>wheather<span class="w"> </span>GROUP<span class="w"> </span>BY<span class="w"> </span>city<span class="p">;</span>
+</pre></div>
+</div>
+<p>The difference between <cite>WHERE</cite> and <cite>HAVING</cite> is that <cite>WHERE</cite> selects input rows
+before groups and aggregates are computed, whereas <cite>HAVING</cite> selects them after.
+Another way to select the rows that go into an aggregate computation is to use
+<cite>FILTER</cite> which is a per-aggregate option.</p>
+<p>Update:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>UPDATE<span class="w"> </span>weather
+<span class="w"> </span>SET<span class="w"> </span><span class="nv">temp_hi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>temp_hi<span class="w"> </span>-<span class="w"> </span><span class="m">2</span>,<span class="w">  </span><span class="nv">temp_lo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>temp_lo<span class="w"> </span>-<span class="w"> </span><span class="m">2</span>
+<span class="w"> </span>WHERE<span class="w"> </span>date<span class="w"> </span>&gt;<span class="w"> </span><span class="s1">&#39;1994-11-28&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Deletions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>DELETE<span class="w"> </span>FROM<span class="w"> </span>weather<span class="w"> </span>WHERE<span class="w"> </span><span class="nv">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hayward&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Views:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CREATE<span class="w"> </span>VIEW<span class="w"> </span>myview<span class="w"> </span>AS
+<span class="w"> </span>SELECT<span class="w"> </span>name,<span class="w"> </span>temp_lo,<span class="w"> </span>temp_hi,<span class="w"> </span>prcp,<span class="w"> </span>date,<span class="w"> </span>location
+<span class="w">     </span>FROM<span class="w"> </span>weather,<span class="w"> </span>cities
+<span class="w">     </span>WHERE<span class="w"> </span><span class="nv">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>name<span class="p">;</span>
+
+SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>myview<span class="p">;</span>
+</pre></div>
+</div>
+<p>Foreign Keys:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CREATE<span class="w"> </span>TABLE<span class="w"> </span>cities<span class="w"> </span><span class="o">(</span>
+<span class="w">     </span>name<span class="w">     </span>varchar<span class="o">(</span><span class="m">80</span><span class="o">)</span><span class="w"> </span>primary<span class="w"> </span>key,
+<span class="w">     </span>location<span class="w"> </span>point
+<span class="o">)</span><span class="p">;</span>
+
+CREATE<span class="w"> </span>TABLE<span class="w"> </span>weather<span class="w"> </span><span class="o">(</span>
+<span class="w">        </span>city<span class="w">      </span>varchar<span class="o">(</span><span class="m">80</span><span class="o">)</span><span class="w"> </span>references<span class="w"> </span>cities<span class="o">(</span>name<span class="o">)</span>,
+<span class="w">        </span>temp_lo<span class="w">   </span>int,
+<span class="w">        </span>temp_hi<span class="w">   </span>int,
+<span class="w">        </span>prcp<span class="w">      </span>real,
+<span class="w">        </span>date<span class="w">      </span>date
+<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Transactions bound multiple steps into a single, all-or-nothing operation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>BEGIN<span class="p">;</span>
+UPDATE<span class="w"> </span>accounts<span class="w"> </span>SET<span class="w"> </span><span class="nv">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>balance<span class="w"> </span>-<span class="w"> </span><span class="m">100</span>.00
+<span class="w">    </span>WHERE<span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span><span class="p">;</span>
+--<span class="w"> </span>etc<span class="w"> </span>etc
+COMMIT<span class="p">;</span>
+</pre></div>
+</div>
+<p>You can also have <cite>savepoints</cite> in transactions, so that you can rollback to a
+previous savepoint with <cite>ROLLBACK TO</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>BEGIN<span class="p">;</span>
+UPDATE<span class="w"> </span>accounts<span class="w"> </span>SET<span class="w"> </span><span class="nv">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>balance<span class="w"> </span>-<span class="w"> </span><span class="m">100</span>.00
+<span class="w">    </span>WHERE<span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span><span class="p">;</span>
+SAVEPOINT<span class="w"> </span>my_savepoint<span class="p">;</span>
+UPDATE<span class="w"> </span>accounts<span class="w"> </span>SET<span class="w"> </span><span class="nv">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>balance<span class="w"> </span>+<span class="w"> </span><span class="m">100</span>.00
+<span class="w">    </span>WHERE<span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Bob&#39;</span><span class="p">;</span>
+--<span class="w"> </span>oops<span class="w"> </span>...<span class="w"> </span>forget<span class="w"> </span>that<span class="w"> </span>and<span class="w"> </span>use<span class="w"> </span>Wally<span class="s1">&#39;s account</span>
+<span class="s1">ROLLBACK TO my_savepoint;</span>
+<span class="s1">UPDATE accounts SET balance = balance + 100.00</span>
+<span class="s1">    WHERE name = &#39;</span>Wally<span class="err">&#39;</span><span class="p">;</span>
+COMMIT<span class="p">;</span>
+</pre></div>
+</div>
+<p>Window functions perform calculations across a set of table rows that are
+somewhat related to the current row:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SELECT<span class="w"> </span>depname,<span class="w"> </span>empno,<span class="w"> </span>salary,
+<span class="w">    </span>row_number<span class="o">()</span><span class="w"> </span>OVER<span class="w"> </span><span class="o">(</span>PARTITION<span class="w"> </span>BY<span class="w"> </span>depname<span class="w"> </span>ORDER<span class="w"> </span>BY<span class="w"> </span>salary<span class="w"> </span>DESC<span class="o">)</span>
+FROM<span class="w"> </span>empsalary<span class="p">;</span>
+</pre></div>
+</div>
+<p>You can create inheritance relationships among tables:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CREATE<span class="w"> </span>TABLE<span class="w"> </span>cities<span class="w"> </span><span class="o">(</span>
+<span class="w">   </span>name<span class="w">       </span>text,
+<span class="w">   </span>population<span class="w"> </span>real,
+<span class="w">   </span>elevation<span class="w">  </span>int<span class="w">     </span>--<span class="w"> </span><span class="o">(</span><span class="k">in</span><span class="w"> </span>ft<span class="o">)</span>
+<span class="o">)</span><span class="p">;</span>
+
+CREATE<span class="w"> </span>TABLE<span class="w"> </span>capitals<span class="w"> </span><span class="o">(</span>
+<span class="w">  </span>state<span class="w">      </span>char<span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>UNIQUE<span class="w"> </span>NOT<span class="w"> </span>NULL
+<span class="o">)</span><span class="w"> </span>INHERITS<span class="w"> </span><span class="o">(</span>cities<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="maintainance">
+<h2>Maintainance<a class="headerlink" href="#maintainance" title="Link to this heading">¶</a></h2>
+<p>Postgres, like other DBMS, requires periodic maintenance tasks. This includes
+periodic backups, “vacuuming”, updating statistics used by the query planner,
+and log file management. The “check_postgres” cli program can be used for these
+tasks.</p>
+<p>PostgreSQL’s <cite>VACUUM</cite> command needs to be executed for each table on a regular
+basis for several reasons:</p>
+<ol class="arabic simple">
+<li><p>To recover or reuse disk space occupied by updated or deleted rows</p></li>
+<li><p>To update data statistics used by the PostgreSQL query planner</p></li>
+<li><p>To update the visibility map, which speeds up index-only scans</p></li>
+<li><p>To protect against loss of very old data due to transaction ID wraparound or
+multixact ID wraparound</p></li>
+</ol>
+<p>A variation of the command is <cite>VACUUM FULL</cite> which reclaims more disk space but
+runs much more slowly. Normal <cite>VACUUM</cite> can run in parallel, but the full version
+can’t on the same table. Vacuum can be automatically done dynamically via the
+autovacuum daemon, which will schedule vacuum periodically based on the
+activity.</p>
+<p>Indexes can be rebuilt with the <cite>REINDEX</cite> command, which should be done
+regularly. This command requires an <cite>ACCESS EXCLUSIVE</cite> lock by default, hence it
+is often preferable to execute it with its <cite>CONCURRENTLY</cite> option, which requires
+only a <cite>SHARE UPDATE EXCLUSIVE</cite> lock.</p>
+<p>You should also rotate the logs. There is a built-in functionality by setting
+<cite>logging_collector</cite> to <cite>true</cite> in <cite>postgresql.conf</cite>, or use an external one.</p>
+<p>As with everything that contains data, PostgreSQL databases should be backed up
+regularly. There are three fundamentally different approaches to backing up
+data:</p>
+<ul class="simple">
+<li><p>SQL dump: the idea is to generate a file with SQL commands that, when fed back
+to the server, will recreate the database in the same state as it was at the
+time of the dump. This can be done with the <cite>pg_dump</cite> utility:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pg_dump<span class="w"> </span>dbname<span class="w"> </span>&gt;<span class="w"> </span>dumpfile
+
+You<span class="w"> </span>can<span class="w"> </span>perform<span class="w"> </span>this<span class="w"> </span>backup<span class="w"> </span>procedure<span class="w"> </span>from<span class="w"> </span>any<span class="w"> </span>remote<span class="w"> </span>host<span class="w"> </span>that<span class="w"> </span>has<span class="w"> </span>access<span class="w"> </span>to
+the<span class="w"> </span>database,<span class="w"> </span>but<span class="w"> </span>it<span class="w"> </span>requires<span class="w"> </span><span class="nb">read</span><span class="w"> </span>access<span class="w"> </span>to<span class="w"> </span>all<span class="w"> </span>tables<span class="w"> </span>that<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>back
+up.
+
+To<span class="w"> </span>restore<span class="w"> </span>a<span class="w"> </span>dump,<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span><span class="nb">command</span><span class="w"> </span>or<span class="w"> </span>use<span class="w"> </span><span class="sb">`</span>pg_restore<span class="sb">`</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>non-text
+file<span class="w"> </span>dumps:
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>psql<span class="w"> </span>-X<span class="w"> </span>--set<span class="w"> </span><span class="nv">ON_ERROR_STOP</span><span class="o">=</span>on<span class="w"> </span>dbname<span class="w"> </span>&lt;<span class="w"> </span>dumpfile
+
+Before<span class="w"> </span>restoring<span class="w"> </span>and<span class="w"> </span>SQL<span class="w"> </span>dump,<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>users<span class="w"> </span>who<span class="w"> </span>own<span class="w"> </span>objects<span class="w"> </span>or<span class="w"> </span>were<span class="w"> </span>granted
+permissions<span class="w"> </span>on<span class="w"> </span>objects<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>dumped<span class="w"> </span>database<span class="w"> </span>must<span class="w"> </span>already<span class="w"> </span>exist,<span class="w"> </span>or<span class="w"> </span>the
+restore<span class="w"> </span>will<span class="w"> </span>fail.<span class="w"> </span>While<span class="w"> </span>restoring,<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>also<span class="w"> </span>specify
+<span class="sb">`</span>--single-transaction<span class="sb">`</span><span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>an<span class="w"> </span>unique<span class="w"> </span>transaction<span class="w"> </span>so<span class="w"> </span>that<span class="w"> </span>the<span class="w"> </span>restore<span class="w"> </span>is
+either<span class="w"> </span>fully<span class="w"> </span>completed<span class="w"> </span>or<span class="w"> </span>fully<span class="w"> </span>rolled<span class="w"> </span>back.
+
+After<span class="w"> </span>restoring<span class="w"> </span>a<span class="w"> </span>backup,<span class="w"> </span>it<span class="w"> </span>is<span class="w"> </span>wise<span class="w"> </span>to<span class="w"> </span>run<span class="w"> </span><span class="sb">`</span>ANALYZE<span class="sb">`</span><span class="w"> </span>on<span class="w"> </span>each<span class="w"> </span>database<span class="w"> </span>so<span class="w"> </span>the
+query<span class="w"> </span>optimizer<span class="w"> </span>has<span class="w"> </span>useful<span class="w"> </span>statistics.
+
+To<span class="w"> </span>dump<span class="w"> </span>all<span class="w"> </span>databases<span class="w"> </span>and<span class="w"> </span>roles,<span class="w"> </span>use<span class="w"> </span><span class="sb">`</span>pg_dumpall<span class="sb">`</span>:
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pg_dumpall<span class="w"> </span>&gt;<span class="w"> </span>dumpfile
+
+This<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>restored<span class="w"> </span>with<span class="w"> </span><span class="sb">`</span>psql<span class="sb">`</span>:
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>psql<span class="w"> </span>-X<span class="w"> </span>-f<span class="w"> </span>dumpfile<span class="w"> </span>postgres
+
+You<span class="w"> </span>can<span class="w"> </span>also<span class="w"> </span>create<span class="w"> </span>compressed<span class="w"> </span>backups:
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pg_dump<span class="w"> </span>dbname<span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>&gt;<span class="w"> </span>filename.gz
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>File system level backup: directly copy the files that PostgreSQL uses to
+store the data in the database:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>tar<span class="w"> </span>-cf<span class="w"> </span>backup.tar<span class="w"> </span>/usr/local/pgsql/data
+
+However,<span class="w"> </span><span class="k">for</span><span class="w"> </span>this<span class="w"> </span>to<span class="w"> </span>work<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>shut<span class="w"> </span>down.<span class="w"> </span>Additionally<span class="w"> </span>you
+cannot<span class="w"> </span>backup<span class="w"> </span>individual<span class="w"> </span>tables<span class="w"> </span>or<span class="w"> </span>databases.<span class="w"> </span>If<span class="w"> </span>the<span class="w"> </span>filesystem<span class="w"> </span>supports
+snapshots,<span class="w"> </span><span class="k">then</span><span class="w"> </span>these<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>crate<span class="w"> </span>backups<span class="w"> </span>when<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>is
+running.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Continuous archiving: use the write ahead log (WAL) which logs all
+transactions to replay them later.</p></li>
+</ul>
+</section>
+<section id="high-availability">
+<h2>High Availability<a class="headerlink" href="#high-availability" title="Link to this heading">¶</a></h2>
+<p>Database servers can work together to allow a second server to take over quickly
+if the primary server fails (high availability), or to allow several computers
+to serve the same data (load-balancing). While read-only databases can be
+combined relatively easily, this is more complicated for read / write servers: a
+write to any server has to be propagated to all servers so that future read
+requests to those servers return consistent results. This synchronization
+problem is the fundamental difficulty for servers working together, and there
+are multiple solutions for this problem for different use-cases. In general,
+they can be categorized in the following ways:</p>
+<ul class="simple">
+<li><p>master servers: some solutions deal with synchronization by allowing only one
+server, the <cite>master</cite> or <cite>primary</cite> server, to modify the data. Servers that
+track changes in the primary are called <cite>standby</cite> or <cite>secondary</cite> servers, and
+one that can accept connections and servers read-only queries is called <cite>hot
+standby</cite> server.</p></li>
+<li><p>synchronous: in this approach, a data-modifying transition is not considered
+committed until all servers have committed the transaction. This guarantees
+that a failover will not lose any data and that all load-balanced servers will
+return consistent results no matter which server is queried. Asynchronous
+communications are used when synchronous would be too slow.</p></li>
+<li><p>granularity: they may deal only with an entire database server, while others
+allow control at the per-table or per-database level.</p></li>
+</ul>
+<p>Various solutions are now provided:</p>
+<ul class="simple">
+<li><p>Shared Disk Failover: TODO</p></li>
+<li><p>File System (Block Device) Replication: TODO</p></li>
+<li><p>Write-Ahead Log Shipping: TODO</p></li>
+<li><p>Logical Replication: TODO</p></li>
+<li><p>Trigger-Based Primary-Standby Replication: TODO</p></li>
+<li><p>SQL-Based Replication Middleware: TODO</p></li>
+<li><p>Asynchronous Multimaster Replication: TODO</p></li>
+<li><p>Synchronous Multimaster Replication: TODO</p></li>
+<li><p>Data Partitioning: TODO</p></li>
+<li><p>Multiple-Server Parallel Query Execution: TODO</p></li>
+</ul>
+<section id="log-shipping-standby-severs">
+<h3>Log-Shipping Standby Severs<a class="headerlink" href="#log-shipping-standby-severs" title="Link to this heading">¶</a></h3>
+<p>TODO</p>
+</section>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">¶</a></h2>
+<p>TODO</p>
+</section>
 </section>
 
 

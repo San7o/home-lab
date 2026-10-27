@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cloud Native Data Center Networking &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Firewalld" href="firewalld.html" />
+    <link rel="prev" title="CCNA" href="ccna.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="cloud-native-data-center-networking">
+<h1>Cloud Native Data Center Networking<a class="headerlink" href="#cloud-native-data-center-networking" title="Link to this heading">¶</a></h1>
+<p>Networking needs have evolved over time. At the very beginning, most
+applications where monolithic and required modest networking infrastructure,
+where most of the networking was proprietary and running on a mainframe.
+Subsequently, the next generation of application was based on the client-server
+architecture characterized by the rise of the local area network (LAN). Then
+other evolutions happened, such as TCP/IP, Ethernet, server virtualisation,
+Linux. A new network design was needed.</p>
+<section id="access-aggregation-core">
+<h2>Access Aggregation Core<a class="headerlink" href="#access-aggregation-core" title="Link to this heading">¶</a></h2>
+<p>At the beginning of the century, data centers began to use a network designed
+called <cite>access-aggregation-core</cite>, often shortened to access-agg-core or just
+access-agg.</p>
+<img alt="../_images/access-aggregation-core-network.png" src="../_images/access-aggregation-core-network.png" />
+<p>The endpoints or compute nodes are attached to <cite>access</cite> switches, which are
+connected to <cite>aggregation</cite> switches, also called <cite>distribution</cite> switches, which
+perform L2 (bridging) and L3 (routing) operations. Note that the directions of
+the pictures are relevant as they are often used by convention, where north
+means that the compute is going outside the network, and east-west means that
+the information is moving on the same level. L2 bridges are easy to setup as
+they automatically build the lookup table, although this takes times since the
+switch has to flood the network when he does not know where an end point is
+located (although this is somewhat mitigated via the use of VLANs, creating
+additional problems), and it requires that no loops are present which may
+require the Spanning Tree Protocol (meaning that any point cannot use more than
+one link).</p>
+</section>
+<section id="clos">
+<h2>Clos<a class="headerlink" href="#clos" title="Link to this heading">¶</a></h2>
+<p>The structure of the new world uses the Clos topology, named after one of its
+investors, Charles Clos.</p>
+<img alt="../_images/clos-networking.png" src="../_images/clos-networking.png" />
+<p>The pictures shows two layers of switches, one called the <cite>spine</cite> and the other
+called the <cite>leaf</cite>. Hence, the layout is also commonly called a <cite>leaf-spine</cite>
+topology. Every leaf is connected to every spine node. The spines connect the
+leaves to one another, and the leaves connect the servers to the network. The
+leaf is often called <cite>top of rack</cite> (ToR) switch.</p>
+<p>This topology produces a high-capacity network, because there are more than two
+paths between any two servers. Adding more spines increases the available
+bandwidth between leaves. Adding more links between a leaf and a spine is not
+recommended to achieve this goal. The spines serve a single purpose: to connect
+the different leaves; computer endpoints are never attached to spines. The
+spines do not provide any other services: all functionality is pushed to the
+edges of the network, the leaves and the servers themselves, rather than being
+provided by the center, represented by the spines.</p>
+<p>Clos grows in a very consistent way thanks to having what’s called a <cite>scale-out</cite>
+architecture: you increase the amount of work supported by the network by
+adding more leaves and servers. The spines are then used only to scale the
+available bandwidth between the edges.</p>
+<img alt="../_images/clos-2-networking.png" src="../_images/clos-2-networking.png" />
+<p>Instead of using bridging which requires Spanning Tree Protocol, Clos uses
+routing across racks via a more modern network virtualisation solution such as
+the Virtual eXtensible Local Area Network (VXLAN). More than two spines are
+supported by something called Equal-Cost Multipath (ECMP) routing which allows a
+packet to be forwarded along any of the available equal-cost paths.</p>
+<p>Assuming we’re using <span class="math notranslate nohighlight">\(n\)</span>-port switches for both leaf and spine, and
+assuming a 1:1 oversubscription (ratio between uplink and downlink bandwidth),
+the maximum number of servers that can be connected in the Clos topology shown
+in the picture is <span class="math notranslate nohighlight">\(n^2 / 2\)</span>.</p>
+<p>TODO: Page 25</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ccna.html">CCNA</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cloud Native Data Center Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firewalld.html">Firewalld</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-dns-names.html">Free DNS names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iptables.html">Iptables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxmox-lcx-internet.html">Connect LCX container to internet on proxmox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static-ip-over-ethernet.html">Static IP over ethernet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wpa_supplicant.html">WPA supplicant</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Networking</a><ul>
+      <li>Previous: <a href="ccna.html" title="previous chapter">CCNA</a></li>
+      <li>Next: <a href="firewalld.html" title="next chapter">Firewalld</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/networking/cloud-native-data-center-networking.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
