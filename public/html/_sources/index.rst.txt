@@ -9,9 +9,9 @@ Overview
 --------
 
 Here is a collection of my notes. Most of my knowledge, such as how certain
-systems work together, is expressed as code and comments throughout my projects.
-A more general and architectural knowledge, which requires a greater
-explanation, is collected here in this website.
+systems work together, is expressed as code and comments or documentation
+throughout my projects. The more general and architectural knowledge, which
+requires a greater explanation, is collected here in this website.
 
 Here is how I organize my knowledge:
 

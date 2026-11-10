@@ -13,7 +13,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Firewalld" href="firewalld.html" />
+    <link rel="next" title="Cloud Native Data Center Networking" href="cloud-native-data-center-networking.html" />
     <link rel="prev" title="Networking" href="index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -122,7 +122,7 @@ multimode.</p></li>
 </section>
 <section id="data">
 <h3>Data<a class="headerlink" href="#data" title="Link to this heading">¶</a></h3>
-<p>A significant strength of the Ethernet faily of protocols is that they use the
+<p>A significant strength of the Ethernet family of protocols is that they use the
 same data-link standard (L2). The standard defined the Ethernet frame which is
 composed of an Ethernet header at the front, the encapsulated data in the
 middle, and an Ethernet trailer at the end.</p>
@@ -225,7 +225,52 @@ names. Mainly: leased circuit, circuit, serial link, serial line, point-to-point
 link, point-to-point line, T1, WAN link, link, Private line.</p>
 <p>To make use of the leased line, the routers on the ends of the line use one or
 two data-link protocols: High-Level Data Link Control (HDLC) or Point-to-Point
-Protocol (PPP). They provide similar functions to Ethernet.</p>
+Protocol (PPP). They provide similar functions to Ethernet: to control the
+correct delivery of data over a physical link. HDLC is even simpler than
+Ethernet, since the communication happens on the point-to-point topology of a
+leased line, there is only one implied destination (the router).</p>
+<p>The HDLC frame format looks like this:</p>
+<ul class="simple">
+<li><p>1 byte <cite>flag</cite>: lists a recognizable bit pattern so that the receiving nodes
+realize that a new frame is arriving.</p></li>
+<li><p>1 byte <cite>address</cite>: identifies the destination device, but not interesting for
+leased line point-to-point topologies.</p></li>
+<li><p>1 byte <cite>control</cite>: no longer of use today.</p></li>
+<li><p>2 bytes <cite>type</cite>: identifies the type of Layer 3 packet encapsulated inside the
+data portion of the frame.</p></li>
+<li><p>Data</p></li>
+<li><p>2 bytes <cite>FCS</cite>: identifies a field used by the error detection process.</p></li>
+</ul>
+<p>A message from A to B needs to pass over A’s LAN to a router, then to the leased
+line via a router to B’s LAN. The routers look at L3 information to perform the
+routing decision, de-encapsulating and re-encapsulating the packet after each
+hop. HDLC may be used only in the leased line, while ethernet is used in the
+LANs.</p>
+</section>
+<section id="ethernet-wans">
+<h3>Ethernet WANs<a class="headerlink" href="#ethernet-wans" title="Link to this heading">¶</a></h3>
+<p>For the first several decades of existence of Ethernet, Ethernet was only
+appropriate for LANs dues to the restrictions on cable lengths. Over time, newer
+standards supported longer distances. With Ethernet WANs, the customer uses an
+Ethernet link to connect to a router; the Ethernet link leaves the customer
+building and connects to some nearby SP location called a <cite>point of presence</cite>
+(PoP). Inside the WAN, the SP uses any technology that it wants to create the
+specific Ethernet WAN services.</p>
+<p>An Ethernet WAN behaves logically as a point-to-point connection between two
+routers, and physically as if a physical fiber Ethernet link existed between the
+two routers. This may also be called <cite>Ethernet Line Service</cite> (E-Line) or
+<cite>Ethernet over MPLS</cite> (EoMPLS).</p>
+</section>
+<section id="ip-routing">
+<h3>IP routing<a class="headerlink" href="#ip-routing" title="Link to this heading">¶</a></h3>
+<p>Internet Protocol (IP) focuses on the job of routing data, in the form of IP
+packets, from the source host to the destination host. IP does not concern
+itself with the physical transmission of the data, instead it concerns itself
+with the logical details of delivering data.</p>
+<p>The major steps a router perform for each packet are roughly the following:</p>
+<ul class="simple">
+<li><p>Step 1: TODO…</p></li>
+</ul>
 </section>
 </section>
 </section>
@@ -251,6 +296,7 @@ Protocol (PPP). They provide similar functions to Ethernet.</p>
 <li class="toctree-l1"><a class="reference internal" href="../kerneldev/index.html">Kernel Development</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">CCNA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud-native-data-center-networking.html">Cloud Native Data Center Networking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="firewalld.html">Firewalld</a></li>
 <li class="toctree-l2"><a class="reference internal" href="free-dns-names.html">Free DNS names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iptables.html">Iptables</a></li>
@@ -271,7 +317,7 @@ Protocol (PPP). They provide similar functions to Ethernet.</p>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Networking</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Networking</a></li>
-      <li>Next: <a href="firewalld.html" title="next chapter">Firewalld</a></li>
+      <li>Next: <a href="cloud-native-data-center-networking.html" title="next chapter">Cloud Native Data Center Networking</a></li>
   </ul></li>
   </ul></li>
 </ul>

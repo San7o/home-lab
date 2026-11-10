@@ -25,6 +25,7 @@ Operating systems fundamentals:
 
    mm
    deadlocks
+   scheduling
    history
 
 Linux:

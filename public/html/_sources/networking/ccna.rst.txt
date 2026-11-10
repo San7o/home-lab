@@ -107,7 +107,7 @@ There are two types of fiber cables:
 Data
 ++++
 
-A significant strength of the Ethernet faily of protocols is that they use the
+A significant strength of the Ethernet family of protocols is that they use the
 same data-link standard (L2). The standard defined the Ethernet frame which is
 composed of an Ethernet header at the front, the encapsulated data in the
 middle, and an Ethernet trailer at the end.
@@ -228,4 +228,58 @@ link, point-to-point line, T1, WAN link, link, Private line.
 
 To make use of the leased line, the routers on the ends of the line use one or
 two data-link protocols: High-Level Data Link Control (HDLC) or Point-to-Point
-Protocol (PPP). They provide similar functions to Ethernet.
+Protocol (PPP). They provide similar functions to Ethernet: to control the
+correct delivery of data over a physical link. HDLC is even simpler than
+Ethernet, since the communication happens on the point-to-point topology of a
+leased line, there is only one implied destination (the router).
+
+The HDLC frame format looks like this:
+
+* 1 byte `flag`: lists a recognizable bit pattern so that the receiving nodes
+  realize that a new frame is arriving.
+
+* 1 byte `address`: identifies the destination device, but not interesting for
+  leased line point-to-point topologies.
+
+* 1 byte `control`: no longer of use today.
+
+* 2 bytes `type`: identifies the type of Layer 3 packet encapsulated inside the
+  data portion of the frame.
+
+* Data
+
+* 2 bytes `FCS`: identifies a field used by the error detection process.
+
+A message from A to B needs to pass over A's LAN to a router, then to the leased
+line via a router to B's LAN. The routers look at L3 information to perform the
+routing decision, de-encapsulating and re-encapsulating the packet after each
+hop. HDLC may be used only in the leased line, while ethernet is used in the
+LANs.
+
+Ethernet WANs
++++++++++++++
+
+For the first several decades of existence of Ethernet, Ethernet was only
+appropriate for LANs dues to the restrictions on cable lengths. Over time, newer
+standards supported longer distances. With Ethernet WANs, the customer uses an
+Ethernet link to connect to a router; the Ethernet link leaves the customer
+building and connects to some nearby SP location called a `point of presence`
+(PoP). Inside the WAN, the SP uses any technology that it wants to create the
+specific Ethernet WAN services.
+
+An Ethernet WAN behaves logically as a point-to-point connection between two
+routers, and physically as if a physical fiber Ethernet link existed between the
+two routers. This may also be called `Ethernet Line Service` (E-Line) or
+`Ethernet over MPLS` (EoMPLS).
+
+IP routing
+++++++++++
+
+Internet Protocol (IP) focuses on the job of routing data, in the form of IP
+packets, from the source host to the destination host. IP does not concern
+itself with the physical transmission of the data, instead it concerns itself
+with the logical details of delivering data.
+
+The major steps a router perform for each packet are roughly the following:
+
+* Step 1: TODO...
