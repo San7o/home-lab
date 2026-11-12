@@ -210,7 +210,7 @@ To make computer communicate between different networks far away, we use Wide
 area networks (WANs) links. We discuss two types of links: leased-line WANs
 (legacy) and Ethernet WANs.
 
-Leased-Linx WANs
+Leased-Line WANs
 ++++++++++++++++
 
 To connect LANs using a WAN, the internetwork uses a router connected to each
