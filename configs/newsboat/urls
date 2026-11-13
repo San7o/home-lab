@@ -1,60 +1,203 @@
-# Newsboat URLs file migrated from Gnus nnrss
+# Linux
+# =====
 
-https://planet.igalia.com/rss20.xml "Planet Igalia" "Linux"
-https://blog.armbian.com/tag/armbian/feed "Armbian - Armbian blog" "Embedded" "Linux"
-https://postmarketos.org/devel/feed.atom "News for developers of postmarketOS" "Linux" "Mobile"
-https://postmarketos.org/blog/feed.atom "postmarketOS Blog" "Linux" "Mobile"
-https://www.marcusfolkesson.se/index.xml "Marcus Folkesson" "Blogs"
-https://blog.aheymans.xyz/index.xml "Arthur's blog" "Blogs" "Firmware"
-https://mnot.net/blog/index.atom "Mark Nottingham" "Blogs"
-https://www-concept.deinde.dev/blog/rss "Somon Glass U-Boot blog" "Embedded" "Firmware"
-https://www.automotivelinux.org/news/feed "LF Automotive Grade Linux" "Linux" "Automotive"
-https://lfnetworking.org/newsroom/lf-networking-blog/feed "LF Networking Blog" "Linux" "Networking"
-https://lfenergy.org/newsroom/blog/feed "LF Energy" "Linux"
-https://lists.elisa.tech/g/automotive/rss "ELISA | Automotive WG" "ELISA" "Safety"
-https://lists.elisa.tech/g/aerospace/rss "ELISA | Aerospace WG" "ELISA" "Safety"
-https://lists.elisa.tech/g/safety-architecture/rss "ELISA | Safety-Architecture WG" "ELISA" "Safety"
-https://lists.elisa.tech/g/devel/rss "ELISA | Technical Forum" "ELISA"
-https://www.rfc-editor.org/rfcrss.xml "Recent RFCs" "Networking"
-https://mairacanal.github.io/atom.xml "Maíra Canal" "Blogs" "Graphics"
-https://stefano-garzarella.github.io/posts/index.xml "Posts on sgarzare's blog" "Blogs" "Linux"
-https://carminatialessandro.blogspot.com/feeds/posts/default?alt=rss "alessandro.carminati" "Blogs"
-https://elisa.tech/blog/feed "Comments on: Blog" "ELISA"
-https://ofdollarsanddata.com//feed "Of Dollars And Data" "Finance"
-https://www.thedailyupside.com//feed "The Daily Upside" "Finance"
-https://www.tomshardware.com/feeds.xml "Latest from Tom's Hardware" "Tech"
-https://computerhistory.org/blogs/feed "Comments on: Blogs" "History"
-https://daniel.haxx.se/blog/feed/ "daniel.haxx.se" "Blogs" "Networking"
-https://www.collabora.com/feed "Collabora Newsroom RSS Feed" "Linux"
-https://bootlin.com/feed "Bootlin" "Embedded" "Linux"
-https://neilzone.co.uk/index.xml "Neil's blog - RSS Feed" "Blogs"
-https://www.linuxtrent.it/feed/ "LinuxTrent" "Linux"
-https://rss.beehiiv.com/feeds/LyzGmG4pKl.xml "The Embedded Rustacean" "Embedded" "Rust"
-https://www.cisa.gov/cisa/blog.xml "CISA Blog" "Cybersecurity"
-https://lwn.net/headlines/Features "LWN.net featured content" "Linux" "News"
-https://planet.kernel.org/rss20.xml "Kernel Planet" "Linux"
-https://mcjones.org/dustydecks/feed/ "Dusty Decks: Preserving historic software" "History"
-http://www.kroah.com/log/index.rss "Linux Kernel Monkey Log" "Linux"
-https://www.jeremykun.com/index.xml "Math ∩ Programming" "Math" "Programming"
-https://huyenchip.com/feed.xml "Chip Huyen" "AI" "Blogs"
-https://www.daemonology.net/blog/index.rss "Daemonic Dispatches" "Blogs"
-https://kevingal.com/feed.xml "Kevin's Blog" "Blogs"
-https://fabiensanglard.net/rss.xml "Fabien Sanglard" "Blogs" "Programming"
-https://blog.vaxry.net/feed "Vaxry's Blog" "Blogs"
-https://www.brendangregg.com/blog/rss.xml "Brendan Gregg's Blog" "Linux" "Performance"
-https://www.phoronix.com/rss.php "Phoronix" "Linux" "Hardware"
-https://eli.thegreenplace.net/feeds/all.atom.xml "Eli Bendersky's website" "Blogs"
-https://people.kernel.org/read/feed/ "people.kernel.org Reader" "Linux"
-https://www.antirez.com/rss "antirez" "Blogs"
-https://blogsystem5.substack.com/feed "Blog System.5" "Blogs"
-https://protesilaos.com/master.xml "Protesilaos Stavrou: Master feed with all updates" "Blogs" "Emacs"
-https://xenproject.org/blog/rss/ "Xen Blog" "Blogs"
-https://www.cnx-software.com/feed "CNX Software - Embedded System News" "Blogs"
-https://jvns.ca/atom.xml "Julia Evans" "Blogs"
-https://blog.ipspace.net/atom.xml "ipSpace Blogs" "Blogs"
-https://blog.ipspace.net/feeds/podcast/index.xml "ipSpace Podcast" "Blogs"
-https://blog.cloudflare.com/rss "Cloudflare Blog" "Blogs"
-https://routerjockey.com/index.xml "Router Jockey" "Blogs"
-https://chrisdown.name/rss "Chris Down" "Linux"
-https://pixelcluster.dev/feed.xml "pixelcluster's GPU blog" "Linux"
-https://hnrss.org/frontpage "Hacker News" "Blogs"
+# LWN
+https://lwn.net/headlines/Features "Linux" "News"
+# Phoronix
+https://www.phoronix.com/rss.php "Linux" "News"
+# Kernel planet
+https://planet.kernel.org/rss20.xml "Linux"
+# people.kernel.org
+https://people.kernel.org/read/feed/ "Linux"
+# eBPF.io blog
+https://ebpf.io/blog/rss.xml "Linux"
+# Greg's blog
+http://www.kroah.com/log/index.rss "Linux"
+# Performance engineering god
+https://www.brendangregg.com/blog/rss.xml "Linux"
+# Chris Down, memory management
+https://chrisdown.name/rss "Linux"
+
+
+## Linux Foundation projects
+## -------------------------
+
+https://lfenergy.org/newsroom/blog/feed "Linux" "Linux Foundation"
+https://lists.elisa.tech/g/automotive/rss "Linux" "Linux Foundation" "ELISA"
+https://lists.elisa.tech/g/aerospace/rss "Linux" "Linux Foundation" "ELISA"
+https://lists.elisa.tech/g/safety-architecture/rss "Linux" "Linux Foundation" "ELISA"
+https://lists.elisa.tech/g/devel/rss "Linux" "Linux Foundation" "ELISA"
+https://elisa.tech/blog/feed "Linux" "Linux Foundation" "ELISA"
+https://www.automotivelinux.org/news/feed "Linux" "Linux Foundation" "Embedded"
+
+
+## Linux embedded
+## --------------
+
+### Igalia
+https://planet.igalia.com/rss20.xml "Linux" "Embedded"
+### Collabora
+https://www.collabora.com/feed "Linux" "Embedded"
+### Bootlin
+https://bootlin.com/feed "Linux" "Embedded"
+### Armbian project
+https://blog.armbian.com/tag/armbian/feed "Linux" "Embedded"
+### Linux phone
+https://nura.eco/devel/feed.atom "Linux" "Embedded"
+https://nura.eco/blog/feed.atom "Linux" "Embedded"
+### Crazy embeded linux developer
+https://www.marcusfolkesson.se/index.xml "Linux" "Embedded"
+### Talented Igalia developer
+https://mairacanal.github.io/atom.xml "Linux" "Embedded" "Graphics"
+
+
+## Linux networking
+## ----------------
+
+https://lfnetworking.org/newsroom/lf-networking-blog/feed "Linux" "Networking"
+
+
+## Linux virtualization
+## --------------------
+
+### RedHat developer working on crun
+https://stefano-garzarella.github.io/posts/index.xml "Linux" "Virtualization"
+
+
+## Linux graphics
+## --------------
+
+# Very talented developer
+https://pixelcluster.dev/feed.xml "Linux" "Graphics"
+
+
+# Embedded / Firmware
+# ===================
+
+https://blog.aheymans.xyz/index.xml "Embedded" "Firmware"
+https://www-concept.deinde.dev/blog/rss "Embedded" "Firmware"
+# The embedded rustacean
+https://rss.beehiiv.com/feeds/LyzGmG4pKl.xml "Embedded" "Rust"
+
+
+# Networking
+# ==========
+
+# Cloudflare
+https://blog.cloudflare.com/rss "Networking"
+# Recent RFCs
+https://www.rfc-editor.org/rfcrss.xml "Networking" "IETF"
+# RIPE blog
+https://labs.ripe.net/feed.xml "Networking"
+# APNIC blog
+https://blog.apnic.net/feed "Networking"
+# IETF guy
+https://mnot.net/blog/index.atom "Networking" "IETF"
+# curl maintainer blog
+https://daniel.haxx.se/blog/feed/ "Networking"
+# ipSpace Blogs
+https://blog.ipspace.net/atom.xml "Networking"
+https://blog.ipspace.net/feeds/podcast/index.xml "Networking"
+# Router Jockey
+https://routerjockey.com/index.xml "Networking"
+
+
+# Cybersecurity
+# =============
+
+# CISIA
+https://www.cisa.gov/cisa/blog.xml "Cybersecurity"
+
+
+# High Performance Computing
+# ==========================
+
+# General HPC news
+https://www.hpcwire.com/feed "HPC" "News"
+
+
+# Math
+# ====
+
+# Math X Programming
+https://www.jeremykun.com/index.xml "Math"
+# Eli Bendersky's crazy blog
+https://eli.thegreenplace.net/feeds/all.atom.xml "Math"
+# Terence Tao
+https://terrytao.wordpress.com/feed/https://terrytao.wordpress.com/feed/ "Math"
+# Stephen Wolfram
+https://writings.stephenwolfram.com/feed "Math"
+
+
+# AI
+# ==
+
+# OpenAI blog
+https://openai.com/news/rss.xml "AI" "News"
+
+
+# Research
+# ========
+#
+# Other conferences: EuroSys, SOSP, OSDI
+
+# Arxiv Operating systems
+https://rss.arxiv.org/rss/cs.OS "Research"
+# Arxiv Networking and Internet Architecture
+https://rss.arxiv.org/rss/cs.NI "Research"
+# Arxiv Distributed, Parallel, and Cluster Computing
+https://rss.arxiv.org/rss/cs.DC "Research"
+# Arxiv Performance
+https://rss.arxiv.org/rss/cs.PF "Research"
+# Arxiv Hardware Architecture
+https://rss.arxiv.org/rss/cs.AR "Research"
+# USENIX news
+# Usenix publications: https://www.usenix.org/publications/proceedings
+https://www.usenix.org/rss.xml "Research"
+# Google research
+https://research.google/blog/rss/ "Research"
+
+# Finance
+# =======
+
+# Sometimes may be interesting
+https://ofdollarsanddata.com//feed "Finance"
+# General finance news
+https://www.thedailyupside.com//feed "Finance" "News"
+
+
+# Misc
+# ====
+
+# Hacker News
+https://hnrss.org/frontpage "Misc" "News"
+# General hardware / AI / HPC news
+https://www.nextplatform.com/?lab_viewport=rss "Misc" "News"
+# General general news
+https://www.tomshardware.com/feeds.xml "Misc" "News"
+# Netflix blog
+https://netflixtechblog.com/feed "Misc"
+# OG NVIDIA developer with some interesting posts sometimes
+https://carminatialessandro.blogspot.com/feeds/posts/default?alt=rss "Misc"
+# The computer history museum blog
+https://computerhistory.org/blogs/feed "Misc"
+# History of software
+https://mcjones.org/dustydecks/feed/ "Misc"
+# Y combinator founder blog
+https://www.daemonology.net/blog/index.rss "Misc"
+# Super interesting, creative programmer
+https://kevingal.com/feed.xml "Misc"
+# Hyprland dev
+https://blog.vaxry.net/feed "Misc"
+# Interesting programmer blog
+https://fabiensanglard.net/rss.xml "Misc"
+# Salvatore Sanfilippo
+https://www.antirez.com/rss "Misc"
+# Giulio Merino
+https://blogsystem5.substack.com/feed "Misc"
+# Prot!
+https://protesilaos.com/master.xml "Misc"
+# Xen project
+https://xenproject.org/blog/rss/ "Misc" "Virtualization"
+# Julia Evan blog, lots of stuff
+https://jvns.ca/atom.xml "Misc"

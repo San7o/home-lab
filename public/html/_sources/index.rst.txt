@@ -34,6 +34,14 @@ Here is how I organize my knowledge:
 
 You can email me at `giovanni.santini@proton.me <mailto:giovanni.santini@proton.me>`_
 
+Areas of interest
+-----------------
+
+.. image:: ./images/areas-of-interest.png
+
+Also electronics, embedded firmware, math, physics, economics, compilers, but I
+don't specifically specialize in these areas.
+
 Notes
 -----
 
