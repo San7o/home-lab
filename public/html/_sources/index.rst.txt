@@ -7,7 +7,6 @@ Scripts, configuration files and code examples are in the github repo:
 
 Overview
 --------
-
 Here is a collection of my notes. Most of my knowledge, such as how certain
 systems work together, is expressed as code and comments or documentation
 throughout my projects. The more general and architectural knowledge, which
@@ -39,8 +38,8 @@ Areas of interest
 
 .. image:: ./images/areas-of-interest.png
 
-Also electronics, embedded firmware, math, physics, economics, compilers, but I
-don't specifically specialize in these areas.
+Also cybersecurity, virtualisation, electronics, firmware, math, physics,
+economics, compilers, but I don't specifically specialize in these areas.
 
 Notes
 -----
