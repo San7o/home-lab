@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Networking &#8212; Notes  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/micro-style.css?v=3ee29fcc" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deadlocks" href="deadlocks.html" />
+    <link rel="prev" title="Memory Management" href="mm.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="networking">
+<h1>Networking<a class="headerlink" href="#networking" title="Link to this heading">¶</a></h1>
+<p>Notes about Linux networking.</p>
+<section id="af-xdp">
+<h2>AF_XDP<a class="headerlink" href="#af-xdp" title="Link to this heading">¶</a></h2>
+<p>XDP can be used for high-performance packet processing. To use XDP, you need an
+XDP eBPF program, and, optionally, an userspace program that for processing.
+Conceptually, the XDP program forwards the packet to the user via an eBPF map,
+the user can . The userspace program can consume and produce packets.</p>
+<p>You need to know about UMEM. UMEM is a region of virtual contiguous memory,
+divided into equal-sized frames. An UMEM is associated to a netdev and a
+specific queue id of that netdev (usually there is one queue per CPU, but it can
+be configured). An AF_XDP is socket linked to a single UMEM, but one UMEM can
+have multiple AF_XDP sockets (via XDP_SHARED_UMEM).</p>
+<p>4 ring buffers are used, all rings are single-producer and single-consumer:</p>
+<ul class="simple">
+<li><p>FILL buffer: user writes UMEM addrs to send to the kernel</p></li>
+<li><p>COMPLETION buffer: the kernel sends UMEM addrs that is has processed, giving
+the ownership back to userspace. This does not necessarely mean that the
+packet was successfully sent or received. The user application consumes UMEM
+addrs from this ring.</p></li>
+<li><p>RX buffer: kernel writes UMEM addrs for incoming packets. The user
+application consumes <cite>struct xdp_desc</cite> descriptors from this ring.</p></li>
+<li><p>TX buffer: user writes UMEM addrs for sending the packet. The user
+application produces <cite>struct xdp_desc</cite> descriptors to this ring.</p></li>
+</ul>
+<p>Additional information:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.kernel.org/doc/html/latest/networking/af_xdp.html">https://www.kernel.org/doc/html/latest/networking/af_xdp.html</a></p>
+<p><a class="reference external" href="http://oldvger.kernel.org/lpc_net2018_talks/lpc18_paper_af_xdp_perf-v2.pdf">http://oldvger.kernel.org/lpc_net2018_talks/lpc18_paper_af_xdp_perf-v2.pdf</a></p>
+<p><a class="reference external" href="https://lwn.net/Articles/750845/">https://lwn.net/Articles/750845/</a></p>
+</div></blockquote>
+</section>
+<section id="bare-udp-tunnelling-module">
+<h2>Bare UDP Tunnelling Module<a class="headerlink" href="#bare-udp-tunnelling-module" title="Link to this heading">¶</a></h2>
+<p>Sometimes it is useful to encapsulate L3 protocols inside UDP. For example, UDP
+ports are used for load balancing. See <a class="reference external" href="https://www.rfc-editor.org/info/rfc7510/">https://www.rfc-editor.org/info/rfc7510/</a></p>
+<p>Documentation: <a class="reference external" href="https://www.kernel.org/doc/html/latest/networking/bareudp.html">https://www.kernel.org/doc/html/latest/networking/bareudp.html</a></p>
+</section>
+<section id="batman-adv">
+<h2>Batman-adv<a class="headerlink" href="#batman-adv" title="Link to this heading">¶</a></h2>
+<p>Batman advanced is a new approach to wireless networking which does no longer
+operate on the IP basis. Unlike the batman daemon, which exchanges information
+using UDP packets and sets routing tables, batman-advanced operates on ISO/OSI
+Layer 2 only and uses and routes (or better: bridges) Ethernet Frames. It
+emulates a virtual network switch of all nodes participating. Therefore all
+nodes appear to be link local, thus all higher operating protocols won’t be
+affected by any changes within the network. You can run almost any protocol
+above batman advanced, prominent examples are: IPv4, IPv6, DHCP, IPX.</p>
+<p>Website: <a class="reference external" href="https://www.open-mesh.org/projects/open-mesh/wiki">https://www.open-mesh.org/projects/open-mesh/wiki</a></p>
+</section>
+<section id="socketcan">
+<h2>SocketCAN<a class="headerlink" href="#socketcan" title="Link to this heading">¶</a></h2>
+<p>The socketcan package is an implementation of CAN protocols (Controller Area
+Network) for Linux. CAN is a networking technology which has widespread use in
+automation, embedded devices, and automotive fields. While there have been other
+CAN implementations for Linux based on character devices, SocketCAN uses the
+Berkeley socket API, the Linux network stack and implements the CAN device
+drivers as network interfaces. The CAN socket API has been designed as similar
+as possible to the TCP/IP protocols to allow programmers, familiar with network
+programming, to easily learn how to use CAN sockets.</p>
+<p>Documentation: <a class="reference external" href="https://www.kernel.org/doc/html/latest/networking/can.html">https://www.kernel.org/doc/html/latest/networking/can.html</a></p>
+</section>
+<section id="the-ucan-protocol">
+<h2>The UCAN protocol<a class="headerlink" href="#the-ucan-protocol" title="Link to this heading">¶</a></h2>
+<p>TODO</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Notes</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kernel Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="memories.html">Memory Technologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io-interfaces.html">I/O Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interrupts.html">Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renode.html">Renode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mm.html">Memory Management</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deadlocks.html">Deadlocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduling.html">Scheduling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Linux Architecture Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Linux Kernel Dev Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html">Building Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devicetree.html">Devicetree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsp.html">Board Support Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yocto.html">Yocto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildroot.html">Buildroot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-linux.html">Testing Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routine.html">Kernel Routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seL4.html">seL4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="u-boot.html">U-boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edk2.html">EDK II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="armbian.html">Armbian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openwrt.html">OpenWRT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netbsd-custom-kernel.html">Build a custom NetBSD Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Kernel Dev Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="possible-improvements.html">Possible Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sysadmin/index.html">Sysadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Math</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Kernel Development</a><ul>
+      <li>Previous: <a href="mm.html" title="previous chapter">Memory Management</a></li>
+      <li>Next: <a href="deadlocks.html" title="next chapter">Deadlocks</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/kerneldev/networking.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

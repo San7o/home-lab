@@ -38,9 +38,9 @@ Areas of interest
 
 .. image:: ./images/areas-of-interest.png
 
-Also cybersecurity, virtualisation, computer graphics, game engines,
-electronics, firmware, math, physics, economics, compilers, but I don't
-specifically specialize in these areas.
+I am also very much interested in cybersecurity, virtualisation, computer
+graphics, game engines, electronics, firmware, math, physics, machine learning,
+compilers, economics, although I don't specifically specialize in these areas.
 
 Notes
 -----

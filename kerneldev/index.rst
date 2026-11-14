@@ -24,6 +24,7 @@ Operating systems fundamentals:
    :maxdepth: 2
 
    mm
+   networking
    deadlocks
    scheduling
    history
